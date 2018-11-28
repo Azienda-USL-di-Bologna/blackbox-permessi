@@ -29,6 +29,15 @@ public interface PermessoRepository extends JpaRepository<Permesso, Integer>, Qu
         @Param("ambiti") String ambiti,
         @Param("tipi") String tipi
     );
+    
+    @Procedure("permessi.get_subjects_with_permissions_on_objects")
+    public String getSubjectsWithPermissionsOnObjects(
+        @Param("oggetti") String oggetti,
+        @Param("predicati") String predicati,
+        @Param("ambiti") String ambiti,
+        @Param("tipi") String tipi,
+        @Param("dammi_soggetti_propagati") Boolean dammiSoggettiPropagati        
+    );
 
 //    @Query(nativeQuery = true, 
 //            value = "select entity_has_permission from permessi.entity_has_permission("

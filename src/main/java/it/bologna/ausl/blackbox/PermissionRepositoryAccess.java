@@ -1,8 +1,10 @@
 package it.bologna.ausl.blackbox;
 
+import it.bologna.ausl.blackbox.types.EntitaStoredProcedure;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.bologna.ausl.blackbox.exceptions.BlackBoxPermissionException;
 import it.bologna.ausl.blackbox.repositories.PermessoRepository;
+import it.bologna.ausl.blackbox.types.PermessoEntitaStoredProcedure;
 import it.bologna.ausl.blackbox.utils.UtilityFunctions;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,6 +84,40 @@ public class PermissionRepositoryAccess {
         try {
             String predicatiEntita = permessoRepository.getPredicatiEntita(soggettoJsonString, oggettiJsonString, ambitiArrayString, tipiArrayString);
             return predicatiEntita != null ? objectMapper.readValue(predicatiEntita, List.class) : null;
+        } catch (Exception ex) {
+            throw new BlackBoxPermissionException("errore nella chiamata alla store procedure", ex);
+        }
+    }
+    
+    /**
+     * 
+     * @param oggetti
+     * @param predicati
+     * @param ambiti
+     * @param tipi
+     * @param dammiSoggettiPropagati
+     * @return
+     * @throws BlackBoxPermissionException 
+     */
+    public PermessoEntitaStoredProcedure getSubjectsWithPermissionsOnObjects(List<EntitaStoredProcedure> oggetti, List<String> predicati, List<String> ambiti, List<String> tipi, Boolean dammiSoggettiPropagati) throws BlackBoxPermissionException {
+       
+        String oggettiJsonString = null;
+        String predicatiArrayString;
+        String ambitiArrayString;
+        String tipiArrayString;
+        
+        try {
+            oggettiJsonString = objectMapper.writeValueAsString(oggetti);
+            predicatiArrayString = UtilityFunctions.getArrayString(objectMapper, predicati);   
+            ambitiArrayString = UtilityFunctions.getArrayString(objectMapper, ambiti);   
+            tipiArrayString = UtilityFunctions.getArrayString(objectMapper, tipi);   
+        } catch (Exception ex) {
+            throw new BlackBoxPermissionException("errore nella creazione dei parametri per la chiamata della stored procedure", ex);
+        }
+        
+        try {
+            String res = permessoRepository.getSubjectsWithPermissionsOnObjects(oggettiJsonString, predicatiArrayString, ambitiArrayString, tipiArrayString, dammiSoggettiPropagati);
+            return objectMapper.readValue(res, PermessoEntitaStoredProcedure.class);
         } catch (Exception ex) {
             throw new BlackBoxPermissionException("errore nella chiamata alla store procedure", ex);
         }

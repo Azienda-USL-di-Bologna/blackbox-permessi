@@ -5,6 +5,9 @@ import it.bologna.ausl.blackbox.exceptions.BlackBoxPermissionException;
 import it.bologna.ausl.blackbox.test.repositories.UtenteRepository;
 import it.bologna.ausl.model.entities.baborg.Utente;
 import java.util.List;
+import java.util.Set;
+import javax.persistence.EntityManager;
+import javax.persistence.metamodel.EntityType;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Test;
@@ -23,6 +26,9 @@ public class TestBlackBox {
     
     @Autowired
     private UtenteRepository utenteRepository;
+    
+    @Autowired
+    private EntityManager em;
 
     @Test
     @Transactional
@@ -40,5 +46,13 @@ public class TestBlackBox {
         String tipo = "FLUShSO";
         List<String> permission = permissionManager.getPermission(u, null, tipo);
         Assert.assertThat("getPermission", permission, Matchers.anything());
+    }
+    
+    @Test
+    @Transactional
+    public void testGetSubjectWithPermissionsOnObjects() {
+        System.out.println("ciao");
+        Set<EntityType<?>> entities = em.getMetamodel().getEntities();
+        System.out.println("ciaoDopo");
     }
 }

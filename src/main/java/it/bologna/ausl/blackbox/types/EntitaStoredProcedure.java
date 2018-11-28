@@ -1,11 +1,13 @@
-package it.bologna.ausl.blackbox;
+package it.bologna.ausl.blackbox.types;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author gdm
  */
 
 public class EntitaStoredProcedure {
-    private String id;
+    private String idProvenienza;
     private String schema;
     private String table;
 
@@ -13,17 +15,19 @@ public class EntitaStoredProcedure {
     }
 
     public EntitaStoredProcedure(String id, String schema, String table) {
-        this.id = id;
+        this.idProvenienza = id;
         this.schema = schema;
         this.table = table;
     }
-
-    public String getId() {
-        return id;
+    
+    @JsonProperty("id_provenienza")
+    public String getIdProvenienza() {
+        return idProvenienza;
     }
-
-    public void setId(String id) {
-        this.id = id;
+    
+    @JsonProperty("id_provenienza")
+    public void setIdProvenienza(String idProvenienza) {
+        this.idProvenienza = idProvenienza;
     }
 
     public String getSchema() {

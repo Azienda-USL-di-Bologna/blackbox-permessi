@@ -1,5 +1,6 @@
 package it.bologna.ausl.blackbox;
 
+import it.bologna.ausl.blackbox.types.EntitaStoredProcedure;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.bologna.ausl.blackbox.exceptions.BlackBoxPermissionException;
 import it.bologna.ausl.blackbox.repositories.PermessoRepository;
@@ -141,4 +142,14 @@ public class PermissionManager {
         
         return permissionRepositoryAccess.getPredicatiEntita(soggetto, oggetti, ambiti, tipi);
     }
+    
+    public List<Object> getSubjectsWithPermissionsOnObject(List<Object> oggetti, List<String> predicati, List<String> ambiti, List<String> tipi) throws BlackBoxPermissionException{
+        if(oggetti == null || oggetti.size() == 0){
+            throw new BlackBoxPermissionException("deve essere pasasta almeno un'entità oggetto");
+        }
+        return null;
+    }
+    
+    
+    
 }
