@@ -122,4 +122,36 @@ public class PermissionRepositoryAccess {
             throw new BlackBoxPermissionException("errore nella chiamata alla store procedure", ex);
         }
     }
+    
+    /**
+     *
+     * @param soggetto
+     * @param oggetto
+     * @param predicato
+     * @param originePermesso
+     * @param idPermessoPadre
+     * @param propagaSoggetto
+     * @param propagaOggetto
+     * @param ambito
+     * @param tipo
+     * @param idPermessoBloccato
+     * @throws BlackBoxPermissionException
+     */
+    public void insertSimplePermission(EntitaStoredProcedure soggetto, EntitaStoredProcedure oggetto, String predicato, String originePermesso, Integer idPermessoPadre, Boolean propagaSoggetto, Boolean propagaOggetto, String ambito, String tipo, Integer idPermessoBloccato) throws BlackBoxPermissionException {
+        String soggettoJsonString = null;
+        String oggettoJsonString = null;
+        try {
+            soggettoJsonString = objectMapper.writeValueAsString(soggetto);
+            if (oggetto != null)
+                oggettoJsonString = objectMapper.writeValueAsString(oggetto);
+        } catch (Exception ex) {
+            throw new BlackBoxPermissionException("errore nella creazione dei parametri per la chiamata della stored procedure", ex);
+        }
+        
+        try {
+            permessoRepository.insertSimplePermission(soggettoJsonString, oggettoJsonString, predicato, originePermesso, idPermessoPadre, propagaSoggetto, propagaOggetto, ambito, tipo, idPermessoBloccato);
+        } catch (Exception ex) {
+            throw new BlackBoxPermissionException("errore nella chiamata alla store procedure", ex);
+        }
+    }
 }

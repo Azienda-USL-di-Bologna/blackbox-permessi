@@ -1,8 +1,10 @@
 package it.bologna.ausl.blackbox.test;
 
 import it.bologna.ausl.blackbox.PermissionManager;
+import it.bologna.ausl.blackbox.PermissionRepositoryAccess;
 import it.bologna.ausl.blackbox.exceptions.BlackBoxPermissionException;
 import it.bologna.ausl.blackbox.test.repositories.UtenteRepository;
+import it.bologna.ausl.blackbox.types.EntitaStoredProcedure;
 import it.bologna.ausl.model.entities.baborg.Utente;
 import java.util.List;
 import java.util.Set;
@@ -29,6 +31,9 @@ public class TestBlackBox {
     
     @Autowired
     private EntityManager em;
+    
+    @Autowired
+    PermissionRepositoryAccess permissionRepositoryAccess;
 
     @Test
     @Transactional
@@ -54,5 +59,15 @@ public class TestBlackBox {
         System.out.println("ciao");
         Set<EntityType<?>> entities = em.getMetamodel().getEntities();
         System.out.println("ciaoDopo");
+    }
+    
+    @Test
+    @Transactional
+    public void testInsertSimplePermission() throws BlackBoxPermissionException {
+        Utente u = utenteRepository.getOne(333427);
+        String predicato = "REDIGE";
+        String originePermesso = "TEST";
+        System.out.println("scdsdcvsd");
+        permissionManager.insertSimplePermission(u, null, predicato, originePermesso, false, false, null, null);
     }
 }
