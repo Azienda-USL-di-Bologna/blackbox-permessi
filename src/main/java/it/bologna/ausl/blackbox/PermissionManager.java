@@ -198,5 +198,50 @@ public class PermissionManager {
     }
     
     
-    
+    public void deletePermission(Object entitySoggetto, Object entityOggetto, String predicato, String originePermesso, Boolean propagaSoggetto, Boolean propagaOggetto, String ambito, String tipo) throws BlackBoxPermissionException {
+        if (entitySoggetto == null) {
+            throw new BlackBoxPermissionException("il parametro entitySoggetto non può essere null");
+        }
+        
+        Table soggettoTableAnnotation;
+        try {
+            soggettoTableAnnotation = UtilityFunctions.getFirstAnnotationOverEntity(entitySoggetto.getClass(), Table.class);
+        } catch (ClassNotFoundException ex) {
+            // Logger.getLogger(PermissionManager.class.getName()).log(Level.SEVERE, null, ex);
+            throw new BlackBoxPermissionException(ex);
+        }
+        
+        if (soggettoTableAnnotation == null) 
+            throw new BlackBoxPermissionException("l'entità soggetto passata non ha l'annotazione Table");
+        
+        EntitaStoredProcedure soggetto;
+        try {
+            soggetto = new EntitaStoredProcedure(UtilityFunctions.getPkValue(entitySoggetto).toString(), soggettoTableAnnotation.schema(), soggettoTableAnnotation.name());
+        } catch (IllegalAccessException | IllegalArgumentException | NoSuchMethodException | InvocationTargetException ex) {
+            // Logger.getLogger(PermissionManager.class.getName()).log(Level.SEVERE, null, ex);
+            throw new BlackBoxPermissionException("errore nella creazione del soggetto", ex);
+        }
+        
+        EntitaStoredProcedure oggetto = null;
+        if (entityOggetto != null) {
+            Table oggettoTableAnnotation;
+            try {
+                oggettoTableAnnotation = UtilityFunctions.getFirstAnnotationOverEntity(entityOggetto.getClass(), Table.class);
+            } catch (ClassNotFoundException ex) {
+                // Logger.getLogger(PermissionManager.class.getName()).log(Level.SEVERE, null, ex);
+                throw new BlackBoxPermissionException(ex);
+            }
+
+            if (oggettoTableAnnotation == null) 
+                throw new BlackBoxPermissionException("l'entità soggetto passata non ha l'annotazione Table");
+
+            try {
+                oggetto = new EntitaStoredProcedure(UtilityFunctions.getPkValue(entityOggetto).toString(), oggettoTableAnnotation.schema(), oggettoTableAnnotation.name());
+            } catch (IllegalAccessException | IllegalArgumentException | NoSuchMethodException | InvocationTargetException ex) {
+                // Logger.getLogger(PermissionManager.class.getName()).log(Level.SEVERE, null, ex);
+                throw new BlackBoxPermissionException("errore nella creazione del soggetto", ex);
+            }
+        }
+        permissionRepositoryAccess.deletePermission(soggetto, oggetto, predicato, originePermesso, null, propagaSoggetto, propagaOggetto, ambito, tipo, null);
+    }
 }

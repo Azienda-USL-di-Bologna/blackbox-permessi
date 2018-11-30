@@ -53,6 +53,20 @@ public interface PermessoRepository extends JpaRepository<Permesso, Integer>, Qu
             @Param("tipo") String tipo,
             @Param("id_permesso_bloccato") Integer idPermessoBloccato
     );
+    
+    @Procedure("permessi.delete_permission")
+    public Boolean deletePermission(
+            @Param("soggetto") String soggetto,
+            @Param("oggetto") String oggetto,
+            @Param("predicato") String predicato,
+            @Param("origine_permesso") String originePermesso,
+            @Param("id_permesso_padre") Integer idPermessoPadre,
+            @Param("propaga_soggetto") Boolean propagaSoggetto,
+            @Param("propaga_oggetto") Boolean propagaOggetto,
+            @Param("ambito") String ambito,
+            @Param("tipo") String tipo,
+            @Param("id_permesso_bloccato") Integer idPermessoBloccato
+    );
 //    @Query(nativeQuery = true, 
 //            value = "select entity_has_permission from permessi.entity_has_permission("
 //                    + ":soggetti\\:\\:text\\:\\:json, "

@@ -70,4 +70,14 @@ public class TestBlackBox {
         System.out.println("scdsdcvsd");
         permissionManager.insertSimplePermission(u, null, predicato, originePermesso, false, false, null, null);
     }
+    
+    @Test
+    @Transactional
+    public void testDeletePermission() throws BlackBoxPermissionException {
+        Utente u = utenteRepository.getOne(333427);
+        String predicato = "REDIGE";
+        String originePermesso = "TEST";
+        System.out.println("scdsdcvsd");
+        permissionManager.deletePermission(u, null, predicato, originePermesso, false, false, null, null);
+    }
 }
