@@ -4,9 +4,11 @@ import it.bologna.ausl.blackbox.types.EntitaStoredProcedure;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.bologna.ausl.blackbox.exceptions.BlackBoxPermissionException;
 import it.bologna.ausl.blackbox.repositories.PermessoRepository;
+import it.bologna.ausl.blackbox.types.PermessoEntitaStoredProcedure;
 import it.bologna.ausl.blackbox.utils.UtilityFunctions;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.persistence.Table;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -190,10 +192,48 @@ public class PermissionManager {
         permissionRepositoryAccess.insertSimplePermission(soggetto, oggetto, predicato, originePermesso, null, propagaSoggetto, propagaOggetto, ambito, tipo, null);
     }
     
-    public List<Object> getSubjectsWithPermissionsOnObject(List<Object> oggetti, List<String> predicati, List<String> ambiti, List<String> tipi) throws BlackBoxPermissionException{
-        if(oggetti == null || oggetti.size() == 0){
+    public List<PermessoEntitaStoredProcedure> getSubjectsWithPermissionsOnObject(Object entityOggetto, List<String> predicati, List<String> ambiti, List<String> tipi, Boolean dammiSoggettiPropagati) throws BlackBoxPermissionException{
+        if(entityOggetto == null)
+            throw new BlackBoxPermissionException("entità oggetto non passata");
+        else
+            return getSubjectsWithPermissionsOnObject(Arrays.asList(new Object[] {entityOggetto}), predicati, ambiti, tipi, dammiSoggettiPropagati);
+    }
+    
+    public List<PermessoEntitaStoredProcedure> getSubjectsWithPermissionsOnObject(List<Object> entitiesOggetto, List<String> predicati, List<String> ambiti, List<String> tipi, Boolean dammiSoggettiPropagati) throws BlackBoxPermissionException {
+        if(entitiesOggetto == null || entitiesOggetto.isEmpty()) {
             throw new BlackBoxPermissionException("deve essere pasasta almeno un'entità oggetto");
         }
+
+        List<EntitaStoredProcedure> oggetti = new ArrayList();
+        for (Object o : entitiesOggetto) {
+            Table oggettoTableAnnotation;
+            try {
+                oggettoTableAnnotation = UtilityFunctions.getFirstAnnotationOverEntity(o.getClass(), Table.class);
+                oggetti.add(new EntitaStoredProcedure(UtilityFunctions.getPkValue(o).toString(), oggettoTableAnnotation.schema(), oggettoTableAnnotation.name()));
+            } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+                // Logger.getLogger(PermissionManager.class.getName()).log(Level.SEVERE, null, ex);
+                throw new BlackBoxPermissionException("errore nella creazione dell'oggetto", ex);
+            }
+        }
+        return permissionRepositoryAccess.getSubjectsWithPermissionsOnObjects(oggetti, predicati, ambiti, tipi, dammiSoggettiPropagati);
+    }
+    
+    /**
+     * TODO: deve tornare una lista contenente gli oggetti entità a partire dalla lista di EntitaStoredProcedure passata creando una query tramite EntityManager
+     * dovrà fare il minor numerop di query possibile, ad esempio raggruppando le entità per tipo e poi facendo una query "where id in..."
+     * @param entitaStoredProcedure
+     * @return 
+     */
+    public Object getEntityFromEntitaStoredProcedure(List<EntitaStoredProcedure> entitaStoredProcedure) {
+        return null;
+    }
+    
+    /**
+     * TODO: deve tornare l'oggetto l'entità a partire dall'EntitaStoredProcedure passata creando una query tramite EntityManager
+     * @param entitaStoredProcedure
+     * @return 
+     */
+    public Object getEntityFromEntitaStoredProcedure(EntitaStoredProcedure entitaStoredProcedure) {
         return null;
     }
     

@@ -1,5 +1,6 @@
 package it.bologna.ausl.blackbox;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import it.bologna.ausl.blackbox.types.EntitaStoredProcedure;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.bologna.ausl.blackbox.exceptions.BlackBoxPermissionException;
@@ -99,7 +100,7 @@ public class PermissionRepositoryAccess {
      * @return
      * @throws BlackBoxPermissionException 
      */
-    public PermessoEntitaStoredProcedure getSubjectsWithPermissionsOnObjects(List<EntitaStoredProcedure> oggetti, List<String> predicati, List<String> ambiti, List<String> tipi, Boolean dammiSoggettiPropagati) throws BlackBoxPermissionException {
+    public List<PermessoEntitaStoredProcedure> getSubjectsWithPermissionsOnObjects(List<EntitaStoredProcedure> oggetti, List<String> predicati, List<String> ambiti, List<String> tipi, Boolean dammiSoggettiPropagati) throws BlackBoxPermissionException {
        
         String oggettiJsonString = null;
         String predicatiArrayString;
@@ -117,7 +118,7 @@ public class PermissionRepositoryAccess {
         
         try {
             String res = permessoRepository.getSubjectsWithPermissionsOnObjects(oggettiJsonString, predicatiArrayString, ambitiArrayString, tipiArrayString, dammiSoggettiPropagati);
-            return objectMapper.readValue(res, PermessoEntitaStoredProcedure.class);
+            return objectMapper.readValue(res, new TypeReference<List<PermessoEntitaStoredProcedure>>(){});
         } catch (Exception ex) {
             throw new BlackBoxPermissionException("errore nella chiamata alla store procedure", ex);
         }
