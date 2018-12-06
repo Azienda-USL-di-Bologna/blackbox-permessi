@@ -1,6 +1,7 @@
 package it.bologna.ausl.blackbox.types;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDateTime;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -40,19 +41,23 @@ public class PermessoStoredProcedure {
     public void setPredicato(String predicato) {
         this.predicato = predicato;
     }
-
+    
+    @JsonProperty("propaga_soggetto")
     public Boolean getPropagaSoggetto() {
         return propagaSoggetto;
     }
 
+    @JsonProperty("propaga_soggetto")
     public void setPropagaSoggetto(Boolean propagaSoggetto) {
         this.propagaSoggetto = propagaSoggetto;
     }
-
+    
+    @JsonProperty("propaga_oggetto")
     public Boolean getPropagaOggetto() {
         return propagaOggetto;
     }
 
+    @JsonProperty("propaga_oggetto")
     public void setPropagaOggetto(Boolean propagaOggetto) {
         this.propagaOggetto = propagaOggetto;
     }

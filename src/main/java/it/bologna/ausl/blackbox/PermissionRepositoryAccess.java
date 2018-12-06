@@ -118,7 +118,10 @@ public class PermissionRepositoryAccess {
         
         try {
             String res = permessoRepository.getSubjectsWithPermissionsOnObjects(oggettiJsonString, predicatiArrayString, ambitiArrayString, tipiArrayString, dammiSoggettiPropagati);
-            return objectMapper.readValue(res, new TypeReference<List<PermessoEntitaStoredProcedure>>(){});
+            if (res != null)
+                return objectMapper.readValue(res, new TypeReference<List<PermessoEntitaStoredProcedure>>(){});
+            else
+                return null;
         } catch (Exception ex) {
             throw new BlackBoxPermissionException("errore nella chiamata alla store procedure", ex);
         }
