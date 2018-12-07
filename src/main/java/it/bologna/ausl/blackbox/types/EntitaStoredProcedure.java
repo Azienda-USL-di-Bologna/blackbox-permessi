@@ -7,26 +7,30 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 
 public class EntitaStoredProcedure {
-    private String idProvenienza;
+    private Integer idProvenienza;
     private String schema;
     private String table;
 
     public EntitaStoredProcedure() {
     }
 
-    public EntitaStoredProcedure(String id, String schema, String table) {
+    public EntitaStoredProcedure(Integer id, String schema, String table) {
         this.idProvenienza = id;
         this.schema = schema;
         this.table = table;
     }
+
+    public EntitaStoredProcedure(Object pkValue) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     @JsonProperty("id_provenienza")
-    public String getIdProvenienza() {
+    public Integer getIdProvenienza() {
         return idProvenienza;
     }
     
     @JsonProperty("id_provenienza")
-    public void setIdProvenienza(String idProvenienza) {
+    public void setIdProvenienza(Integer idProvenienza) {
         this.idProvenienza = idProvenienza;
     }
 

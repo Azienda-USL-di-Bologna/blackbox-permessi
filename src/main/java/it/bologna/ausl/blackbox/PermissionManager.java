@@ -69,7 +69,7 @@ public class PermissionManager {
         
         List<EntitaStoredProcedure> soggetti = new ArrayList();
         try {
-            soggetti.add(new EntitaStoredProcedure(UtilityFunctions.getPkValue(entitySoggetto).toString(), soggettoTableAnnotation.schema(), soggettoTableAnnotation.name()));
+            soggetti.add(new EntitaStoredProcedure((Integer) UtilityFunctions.getPkValue(entitySoggetto), soggettoTableAnnotation.schema(), soggettoTableAnnotation.name()));
         } catch (NoSuchMethodException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
             // Logger.getLogger(PermissionManager.class.getName()).log(Level.SEVERE, null, ex);
             throw new BlackBoxPermissionException("errore nella creazione del soggetto", ex);
@@ -79,7 +79,7 @@ public class PermissionManager {
         if (entityOggetto != null) {
             oggetti = new ArrayList();
             try {
-                oggetti.add(new EntitaStoredProcedure(UtilityFunctions.getPkValue(entityOggetto).toString(), oggettoTableAnnotation.schema(), oggettoTableAnnotation.name()));
+                oggetti.add(new EntitaStoredProcedure((Integer) UtilityFunctions.getPkValue(entityOggetto), oggettoTableAnnotation.schema(), oggettoTableAnnotation.name()));
             } catch (NoSuchMethodException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
                 // Logger.getLogger(PermissionManager.class.getName()).log(Level.SEVERE, null, ex);
                 throw new BlackBoxPermissionException("errore nella creazione del soggetto", ex);
@@ -120,7 +120,7 @@ public class PermissionManager {
         
         EntitaStoredProcedure soggetto;
         try {
-            soggetto = new EntitaStoredProcedure(UtilityFunctions.getPkValue(entitySoggetto).toString(), soggettoTableAnnotation.schema(), soggettoTableAnnotation.name());
+            soggetto = new EntitaStoredProcedure((Integer) UtilityFunctions.getPkValue(entitySoggetto), soggettoTableAnnotation.schema(), soggettoTableAnnotation.name());
         } catch (IllegalAccessException | IllegalArgumentException | NoSuchMethodException | InvocationTargetException ex) {
             // Logger.getLogger(PermissionManager.class.getName()).log(Level.SEVERE, null, ex);
             throw new BlackBoxPermissionException("errore nella creazione del soggetto", ex);
@@ -134,7 +134,7 @@ public class PermissionManager {
                 Table oggettoTableAnnotation;
                 try {
                     oggettoTableAnnotation = UtilityFunctions.getFirstAnnotationOverEntity(o.getClass(), Table.class);
-                    oggetti.add(new EntitaStoredProcedure(UtilityFunctions.getPkValue(o).toString(), oggettoTableAnnotation.schema(), oggettoTableAnnotation.name()));
+                    oggetti.add(new EntitaStoredProcedure((Integer) UtilityFunctions.getPkValue(o), oggettoTableAnnotation.schema(), oggettoTableAnnotation.name()));
                 } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
                     // Logger.getLogger(PermissionManager.class.getName()).log(Level.SEVERE, null, ex);
                     throw new BlackBoxPermissionException("errore nella creazione del soggetto", ex);
@@ -163,7 +163,7 @@ public class PermissionManager {
         
         EntitaStoredProcedure soggetto;
         try {
-            soggetto = new EntitaStoredProcedure(UtilityFunctions.getPkValue(entitySoggetto).toString(), soggettoTableAnnotation.schema(), soggettoTableAnnotation.name());
+            soggetto = new EntitaStoredProcedure((Integer) UtilityFunctions.getPkValue(entitySoggetto), soggettoTableAnnotation.schema(), soggettoTableAnnotation.name());
         } catch (IllegalAccessException | IllegalArgumentException | NoSuchMethodException | InvocationTargetException ex) {
             // Logger.getLogger(PermissionManager.class.getName()).log(Level.SEVERE, null, ex);
             throw new BlackBoxPermissionException("errore nella creazione del soggetto", ex);
@@ -183,7 +183,7 @@ public class PermissionManager {
                 throw new BlackBoxPermissionException("l'entità soggetto passata non ha l'annotazione Table");
 
             try {
-                oggetto = new EntitaStoredProcedure(UtilityFunctions.getPkValue(entityOggetto).toString(), oggettoTableAnnotation.schema(), oggettoTableAnnotation.name());
+                oggetto = new EntitaStoredProcedure((Integer) UtilityFunctions.getPkValue(entityOggetto), oggettoTableAnnotation.schema(), oggettoTableAnnotation.name());
             } catch (IllegalAccessException | IllegalArgumentException | NoSuchMethodException | InvocationTargetException ex) {
                 // Logger.getLogger(PermissionManager.class.getName()).log(Level.SEVERE, null, ex);
                 throw new BlackBoxPermissionException("errore nella creazione del soggetto", ex);
@@ -209,7 +209,7 @@ public class PermissionManager {
             Table oggettoTableAnnotation;
             try {
                 oggettoTableAnnotation = UtilityFunctions.getFirstAnnotationOverEntity(o.getClass(), Table.class);
-                oggetti.add(new EntitaStoredProcedure(UtilityFunctions.getPkValue(o).toString(), oggettoTableAnnotation.schema(), oggettoTableAnnotation.name()));
+                oggetti.add(new EntitaStoredProcedure((Integer) UtilityFunctions.getPkValue(o), oggettoTableAnnotation.schema(), oggettoTableAnnotation.name()));
             } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
                 // Logger.getLogger(PermissionManager.class.getName()).log(Level.SEVERE, null, ex);
                 throw new BlackBoxPermissionException("errore nella creazione dell'oggetto", ex);
@@ -256,7 +256,7 @@ public class PermissionManager {
         
         EntitaStoredProcedure soggetto;
         try {
-            soggetto = new EntitaStoredProcedure(UtilityFunctions.getPkValue(entitySoggetto).toString(), soggettoTableAnnotation.schema(), soggettoTableAnnotation.name());
+            soggetto = new EntitaStoredProcedure((Integer) UtilityFunctions.getPkValue(entitySoggetto), soggettoTableAnnotation.schema(), soggettoTableAnnotation.name());
         } catch (IllegalAccessException | IllegalArgumentException | NoSuchMethodException | InvocationTargetException ex) {
             // Logger.getLogger(PermissionManager.class.getName()).log(Level.SEVERE, null, ex);
             throw new BlackBoxPermissionException("errore nella creazione del soggetto", ex);
@@ -276,7 +276,7 @@ public class PermissionManager {
                 throw new BlackBoxPermissionException("l'entità soggetto passata non ha l'annotazione Table");
 
             try {
-                oggetto = new EntitaStoredProcedure(UtilityFunctions.getPkValue(entityOggetto).toString(), oggettoTableAnnotation.schema(), oggettoTableAnnotation.name());
+                oggetto = new EntitaStoredProcedure((Integer) UtilityFunctions.getPkValue(entityOggetto), oggettoTableAnnotation.schema(), oggettoTableAnnotation.name());
             } catch (IllegalAccessException | IllegalArgumentException | NoSuchMethodException | InvocationTargetException ex) {
                 // Logger.getLogger(PermissionManager.class.getName()).log(Level.SEVERE, null, ex);
                 throw new BlackBoxPermissionException("errore nella creazione del soggetto", ex);
