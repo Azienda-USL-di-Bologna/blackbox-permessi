@@ -7,9 +7,13 @@ import it.bologna.ausl.blackbox.exceptions.BlackBoxPermissionException;
 import it.bologna.ausl.blackbox.test.repositories.PecRepository;
 import it.bologna.ausl.blackbox.test.repositories.StrutturaRepository;
 import it.bologna.ausl.blackbox.test.repositories.UtenteRepository;
+import it.bologna.ausl.blackbox.types.CategoriaPermessiStoredProcedure;
+import it.bologna.ausl.blackbox.types.EntitaStoredProcedure;
 import it.bologna.ausl.blackbox.types.PermessoEntitaStoredProcedure;
+import it.bologna.ausl.blackbox.types.PermessoStoredProcedure;
 import it.bologna.ausl.model.entities.baborg.Struttura;
 import it.bologna.ausl.model.entities.baborg.Utente;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import org.hamcrest.Matchers;
@@ -76,7 +80,7 @@ public class TestBlackBox {
         Utente u = utenteRepository.getOne(333427);
         String predicato = "REDIGE";
         String originePermesso = "TEST";
-        permissionManager.insertSimplePermission(u, null, predicato, originePermesso, false, false, null, null);
+        permissionManager.insertSimplePermission(u, null, predicato, originePermesso, false, false, "TEST", "TEST");
 //        Assert.assertThat("getPermission", res, Matchers.anything());
     }
     
@@ -86,6 +90,22 @@ public class TestBlackBox {
         Utente u = utenteRepository.getOne(333427);
         String predicato = "REDIGE";
         String originePermesso = "TEST";
-        permissionManager.deletePermission(u, null, predicato, originePermesso, false, false, null, null);
+        permissionManager.deletePermission(u, null, predicato, originePermesso, false, false, "TEST", "TEST");
+    }
+    
+    @Test
+    @Transactional
+    public void testManagePermissions() throws BlackBoxPermissionException {
+        PermessoStoredProcedure permesso = new PermessoStoredProcedure("ELIMINA", false, false, "testorigin", null);
+        List<PermessoStoredProcedure> permessi = new ArrayList();
+        permessi.add(permesso);
+        CategoriaPermessiStoredProcedure categoria = new CategoriaPermessiStoredProcedure("PECG", "PEC", permessi);
+        List<CategoriaPermessiStoredProcedure> categorie = new ArrayList();
+        categorie.add(categoria);
+        EntitaStoredProcedure soggetto = new EntitaStoredProcedure(333427, "baborg", "utenti");
+        PermessoEntitaStoredProcedure permessoEntita = new PermessoEntitaStoredProcedure(soggetto, soggetto, categorie);
+        List<PermessoEntitaStoredProcedure> lista = new ArrayList();
+        lista.add(permessoEntita);
+        permissionRepositoryAccess.managePermissions(lista);
     }
 }

@@ -150,6 +150,14 @@ public class PermissionManager {
             throw new BlackBoxPermissionException("il parametro entitySoggetto non può essere null");
         }
         
+        if (ambito == null) {
+            throw new BlackBoxPermissionException("il parametro ambito non può essere null");
+        }
+        
+        if (tipo == null) {
+            throw new BlackBoxPermissionException("il parametro tipo non può essere null");
+        }
+        
         Table soggettoTableAnnotation;
         try {
             soggettoTableAnnotation = UtilityFunctions.getFirstAnnotationOverEntity(entitySoggetto.getClass(), Table.class);
@@ -241,6 +249,14 @@ public class PermissionManager {
     public void deletePermission(Object entitySoggetto, Object entityOggetto, String predicato, String originePermesso, Boolean propagaSoggetto, Boolean propagaOggetto, String ambito, String tipo) throws BlackBoxPermissionException {
         if (entitySoggetto == null) {
             throw new BlackBoxPermissionException("il parametro entitySoggetto non può essere null");
+        }
+        
+        if (ambito == null) {
+            throw new BlackBoxPermissionException("il parametro ambito non può essere null");
+        }
+        
+        if (tipo == null) {
+            throw new BlackBoxPermissionException("il parametro tipo non può essere null");
         }
         
         Table soggettoTableAnnotation;

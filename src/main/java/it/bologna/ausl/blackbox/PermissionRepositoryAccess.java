@@ -190,4 +190,19 @@ public class PermissionRepositoryAccess {
             throw new BlackBoxPermissionException("errore nella chiamata alla store procedure", ex);
         }
     }
+    
+    public void managePermissions(List<PermessoEntitaStoredProcedure> permessoEntitaStoredProcedure) throws BlackBoxPermissionException {
+        String permessoEntitaStoredProcedureJsonString = null;
+        try {
+            permessoEntitaStoredProcedureJsonString = objectMapper.writeValueAsString(permessoEntitaStoredProcedure);
+        } catch (Exception ex) {
+            throw new BlackBoxPermissionException("errore nella creazione dei parametri per la chiamata della stored procedure", ex);
+        }
+        System.out.println(permessoEntitaStoredProcedureJsonString);
+        try {
+            permessoRepository.managePermissions(permessoEntitaStoredProcedureJsonString);
+        } catch (Exception ex) {
+            throw new BlackBoxPermissionException("errore nella chiamata alla store procedure", ex);
+        }
+    }
 }

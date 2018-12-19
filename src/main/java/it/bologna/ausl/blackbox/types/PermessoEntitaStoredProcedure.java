@@ -1,5 +1,7 @@
 package it.bologna.ausl.blackbox.types;
 
+import java.util.List;
+
 /**
  *
  * @author Guido
@@ -8,17 +10,16 @@ public class PermessoEntitaStoredProcedure {
     
     private EntitaStoredProcedure soggetto;
     private EntitaStoredProcedure oggetto;
-    private PermessoStoredProcedure permesso;
+    private List<CategoriaPermessiStoredProcedure> categorie;
 
     public PermessoEntitaStoredProcedure() {
     }
 
-    public PermessoEntitaStoredProcedure(EntitaStoredProcedure soggetto, EntitaStoredProcedure oggetto, PermessoStoredProcedure permesso) {
+    public PermessoEntitaStoredProcedure(EntitaStoredProcedure soggetto, EntitaStoredProcedure oggetto, List<CategoriaPermessiStoredProcedure> categorie) {
         this.soggetto = soggetto;
         this.oggetto = oggetto;
-        this.permesso = permesso;
+        this.categorie = categorie;
     }
-
     
     public EntitaStoredProcedure getSoggetto() {
         return soggetto;
@@ -28,7 +29,6 @@ public class PermessoEntitaStoredProcedure {
         this.soggetto = soggetto;
     }
 
-    
     public EntitaStoredProcedure getOggetto() {
         return oggetto;
     }
@@ -36,14 +36,12 @@ public class PermessoEntitaStoredProcedure {
     public void setOggetto(EntitaStoredProcedure oggetto) {
         this.oggetto = oggetto;
     }
-      
 
-    public PermessoStoredProcedure getPermesso() {
-        return permesso;
+    public List<CategoriaPermessiStoredProcedure> getCategorie() {
+        return categorie;
     }
 
-    public void setPermesso(PermessoStoredProcedure permesso) {
-        this.permesso = permesso;
+    public void setCategorie(List<CategoriaPermessiStoredProcedure> categorie) {
+        this.categorie = categorie;
     }
-    
 }
