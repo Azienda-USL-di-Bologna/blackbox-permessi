@@ -108,4 +108,16 @@ public class TestBlackBox {
         lista.add(permessoEntita);
         permissionRepositoryAccess.managePermissions(lista);
     }
+    
+    @Test
+    @Transactional
+    public void testGetPermissionsOfSubject() throws BlackBoxPermissionException {
+        //Struttura s = strutturaRepository.getOne(26901);
+        EntitaStoredProcedure soggetto = new EntitaStoredProcedure(27296, "baborg", "strutture");
+//        EntitaStoredProcedure soggetto = new EntitaStoredProcedure(27294, "baborg", "strutture");
+//        EntitaStoredProcedure soggetto = new EntitaStoredProcedure(27286, "baborg", "strutture");
+        String predicato = "SPEDISCE";
+        List<PermessoEntitaStoredProcedure> res = permissionRepositoryAccess.getPermissionsOfSubject(soggetto, Arrays.asList(new String[]{predicato}), null, null, true);
+        Assert.assertThat("GetPermissionsOfSubject", res, Matchers.anything());
+    }
 }

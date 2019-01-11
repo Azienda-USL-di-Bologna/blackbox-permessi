@@ -300,4 +300,22 @@ public class PermissionManager {
         }
         permissionRepositoryAccess.deletePermission(soggetto, oggetto, predicato, originePermesso, null, propagaSoggetto, propagaOggetto, ambito, tipo, null);
     }
+    
+    public List<PermessoEntitaStoredProcedure> getPermissionsOfSubject(Object entitySoggetto, List<String> predicati, List<String> ambiti, List<String> tipi, Boolean dammiSoggettiPropagati) throws BlackBoxPermissionException {
+        if(entitySoggetto == null) {
+            throw new BlackBoxPermissionException("il soggetto è obbligatorio");
+        }
+
+        EntitaStoredProcedure soggetto =null;
+        Table soggettoTableAnnotation;
+        try {
+            soggettoTableAnnotation = UtilityFunctions.getFirstAnnotationOverEntity(entitySoggetto.getClass(), Table.class);
+            soggetto = new EntitaStoredProcedure((Integer) UtilityFunctions.getPkValue(entitySoggetto), soggettoTableAnnotation.schema(), soggettoTableAnnotation.name());
+        } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+            // Logger.getLogger(PermissionManager.class.getName()).log(Level.SEVERE, null, ex);
+            throw new BlackBoxPermissionException("errore nella creazione del soggetto", ex);
+        }
+        
+        return permissionRepositoryAccess.getPermissionsOfSubject(soggetto, predicati, ambiti, tipi, dammiSoggettiPropagati);
+    }
 }
