@@ -1,11 +1,12 @@
 package it.bologna.ausl.blackbox.types;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author gdm
  */
-
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class EntitaStoredProcedure {
     private Integer idProvenienza;
     private String schema;

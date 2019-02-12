@@ -4,7 +4,9 @@ import it.bologna.ausl.blackbox.types.EntitaStoredProcedure;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.bologna.ausl.blackbox.exceptions.BlackBoxPermissionException;
 import it.bologna.ausl.blackbox.repositories.PermessoRepository;
+import it.bologna.ausl.blackbox.types.CategoriaPermessiStoredProcedure;
 import it.bologna.ausl.blackbox.types.PermessoEntitaStoredProcedure;
+import it.bologna.ausl.blackbox.types.PermessoStoredProcedure;
 import it.bologna.ausl.blackbox.utils.UtilityFunctions;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -317,5 +319,60 @@ public class PermissionManager {
         }
         
         return permissionRepositoryAccess.getPermissionsOfSubject(soggetto, predicati, ambiti, tipi, dammiSoggettiPropagati);
+    }
+    
+    
+    /**
+     * Metodo semplificato per chiamare la managePermissions.
+     * 
+     * @param entitySoggetto
+     * @param entityOggetto può essere null
+     * @param ambito
+     * @param tipo
+     * @param permessi
+     * @throws BlackBoxPermissionException 
+     */
+    public void managePermissions(Object entitySoggetto, Object entityOggetto, String ambito, String tipo, List<PermessoStoredProcedure> permessi) throws BlackBoxPermissionException {
+        if(entitySoggetto == null) {
+            throw new BlackBoxPermissionException("il soggetto è obbligatorio");
+        }
+
+        EntitaStoredProcedure soggetto = null;
+        Table soggettoTableAnnotation;
+        try {
+            soggettoTableAnnotation = UtilityFunctions.getFirstAnnotationOverEntity(entitySoggetto.getClass(), Table.class);
+            soggetto = new EntitaStoredProcedure((Integer) UtilityFunctions.getPkValue(entitySoggetto), soggettoTableAnnotation.schema(), soggettoTableAnnotation.name());
+        } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+            throw new BlackBoxPermissionException("errore nella creazione del soggetto", ex);
+        }
+        
+        EntitaStoredProcedure oggetto = null;
+        
+        if(entityOggetto != null) {
+            
+            Table oggettoTableAnnotation;
+            try {
+                oggettoTableAnnotation = UtilityFunctions.getFirstAnnotationOverEntity(entityOggetto.getClass(), Table.class);
+                oggetto = new EntitaStoredProcedure((Integer) UtilityFunctions.getPkValue(entityOggetto), oggettoTableAnnotation.schema(), oggettoTableAnnotation.name());
+            } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+                throw new BlackBoxPermissionException("errore nella creazione del soggetto", ex);
+            }
+        }
+        
+        CategoriaPermessiStoredProcedure categoria = new CategoriaPermessiStoredProcedure(ambito, tipo, permessi);
+        PermessoEntitaStoredProcedure permessoEntitaStoredProcedure = new PermessoEntitaStoredProcedure(soggetto, oggetto, Arrays.asList(new CategoriaPermessiStoredProcedure[]{categoria}));
+
+        for (PermessoStoredProcedure p : permessi) {
+            if (p.getPropagaOggetto() == null) {
+                p.setPropagaOggetto(false);
+            }
+
+            if (p.getPropagaSoggetto() == null) {
+                p.setPropagaSoggetto(false);
+            }
+        }
+        
+        
+        permissionRepositoryAccess.managePermissions(Arrays.asList(new PermessoEntitaStoredProcedure[]{permessoEntitaStoredProcedure}));
     }
 }
