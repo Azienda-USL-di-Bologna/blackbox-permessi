@@ -1,6 +1,7 @@
 package it.bologna.ausl.blackbox.types;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDateTime;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -9,6 +10,7 @@ import org.springframework.format.annotation.DateTimeFormat;
  *
  * @author Guido
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PermessoStoredProcedure {
 //    private Integer id;
     private String predicato;

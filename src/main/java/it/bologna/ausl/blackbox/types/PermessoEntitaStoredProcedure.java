@@ -1,11 +1,13 @@
 package it.bologna.ausl.blackbox.types;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.List;
 
 /**
  *
  * @author Guido
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PermessoEntitaStoredProcedure {
     
     private EntitaStoredProcedure soggetto;

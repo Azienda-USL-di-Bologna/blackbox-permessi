@@ -1,16 +1,21 @@
 package it.bologna.ausl.blackbox.types;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.List;
 
 /**
  *
  * @author Gus
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CategoriaPermessiStoredProcedure {
     private String ambito;
     private String tipo;
     private List<PermessoStoredProcedure> permessi;
 
+    public CategoriaPermessiStoredProcedure() {
+    }
+    
     public CategoriaPermessiStoredProcedure(String ambito, String tipo, List<PermessoStoredProcedure> permessi) {
         this.ambito = ambito;
         this.tipo = tipo;

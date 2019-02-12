@@ -361,17 +361,17 @@ public class PermissionManager {
         
         CategoriaPermessiStoredProcedure categoria = new CategoriaPermessiStoredProcedure(ambito, tipo, permessi);
         PermessoEntitaStoredProcedure permessoEntitaStoredProcedure = new PermessoEntitaStoredProcedure(soggetto, oggetto, Arrays.asList(new CategoriaPermessiStoredProcedure[]{categoria}));
-        
+
         for (PermessoStoredProcedure p : permessi) {
-            
             if (p.getPropagaOggetto() == null) {
                 p.setPropagaOggetto(false);
             }
-            
+
             if (p.getPropagaSoggetto() == null) {
                 p.setPropagaSoggetto(false);
             }
         }
+        
         
         permissionRepositoryAccess.managePermissions(Arrays.asList(new PermessoEntitaStoredProcedure[]{permessoEntitaStoredProcedure}));
     }
