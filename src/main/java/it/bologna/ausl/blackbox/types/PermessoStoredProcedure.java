@@ -20,7 +20,7 @@ public class PermessoStoredProcedure implements Serializable {
     private Boolean virtuale;
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    private LocalDateTime data;
+    private LocalDateTime dataInserimentoRiga;
     private String originePermesso;
     private Integer idPermessoBloccato;
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
@@ -33,12 +33,12 @@ public class PermessoStoredProcedure implements Serializable {
     public PermessoStoredProcedure() {
     }
 
-    public PermessoStoredProcedure(String predicato, Boolean propagaSoggetto, Boolean propagaOggetto, Boolean virtuale, String ambito, LocalDateTime data, String tipo) {
+    public PermessoStoredProcedure(String predicato, Boolean propagaSoggetto, Boolean propagaOggetto, Boolean virtuale, String ambito, LocalDateTime dataInserimentoRiga, String tipo) {
         this.predicato = predicato;
         this.propagaSoggetto = propagaSoggetto;
         this.propagaOggetto = propagaOggetto;
         this.virtuale = virtuale;
-        this.data = data;
+        this.dataInserimentoRiga = dataInserimentoRiga;
     }
     
 //    public PermessoStoredProcedure(String predicato, Boolean propagaSoggetto, Boolean propagaOggetto, String originePermesso, Integer idPermessoBloccato) {
@@ -103,12 +103,12 @@ public class PermessoStoredProcedure implements Serializable {
         this.virtuale = virtuale;
     }
 
-    public LocalDateTime getData() {
-        return data;
+    public LocalDateTime getDataInserimentoRiga() {
+        return dataInserimentoRiga;
     }
 
-    public void setData(LocalDateTime data) {
-        this.data = data;
+    public void setDataInserimentoRiga(LocalDateTime dataInserimentoRiga) {
+        this.dataInserimentoRiga = dataInserimentoRiga;
     }
     
     @JsonProperty("origine_permesso")
