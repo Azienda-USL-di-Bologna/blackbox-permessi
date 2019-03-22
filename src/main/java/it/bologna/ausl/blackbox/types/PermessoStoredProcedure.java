@@ -3,6 +3,7 @@ package it.bologna.ausl.blackbox.types;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -11,41 +12,53 @@ import org.springframework.format.annotation.DateTimeFormat;
  * @author Guido
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PermessoStoredProcedure {
+public class PermessoStoredProcedure implements Serializable {
 //    private Integer id;
     private String predicato;
     private Boolean propagaSoggetto;
     private Boolean propagaOggetto;
     private Boolean virtuale;
-//    private String ambito;
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    private LocalDateTime data;
-//    private String tipo;
+    private LocalDateTime dataInserimentoRiga;
     private String originePermesso;
     private Integer idPermessoBloccato;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime attivoDal;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime attivoAl;
 
     public PermessoStoredProcedure() {
     }
 
-    public PermessoStoredProcedure(String predicato, Boolean propagaSoggetto, Boolean propagaOggetto, Boolean virtuale, String ambito, LocalDateTime data, String tipo) {
+    public PermessoStoredProcedure(String predicato, Boolean propagaSoggetto, Boolean propagaOggetto, Boolean virtuale, String ambito, LocalDateTime dataInserimentoRiga, String tipo) {
         this.predicato = predicato;
         this.propagaSoggetto = propagaSoggetto;
         this.propagaOggetto = propagaOggetto;
         this.virtuale = virtuale;
-//        this.ambito = ambito;
-        this.data = data;
-//        this.tipo = tipo;
+        this.dataInserimentoRiga = dataInserimentoRiga;
     }
     
-    public PermessoStoredProcedure(String predicato, Boolean propagaSoggetto, Boolean propagaOggetto, String originePermesso, Integer idPermessoBloccato) {
+//    public PermessoStoredProcedure(String predicato, Boolean propagaSoggetto, Boolean propagaOggetto, String originePermesso, Integer idPermessoBloccato) {
+//        this.predicato = predicato;
+//        this.propagaSoggetto = propagaSoggetto;
+//        this.propagaOggetto = propagaOggetto;
+//        this.originePermesso = originePermesso;
+//        this.idPermessoBloccato = idPermessoBloccato;
+//    }
+//    
+    
+    public PermessoStoredProcedure(String predicato, Boolean propagaSoggetto, Boolean propagaOggetto, String originePermesso, Integer idPermessoBloccato, LocalDateTime attivoDal, LocalDateTime attivoAl) {
         this.predicato = predicato;
         this.propagaSoggetto = propagaSoggetto;
         this.propagaOggetto = propagaOggetto;
         this.originePermesso = originePermesso;
         this.idPermessoBloccato = idPermessoBloccato;
+        this.attivoDal = attivoDal;
+        this.attivoAl = attivoAl;
     }
-
 //    public Integer getId() {
 //        return id;
 //    }
@@ -90,29 +103,13 @@ public class PermessoStoredProcedure {
         this.virtuale = virtuale;
     }
 
-//    public String getAmbito() {
-//        return ambito;
-//    }
-//
-//    public void setAmbito(String ambito) {
-//        this.ambito = ambito;
-//    }
-
-    public LocalDateTime getData() {
-        return data;
+    public LocalDateTime getDataInserimentoRiga() {
+        return dataInserimentoRiga;
     }
 
-    public void setData(LocalDateTime data) {
-        this.data = data;
+    public void setDataInserimentoRiga(LocalDateTime dataInserimentoRiga) {
+        this.dataInserimentoRiga = dataInserimentoRiga;
     }
-
-//    public String getTipo() {
-//        return tipo;
-//    }
-//
-//    public void setTipo(String tipo) {
-//        this.tipo = tipo;
-//    }
     
     @JsonProperty("origine_permesso")
     public String getOriginePermesso() {
@@ -132,6 +129,26 @@ public class PermessoStoredProcedure {
     @JsonProperty("id_permesso_bloccato")
     public void setIdPermessoBloccato(Integer idPermessoBloccato) {
         this.idPermessoBloccato = idPermessoBloccato;
+    }
+    
+    @JsonProperty("attivo_dal")
+    public LocalDateTime getAttivoDal() {
+        return attivoDal;
+    }
+    
+    @JsonProperty("attivo_dal")
+    public void setAttivoDal(LocalDateTime attivoDal) {
+        this.attivoDal = attivoDal;
+    }
+    
+    @JsonProperty("attivo_al")
+    public LocalDateTime getAttivoAl() {
+        return attivoAl;
+    }
+    
+    @JsonProperty("attivo_al")
+    public void setAttivoAl(LocalDateTime attivoAl) {
+        this.attivoAl = attivoAl;
     }
 
 }

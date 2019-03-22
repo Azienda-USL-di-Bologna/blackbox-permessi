@@ -13,6 +13,8 @@ import it.bologna.ausl.blackbox.types.PermessoEntitaStoredProcedure;
 import it.bologna.ausl.blackbox.types.PermessoStoredProcedure;
 import it.bologna.ausl.model.entities.baborg.Struttura;
 import it.bologna.ausl.model.entities.baborg.Utente;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -96,7 +98,7 @@ public class TestBlackBox {
     @Test
     @Transactional
     public void testManagePermissions() throws BlackBoxPermissionException {
-        PermessoStoredProcedure permesso = new PermessoStoredProcedure("ELIMINA", false, false, "testorigin", null);
+        PermessoStoredProcedure permesso = new PermessoStoredProcedure("ELIMINA", false, false, "testorigin", null, LocalDateTime.now(), null);
         List<PermessoStoredProcedure> permessi = new ArrayList();
         permessi.add(permesso);
         CategoriaPermessiStoredProcedure categoria = new CategoriaPermessiStoredProcedure("PECG", "PEC", permessi);

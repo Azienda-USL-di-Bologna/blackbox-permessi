@@ -2,12 +2,13 @@ package it.bologna.ausl.blackbox.types;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.io.Serializable;
 
 /**
  * @author gdm
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class EntitaStoredProcedure {
+public class EntitaStoredProcedure implements Serializable {
     private Integer idProvenienza;
     private String schema;
     private String table;

@@ -1,6 +1,7 @@
 package it.bologna.ausl.blackbox.types;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -8,7 +9,7 @@ import java.util.List;
  * @author Guido
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PermessoEntitaStoredProcedure {
+public class PermessoEntitaStoredProcedure implements Serializable {
     
     private EntitaStoredProcedure soggetto;
     private EntitaStoredProcedure oggetto;
