@@ -1,11 +1,11 @@
 package it.bologna.ausl.blackbox;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import it.bologna.ausl.blackbox.types.EntitaStoredProcedure;
+import it.bologna.ausl.internauta.utils.bds.types.EntitaStoredProcedure;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.bologna.ausl.blackbox.exceptions.BlackBoxPermissionException;
 import it.bologna.ausl.blackbox.repositories.PermessoRepository;
-import it.bologna.ausl.blackbox.types.PermessoEntitaStoredProcedure;
+import it.bologna.ausl.internauta.utils.bds.types.PermessoEntitaStoredProcedure;
 import it.bologna.ausl.blackbox.utils.UtilityFunctions;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
