@@ -65,7 +65,7 @@
         <dependency>
             <groupId>it.nextsw</groupId>
             <artifactId>next-spring-data-rest-framework</artifactId>
-            <version>1.5.alfa</version>                
+            <version>1.7.0.alfa</version>                
             <scope>test</scope>
         </dependency>
         <dependency>
