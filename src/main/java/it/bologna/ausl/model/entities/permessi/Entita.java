@@ -40,7 +40,7 @@ public class Entita implements Serializable {
     @NotNull
     @Size(min = 1, max = 2147483647)
     @Column(name = "id_provenienza")
-    private String idProvenienza;
+    private Integer idProvenienza;
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "idSoggetto")
     private List<Permesso> permessiSoggettoList;
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "idOggetto")
@@ -61,7 +61,7 @@ public class Entita implements Serializable {
         this.id = id;
     }
 
-    public Entita(Integer id, String idProvenienza) {
+    public Entita(Integer id, Integer idProvenienza) {
         this.id = id;
         this.idProvenienza = idProvenienza;
     }
@@ -74,11 +74,11 @@ public class Entita implements Serializable {
         this.id = id;
     }
 
-    public String getIdProvenienza() {
+    public Integer getIdProvenienza() {
         return idProvenienza;
     }
 
-    public void setIdProvenienza(String idProvenienza) {
+    public void setIdProvenienza(Integer idProvenienza) {
         this.idProvenienza = idProvenienza;
     }
 
