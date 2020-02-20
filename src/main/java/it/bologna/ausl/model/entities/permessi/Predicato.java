@@ -34,11 +34,17 @@ public class Predicato implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 2147483647)
     @Column(name = "predicato")
     private String predicato;
+
+    @Size(max = 2147483647)
+    @Column(name = "descrizione")
+    private String descrizione;
+
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST}, mappedBy = "idPredicato")
     @JsonBackReference(value = "permessoList")
     private List<Permesso> permessoList;
@@ -69,6 +75,14 @@ public class Predicato implements Serializable {
 
     public void setPredicato(String predicato) {
         this.predicato = predicato;
+    }
+
+    public String getDescrizione() {
+        return descrizione;
+    }
+
+    public void setDescrizione(String descrizione) {
+        this.descrizione = descrizione;
     }
 
     public List<Permesso> getPermessoList() {
@@ -103,5 +117,5 @@ public class Predicato implements Serializable {
     public String toString() {
         return "it.bologna.ausl.model.entities.permessi.Predicato[ id=" + id + " ]";
     }
-    
+
 }
