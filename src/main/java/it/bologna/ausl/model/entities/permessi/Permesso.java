@@ -60,11 +60,11 @@ public class Permesso implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "propaga_soggetto")
-    private boolean propagaSoggetto;
+    private Boolean propagaSoggetto;
     @Basic(optional = false)
     @NotNull
     @Column(name = "propaga_oggetto")
-    private boolean propagaOggetto;
+    private Boolean propagaOggetto;
     @Size(max = 2147483647)
     @Column(name = "ambito")
     private String ambito;
