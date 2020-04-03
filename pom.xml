@@ -69,12 +69,6 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>it.nextsw</groupId>
-            <artifactId>next-spring-data-rest-framework</artifactId>
-            <version>1.8.0.alfa</version>                
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
             <scope>test</scope>
@@ -126,6 +120,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
+                    <source>8</source>
                     <additionalparam>${javadoc.opts}</additionalparam>
                 </configuration>
                 <executions>

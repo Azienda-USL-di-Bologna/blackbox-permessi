@@ -2,6 +2,7 @@ package it.bologna.ausl.model.entities.permessi;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import it.bologna.ausl.internauta.utils.jpa.tools.GenericArrayUserType;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -17,11 +18,20 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
 
 /**
  *
  * @author gdm
  */
+@TypeDefs(
+        {
+            @TypeDef(name = "array", typeClass = GenericArrayUserType.class)
+        }
+)
 @Entity
 @Table(name = "predicati", catalog = "internauta", schema = "permessi")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -45,6 +55,14 @@ public class Predicato implements Serializable {
     @Column(name = "descrizione")
     private String descrizione;
 
+    @Column(name = "ruoli_gestori", columnDefinition = "text[]")
+    @Type(type = "array", parameters = @Parameter(name = "elements-type", value = GenericArrayUserType.TEXT_ELEMENT_TYPE))
+    private String[] ruoliGestori;
+    
+    @Column(name = "impliciti_per_ruoli", columnDefinition = "text[]")
+    @Type(type = "array", parameters = @Parameter(name = "elements-type", value = GenericArrayUserType.TEXT_ELEMENT_TYPE))
+    private String[] implicitiPerRuoli;
+    
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST}, mappedBy = "idPredicato")
     @JsonBackReference(value = "permessoList")
     private List<Permesso> permessoList;
@@ -83,6 +101,22 @@ public class Predicato implements Serializable {
 
     public void setDescrizione(String descrizione) {
         this.descrizione = descrizione;
+    }
+
+    public String[] getRuoliGestori() {
+        return ruoliGestori;
+    }
+
+    public void setRuoliGestori(String[] ruoliGestori) {
+        this.ruoliGestori = ruoliGestori;
+    }
+
+    public String[] getImplicitiPerRuoli() {
+        return implicitiPerRuoli;
+    }
+
+    public void setImplicitiPerRuoli(String[] implicitiPerRuoli) {
+        this.implicitiPerRuoli = implicitiPerRuoli;
     }
 
     public List<Permesso> getPermessoList() {
