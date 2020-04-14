@@ -9,6 +9,7 @@ import it.bologna.ausl.internauta.utils.bds.types.PermessoEntitaStoredProcedure;
 import it.bologna.ausl.internauta.utils.bds.types.PermessoStoredProcedure;
 import it.bologna.ausl.blackbox.utils.UtilityFunctions;
 import java.lang.reflect.InvocationTargetException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -303,7 +304,7 @@ public class PermissionManager {
         permissionRepositoryAccess.deletePermission(soggetto, oggetto, predicato, originePermesso, null, propagaSoggetto, propagaOggetto, ambito, tipo, null);
     }
     
-    public List<PermessoEntitaStoredProcedure> getPermissionsOfSubject(Object entitySoggetto, List<String> predicati, List<String> ambiti, List<String> tipi, Boolean dammiSoggettiPropagati) throws BlackBoxPermissionException {
+    public List<PermessoEntitaStoredProcedure> getPermissionsOfSubject(Object entitySoggetto, List<String> predicati, List<String> ambiti, List<String> tipi, Boolean dammiSoggettiPropagati, LocalDate data, Boolean estraiStorico) throws BlackBoxPermissionException {
         if(entitySoggetto == null) {
             throw new BlackBoxPermissionException("il soggetto è obbligatorio");
         }
@@ -318,7 +319,7 @@ public class PermissionManager {
             throw new BlackBoxPermissionException("errore nella creazione del soggetto", ex);
         }
         
-        return permissionRepositoryAccess.getPermissionsOfSubject(soggetto, predicati, ambiti, tipi, dammiSoggettiPropagati);
+        return permissionRepositoryAccess.getPermissionsOfSubject(soggetto, predicati, ambiti, tipi, dammiSoggettiPropagati, data, estraiStorico);
     }
     
     

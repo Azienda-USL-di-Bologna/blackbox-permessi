@@ -79,7 +79,9 @@ public interface PermessoRepository extends JpaRepository<Permesso, Integer>, Qu
             @Param("predicati") String predicati,
             @Param("ambiti") String ambiti,
             @Param("tipi") String tipi,
-            @Param("dammi_permessi_virtuali") Boolean dammiPermessiVirtuali
+            @Param("dammi_permessi_virtuali") Boolean dammiPermessiVirtuali,
+            @Param("p_data_permesso") String datePermesso,
+            @Param("dammi_storico") Boolean dammiStorico
     );
     
 //    @Query(nativeQuery = true, 
