@@ -8,6 +8,8 @@ import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -45,6 +47,11 @@ public class UtilityFunctions {
             return null;
 //        return String.format("string_to_array('%s', ',')", String.join(",", list));
         return objectMapper.writeValueAsString(list).replaceAll("^\\[", "{").replaceAll("\\]$", "}");
+    }
+    
+    public static String getLocalDateString(LocalDate date) {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return date.format(dateTimeFormatter);
     }
     
     public static Object getPkValue(Object entity) throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {

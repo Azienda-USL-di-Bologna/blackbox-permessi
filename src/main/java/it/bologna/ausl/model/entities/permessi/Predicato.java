@@ -59,10 +59,6 @@ public class Predicato implements Serializable {
     @Type(type = "array", parameters = @Parameter(name = "elements-type", value = GenericArrayUserType.TEXT_ELEMENT_TYPE))
     private String[] ruoliGestori;
     
-    @Column(name = "impliciti_per_ruoli", columnDefinition = "text[]")
-    @Type(type = "array", parameters = @Parameter(name = "elements-type", value = GenericArrayUserType.TEXT_ELEMENT_TYPE))
-    private String[] implicitiPerRuoli;
-    
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST}, mappedBy = "idPredicato")
     @JsonBackReference(value = "permessoList")
     private List<Permesso> permessoList;
@@ -109,14 +105,6 @@ public class Predicato implements Serializable {
 
     public void setRuoliGestori(String[] ruoliGestori) {
         this.ruoliGestori = ruoliGestori;
-    }
-
-    public String[] getImplicitiPerRuoli() {
-        return implicitiPerRuoli;
-    }
-
-    public void setImplicitiPerRuoli(String[] implicitiPerRuoli) {
-        this.implicitiPerRuoli = implicitiPerRuoli;
     }
 
     public List<Permesso> getPermessoList() {

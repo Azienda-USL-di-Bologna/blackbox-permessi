@@ -12,7 +12,9 @@ import it.bologna.ausl.internauta.utils.bds.types.PermessoEntitaStoredProcedure;
 import it.bologna.ausl.internauta.utils.bds.types.PermessoStoredProcedure;
 import it.bologna.ausl.model.entities.baborg.Struttura;
 import it.bologna.ausl.model.entities.baborg.Utente;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -118,7 +120,22 @@ public class TestBlackBox {
 //        EntitaStoredProcedure soggetto = new EntitaStoredProcedure(27294, "baborg", "strutture");
 //        EntitaStoredProcedure soggetto = new EntitaStoredProcedure(27286, "baborg", "strutture");
         String predicato = "SPEDISCE";
-        List<PermessoEntitaStoredProcedure> res = permissionRepositoryAccess.getPermissionsOfSubject(soggetto, Arrays.asList(new String[]{predicato}), null, null, true);
+        List<PermessoEntitaStoredProcedure> res = permissionRepositoryAccess.getPermissionsOfSubject(soggetto, Arrays.asList(new String[]{predicato}), null, null, true, null, null);
+        Assert.assertThat("GetPermissionsOfSubject", res, Matchers.anything());
+    }
+    
+    @Test
+    @Transactional
+    public void testGetPermissionsOfSubjectConData() throws BlackBoxPermissionException {
+        //Struttura s = strutturaRepository.getOne(26901);
+        EntitaStoredProcedure soggetto = new EntitaStoredProcedure(27296, "baborg", "strutture");
+//        EntitaStoredProcedure soggetto = new EntitaStoredProcedure(27294, "baborg", "strutture");
+//        EntitaStoredProcedure soggetto = new EntitaStoredProcedure(27286, "baborg", "strutture");
+        String predicato = "SPEDISCE";
+        LocalDate now = LocalDate.now();
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//        String dateString = now.format(formatter);
+        List<PermessoEntitaStoredProcedure> res = permissionRepositoryAccess.getPermissionsOfSubject(soggetto, Arrays.asList(new String[]{predicato}), null, null, true, now, null);
         Assert.assertThat("GetPermissionsOfSubject", res, Matchers.anything());
     }
 }

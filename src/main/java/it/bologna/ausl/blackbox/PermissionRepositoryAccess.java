@@ -7,6 +7,7 @@ import it.bologna.ausl.blackbox.exceptions.BlackBoxPermissionException;
 import it.bologna.ausl.blackbox.repositories.PermessoRepository;
 import it.bologna.ausl.internauta.utils.bds.types.PermessoEntitaStoredProcedure;
 import it.bologna.ausl.blackbox.utils.UtilityFunctions;
+import java.time.LocalDate;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -218,26 +219,31 @@ public class PermissionRepositoryAccess {
      * @param ambiti
      * @param tipi
      * @param dammiPermessiVirtuali
+     * @param dataPermesso
+     * @param estraiStorico
      * @return
      * @throws BlackBoxPermissionException
      */
-    public List<PermessoEntitaStoredProcedure> getPermissionsOfSubject(EntitaStoredProcedure soggetto, List<String> predicati, List<String> ambiti, List<String> tipi, Boolean dammiPermessiVirtuali) throws BlackBoxPermissionException {
+    public List<PermessoEntitaStoredProcedure> getPermissionsOfSubject(EntitaStoredProcedure soggetto, List<String> predicati, List<String> ambiti, List<String> tipi, Boolean dammiPermessiVirtuali, LocalDate dataPermesso, Boolean estraiStorico) throws BlackBoxPermissionException {
         String soggettoString;
         String predicatiArrayString;
         String ambitiArrayString;
         String tipiArrayString;
+        String dataPermessoString = null;
         
         try {
             soggettoString = objectMapper.writeValueAsString(soggetto);
             predicatiArrayString = UtilityFunctions.getArrayString(objectMapper, predicati);   
             ambitiArrayString = UtilityFunctions.getArrayString(objectMapper, ambiti);   
-            tipiArrayString = UtilityFunctions.getArrayString(objectMapper, tipi);   
+            tipiArrayString = UtilityFunctions.getArrayString(objectMapper, tipi);
+            if (dataPermesso != null)
+                dataPermessoString = UtilityFunctions.getLocalDateString(dataPermesso);
         } catch (Exception ex) {
             throw new BlackBoxPermissionException("errore nella creazione dei parametri per la chiamata della stored procedure", ex);
         }
         
         try {
-            String res = permessoRepository.getPermissionsOfSubject(soggettoString, predicatiArrayString, ambitiArrayString, tipiArrayString, dammiPermessiVirtuali);
+            String res = permessoRepository.getPermissionsOfSubject(soggettoString, predicatiArrayString, ambitiArrayString, tipiArrayString, dammiPermessiVirtuali, dataPermessoString, estraiStorico);
             if (res != null)
                 return objectMapper.readValue(res, new TypeReference<List<PermessoEntitaStoredProcedure>>(){});
             else
