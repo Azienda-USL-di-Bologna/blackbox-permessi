@@ -343,7 +343,7 @@ public class PermissionManager {
                 try {
                     Table oggettoTableAnnotation = UtilityFunctions.getFirstAnnotationOverEntity(object.getClass(),
                             Table.class);
-                    oggetti.add(new EntitaStoredProcedure((Integer) UtilityFunctions.getPkValue(object.getClass()),
+                    oggetti.add(new EntitaStoredProcedure((Integer) UtilityFunctions.getPkValue(object),
                             oggettoTableAnnotation.schema(), oggettoTableAnnotation.name()));
                 } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException
                         | IllegalArgumentException | InvocationTargetException ex) {
