@@ -13,6 +13,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.Table;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -24,33 +26,37 @@ import org.springframework.util.StringUtils;
  */
 @Component
 public class PermissionManager {
+
     @Autowired
     ObjectMapper objectMapper;
-    
+
     @Autowired(required = false)
     PermessoRepository permessoRepository;
-    
+
     @Autowired
     PermissionRepositoryAccess permissionRepositoryAccess;
-    
+
     /**
      * Torna true se l'entità passata ha il permesso sul predicato passato.
+     *
      * @param entitySoggetto
      * @param predicato
      * @return
-     * @throws BlackBoxPermissionException 
+     * @throws BlackBoxPermissionException
      */
     public Boolean hasPermission(Object entitySoggetto, String predicato) throws BlackBoxPermissionException {
         return hasPermission(entitySoggetto, predicato, null, null);
     }
-    
+
     public Boolean hasPermission(Object entitySoggetto, String predicato, Object entityOggetto, String ambito) throws BlackBoxPermissionException {
-        if (entitySoggetto == null)
+        if (entitySoggetto == null) {
             throw new BlackBoxPermissionException("il parametro entitySoggetto non può essere null");
-            
-        if (!StringUtils.hasText(predicato))
+        }
+
+        if (!StringUtils.hasText(predicato)) {
             throw new BlackBoxPermissionException("il parametro predicato non può essere null o vuoto");
-            
+        }
+
         Table soggettoTableAnnotation;
         Table oggettoTableAnnotation = null;
         try {
@@ -58,18 +64,19 @@ public class PermissionManager {
             if (entityOggetto != null) {
                 oggettoTableAnnotation = UtilityFunctions.getFirstAnnotationOverEntity(entityOggetto.getClass(), Table.class);
             }
-        }
-        catch (ClassNotFoundException ex) {
+        } catch (ClassNotFoundException ex) {
             // Logger.getLogger(PermissionManager.class.getName()).log(Level.SEVERE, null, ex);
             throw new BlackBoxPermissionException(ex);
         }
-        
-        if (soggettoTableAnnotation == null) 
+
+        if (soggettoTableAnnotation == null) {
             throw new BlackBoxPermissionException("l'entità soggetto passata non ha l'annotazione Table");
-        
-        if (oggettoTableAnnotation == null && entityOggetto != null) 
+        }
+
+        if (oggettoTableAnnotation == null && entityOggetto != null) {
             throw new BlackBoxPermissionException("l'entità oggetto passata non ha l'annotazione Table");
-        
+        }
+
         List<EntitaStoredProcedure> soggetti = new ArrayList();
         try {
             soggetti.add(new EntitaStoredProcedure((Integer) UtilityFunctions.getPkValue(entitySoggetto), soggettoTableAnnotation.schema(), soggettoTableAnnotation.name()));
@@ -77,7 +84,7 @@ public class PermissionManager {
             // Logger.getLogger(PermissionManager.class.getName()).log(Level.SEVERE, null, ex);
             throw new BlackBoxPermissionException("errore nella creazione del soggetto", ex);
         }
-        
+
         List<EntitaStoredProcedure> oggetti = null;
         if (entityOggetto != null) {
             oggetti = new ArrayList();
@@ -88,28 +95,28 @@ public class PermissionManager {
                 throw new BlackBoxPermissionException("errore nella creazione del soggetto", ex);
             }
         }
-        
+
         List<String> predicati = new ArrayList<>();
         predicati.add(predicato);
 
         return permissionRepositoryAccess.entityHasPermission(soggetti, predicati, oggetti, ambito);
     }
-    
+
     public List<String> getPermission(Object entitySoggetto, List<String> ambiti, String tipo) throws BlackBoxPermissionException {
         List<String> tipi = new ArrayList<>();
         tipi.add(tipo);
         return getPermission(entitySoggetto, ambiti, tipi);
     }
-    
+
     public List<String> getPermission(Object entitySoggetto, List<String> ambiti, List<String> tipi) throws BlackBoxPermissionException {
         return getPermission(entitySoggetto, null, ambiti, tipi);
     }
-    
+
     public List<String> getPermission(Object entitySoggetto, List<Object> entitiesOggetto, List<String> ambiti, List<String> tipi) throws BlackBoxPermissionException {
         if (entitySoggetto == null) {
             throw new BlackBoxPermissionException("il parametro entitySoggetto non può essere null");
         }
-        
+
         Table soggettoTableAnnotation;
         try {
             soggettoTableAnnotation = UtilityFunctions.getFirstAnnotationOverEntity(entitySoggetto.getClass(), Table.class);
@@ -117,10 +124,11 @@ public class PermissionManager {
             // Logger.getLogger(PermissionManager.class.getName()).log(Level.SEVERE, null, ex);
             throw new BlackBoxPermissionException(ex);
         }
-        
-        if (soggettoTableAnnotation == null) 
+
+        if (soggettoTableAnnotation == null) {
             throw new BlackBoxPermissionException("l'entità soggetto passata non ha l'annotazione Table");
-        
+        }
+
         EntitaStoredProcedure soggetto;
         try {
             soggetto = new EntitaStoredProcedure((Integer) UtilityFunctions.getPkValue(entitySoggetto), soggettoTableAnnotation.schema(), soggettoTableAnnotation.name());
@@ -128,8 +136,7 @@ public class PermissionManager {
             // Logger.getLogger(PermissionManager.class.getName()).log(Level.SEVERE, null, ex);
             throw new BlackBoxPermissionException("errore nella creazione del soggetto", ex);
         }
-        
-        
+
         List<EntitaStoredProcedure> oggetti = null;
         if (entitiesOggetto != null) {
             oggetti = new ArrayList();
@@ -144,23 +151,23 @@ public class PermissionManager {
                 }
             }
         }
-        
+
         return permissionRepositoryAccess.getPredicatiEntita(soggetto, oggetti, ambiti, tipi);
     }
-    
+
     public void insertSimplePermission(Object entitySoggetto, Object entityOggetto, String predicato, String originePermesso, Boolean propagaSoggetto, Boolean propagaOggetto, String ambito, String tipo) throws BlackBoxPermissionException {
         if (entitySoggetto == null) {
             throw new BlackBoxPermissionException("il parametro entitySoggetto non può essere null");
         }
-        
+
         if (ambito == null) {
             throw new BlackBoxPermissionException("il parametro ambito non può essere null");
         }
-        
+
         if (tipo == null) {
             throw new BlackBoxPermissionException("il parametro tipo non può essere null");
         }
-        
+
         Table soggettoTableAnnotation;
         try {
             soggettoTableAnnotation = UtilityFunctions.getFirstAnnotationOverEntity(entitySoggetto.getClass(), Table.class);
@@ -168,10 +175,11 @@ public class PermissionManager {
             // Logger.getLogger(PermissionManager.class.getName()).log(Level.SEVERE, null, ex);
             throw new BlackBoxPermissionException(ex);
         }
-        
-        if (soggettoTableAnnotation == null) 
+
+        if (soggettoTableAnnotation == null) {
             throw new BlackBoxPermissionException("l'entità soggetto passata non ha l'annotazione Table");
-        
+        }
+
         EntitaStoredProcedure soggetto;
         try {
             soggetto = new EntitaStoredProcedure((Integer) UtilityFunctions.getPkValue(entitySoggetto), soggettoTableAnnotation.schema(), soggettoTableAnnotation.name());
@@ -179,7 +187,7 @@ public class PermissionManager {
             // Logger.getLogger(PermissionManager.class.getName()).log(Level.SEVERE, null, ex);
             throw new BlackBoxPermissionException("errore nella creazione del soggetto", ex);
         }
-        
+
         EntitaStoredProcedure oggetto = null;
         if (entityOggetto != null) {
             Table oggettoTableAnnotation;
@@ -190,8 +198,9 @@ public class PermissionManager {
                 throw new BlackBoxPermissionException(ex);
             }
 
-            if (oggettoTableAnnotation == null) 
+            if (oggettoTableAnnotation == null) {
                 throw new BlackBoxPermissionException("l'entità soggetto passata non ha l'annotazione Table");
+            }
 
             try {
                 oggetto = new EntitaStoredProcedure((Integer) UtilityFunctions.getPkValue(entityOggetto), oggettoTableAnnotation.schema(), oggettoTableAnnotation.name());
@@ -202,16 +211,17 @@ public class PermissionManager {
         }
         permissionRepositoryAccess.insertSimplePermission(soggetto, oggetto, predicato, originePermesso, null, propagaSoggetto, propagaOggetto, ambito, tipo, null);
     }
-    
-    public List<PermessoEntitaStoredProcedure> getSubjectsWithPermissionsOnObject(Object entityOggetto, List<String> predicati, List<String> ambiti, List<String> tipi, Boolean dammiSoggettiPropagati) throws BlackBoxPermissionException{
-        if(entityOggetto == null)
+
+    public List<PermessoEntitaStoredProcedure> getSubjectsWithPermissionsOnObject(Object entityOggetto, List<String> predicati, List<String> ambiti, List<String> tipi, Boolean dammiSoggettiPropagati) throws BlackBoxPermissionException {
+        if (entityOggetto == null) {
             throw new BlackBoxPermissionException("entità oggetto non passata");
-        else
-            return getSubjectsWithPermissionsOnObject(Arrays.asList(new Object[] {entityOggetto}), predicati, ambiti, tipi, dammiSoggettiPropagati);
+        } else {
+            return getSubjectsWithPermissionsOnObject(Arrays.asList(new Object[]{entityOggetto}), predicati, ambiti, tipi, dammiSoggettiPropagati);
+        }
     }
-    
+
     public List<PermessoEntitaStoredProcedure> getSubjectsWithPermissionsOnObject(List<Object> entitiesOggetto, List<String> predicati, List<String> ambiti, List<String> tipi, Boolean dammiSoggettiPropagati) throws BlackBoxPermissionException {
-        if(entitiesOggetto == null || entitiesOggetto.isEmpty()) {
+        if (entitiesOggetto == null || entitiesOggetto.isEmpty()) {
             throw new BlackBoxPermissionException("deve essere pasasta almeno un'entità oggetto");
         }
 
@@ -228,40 +238,45 @@ public class PermissionManager {
         }
         return permissionRepositoryAccess.getSubjectsWithPermissionsOnObjects(oggetti, predicati, ambiti, tipi, dammiSoggettiPropagati);
     }
-    
+
     /**
-     * TODO: deve tornare una lista contenente gli oggetti entità a partire dalla lista di EntitaStoredProcedure passata creando una query tramite EntityManager
-     * dovrà fare il minor numerop di query possibile, ad esempio raggruppando le entità per tipo e poi facendo una query "where id in..."
+     * TODO: deve tornare una lista contenente gli oggetti entità a partire
+     * dalla lista di EntitaStoredProcedure passata creando una query tramite
+     * EntityManager dovrà fare il minor numerop di query possibile, ad esempio
+     * raggruppando le entità per tipo e poi facendo una query "where id in..."
+     *
      * @param entitaStoredProcedure
-     * @return 
+     * @return
      */
     public Object getEntityFromEntitaStoredProcedure(List<EntitaStoredProcedure> entitaStoredProcedure) {
         return null;
     }
-    
+
     /**
-     * TODO: deve tornare l'oggetto l'entità a partire dall'EntitaStoredProcedure passata creando una query tramite EntityManager
+     * TODO: deve tornare l'oggetto l'entità a partire
+     * dall'EntitaStoredProcedure passata creando una query tramite
+     * EntityManager
+     *
      * @param entitaStoredProcedure
-     * @return 
+     * @return
      */
     public Object getEntityFromEntitaStoredProcedure(EntitaStoredProcedure entitaStoredProcedure) {
         return null;
     }
-    
-    
+
     public void deletePermission(Object entitySoggetto, Object entityOggetto, String predicato, String originePermesso, Boolean propagaSoggetto, Boolean propagaOggetto, String ambito, String tipo) throws BlackBoxPermissionException {
         if (entitySoggetto == null) {
             throw new BlackBoxPermissionException("il parametro entitySoggetto non può essere null");
         }
-        
+
         if (ambito == null) {
             throw new BlackBoxPermissionException("il parametro ambito non può essere null");
         }
-        
+
         if (tipo == null) {
             throw new BlackBoxPermissionException("il parametro tipo non può essere null");
         }
-        
+
         Table soggettoTableAnnotation;
         try {
             soggettoTableAnnotation = UtilityFunctions.getFirstAnnotationOverEntity(entitySoggetto.getClass(), Table.class);
@@ -269,10 +284,11 @@ public class PermissionManager {
             // Logger.getLogger(PermissionManager.class.getName()).log(Level.SEVERE, null, ex);
             throw new BlackBoxPermissionException(ex);
         }
-        
-        if (soggettoTableAnnotation == null) 
+
+        if (soggettoTableAnnotation == null) {
             throw new BlackBoxPermissionException("l'entità soggetto passata non ha l'annotazione Table");
-        
+        }
+
         EntitaStoredProcedure soggetto;
         try {
             soggetto = new EntitaStoredProcedure((Integer) UtilityFunctions.getPkValue(entitySoggetto), soggettoTableAnnotation.schema(), soggettoTableAnnotation.name());
@@ -280,7 +296,7 @@ public class PermissionManager {
             // Logger.getLogger(PermissionManager.class.getName()).log(Level.SEVERE, null, ex);
             throw new BlackBoxPermissionException("errore nella creazione del soggetto", ex);
         }
-        
+
         EntitaStoredProcedure oggetto = null;
         if (entityOggetto != null) {
             Table oggettoTableAnnotation;
@@ -291,8 +307,9 @@ public class PermissionManager {
                 throw new BlackBoxPermissionException(ex);
             }
 
-            if (oggettoTableAnnotation == null) 
+            if (oggettoTableAnnotation == null) {
                 throw new BlackBoxPermissionException("l'entità soggetto passata non ha l'annotazione Table");
+            }
 
             try {
                 oggetto = new EntitaStoredProcedure((Integer) UtilityFunctions.getPkValue(entityOggetto), oggettoTableAnnotation.schema(), oggettoTableAnnotation.name());
@@ -303,13 +320,14 @@ public class PermissionManager {
         }
         permissionRepositoryAccess.deletePermission(soggetto, oggetto, predicato, originePermesso, null, propagaSoggetto, propagaOggetto, ambito, tipo, null);
     }
-    
-    public List<PermessoEntitaStoredProcedure> getPermissionsOfSubject(Object entitySoggetto, List<String> predicati, List<String> ambiti, List<String> tipi, Boolean dammiSoggettiPropagati, LocalDate data, Boolean estraiStorico) throws BlackBoxPermissionException {
-        if(entitySoggetto == null) {
+
+    public List<PermessoEntitaStoredProcedure> getPermissionsOfSubject(Object entitySoggetto, List<Object> entitiesOggetto, List<String> predicati, List<String> ambiti, List<String> tipi, Boolean dammiSoggettiPropagati, LocalDate data, Boolean estraiStorico) throws BlackBoxPermissionException {
+        if (entitySoggetto == null) {
             throw new BlackBoxPermissionException("il soggetto è obbligatorio");
         }
 
-        EntitaStoredProcedure soggetto =null;
+        EntitaStoredProcedure soggetto = null;
+        List<EntitaStoredProcedure> oggetti = null;
         Table soggettoTableAnnotation;
         try {
             soggettoTableAnnotation = UtilityFunctions.getFirstAnnotationOverEntity(entitySoggetto.getClass(), Table.class);
@@ -318,23 +336,37 @@ public class PermissionManager {
             // Logger.getLogger(PermissionManager.class.getName()).log(Level.SEVERE, null, ex);
             throw new BlackBoxPermissionException("errore nella creazione del soggetto", ex);
         }
-        
-        return permissionRepositoryAccess.getPermissionsOfSubject(soggetto, predicati, ambiti, tipi, dammiSoggettiPropagati, data, estraiStorico);
+
+        if (entitiesOggetto != null) {
+            oggetti = new ArrayList<>();
+            for (Object object : entitiesOggetto) {
+                try {
+                    Table oggettoTableAnnotation = UtilityFunctions.getFirstAnnotationOverEntity(object.getClass(),
+                            Table.class);
+                    oggetti.add(new EntitaStoredProcedure((Integer) UtilityFunctions.getPkValue(object.getClass()),
+                            oggettoTableAnnotation.schema(), oggettoTableAnnotation.name()));
+                } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException
+                        | IllegalArgumentException | InvocationTargetException ex) {
+                    throw new BlackBoxPermissionException("errore nella creazione dell'oggetto", ex);
+                }
+            }
+        }
+
+        return permissionRepositoryAccess.getPermissionsOfSubject(soggetto, oggetti, predicati, ambiti, tipi, dammiSoggettiPropagati, data, estraiStorico);
     }
-    
-    
+
     /**
      * Metodo semplificato per chiamare la managePermissions.
-     * 
+     *
      * @param entitySoggetto
      * @param entityOggetto può essere null
      * @param ambito
      * @param tipo
      * @param permessi
-     * @throws BlackBoxPermissionException 
+     * @throws BlackBoxPermissionException
      */
     public void managePermissions(Object entitySoggetto, Object entityOggetto, String ambito, String tipo, List<PermessoStoredProcedure> permessi) throws BlackBoxPermissionException {
-        if(entitySoggetto == null) {
+        if (entitySoggetto == null) {
             throw new BlackBoxPermissionException("il soggetto è obbligatorio");
         }
 
@@ -346,11 +378,11 @@ public class PermissionManager {
         } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
             throw new BlackBoxPermissionException("errore nella creazione del soggetto", ex);
         }
-        
+
         EntitaStoredProcedure oggetto = null;
-        
-        if(entityOggetto != null) {
-            
+
+        if (entityOggetto != null) {
+
             Table oggettoTableAnnotation;
             try {
                 oggettoTableAnnotation = UtilityFunctions.getFirstAnnotationOverEntity(entityOggetto.getClass(), Table.class);
@@ -359,7 +391,7 @@ public class PermissionManager {
                 throw new BlackBoxPermissionException("errore nella creazione del soggetto", ex);
             }
         }
-        
+
         CategoriaPermessiStoredProcedure categoria = new CategoriaPermessiStoredProcedure(ambito, tipo, permessi);
         PermessoEntitaStoredProcedure permessoEntitaStoredProcedure = new PermessoEntitaStoredProcedure(soggetto, oggetto, Arrays.asList(new CategoriaPermessiStoredProcedure[]{categoria}));
 
@@ -372,8 +404,7 @@ public class PermissionManager {
                 p.setPropagaSoggetto(false);
             }
         }
-        
-        
+
         permissionRepositoryAccess.managePermissions(Arrays.asList(new PermessoEntitaStoredProcedure[]{permessoEntitaStoredProcedure}));
     }
 }

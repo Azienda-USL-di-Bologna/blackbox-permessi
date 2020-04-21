@@ -1,5 +1,7 @@
 package it.bologna.ausl.blackbox.test;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import it.bologna.ausl.blackbox.PermissionManager;
 import it.bologna.ausl.blackbox.PermissionRepositoryAccess;
 import it.bologna.ausl.blackbox.exceptions.BlackBoxPermissionException;
@@ -31,24 +33,27 @@ import org.springframework.transaction.annotation.Transactional;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = BlackBoxApplication.class)
 public class TestBlackBox {
-    
+
     @Autowired
     private PermissionManager permissionManager;
-    
+
     @Autowired
     private UtenteRepository utenteRepository;
-    
+
     @Autowired
     private PecRepository pecRepository;
-    
+
     @Autowired
     private StrutturaRepository strutturaRepository;
-    
+
     @Autowired
     private EntityManager em;
-    
+
     @Autowired
     PermissionRepositoryAccess permissionRepositoryAccess;
+
+    @Autowired
+    ObjectMapper objectMapper;
 
 //    @Test
 //    @Transactional
@@ -58,7 +63,6 @@ public class TestBlackBox {
 //        Boolean res = permissionManager.hasPermission(u, predicato);
 //        Assert.assertThat("hasPermission", res, Matchers.isOneOf(true, false));
 //    }
-    
     @Test
     @Transactional
     public void testGetPermission() throws BlackBoxPermissionException {
@@ -67,7 +71,7 @@ public class TestBlackBox {
         List<String> permission = permissionManager.getPermission(u, null, tipo);
         Assert.assertThat("getPermission", permission, Matchers.anything());
     }
-    
+
     @Test
     @Transactional
     public void testGetSubjectWithPermissionsOnObjects() throws BlackBoxPermissionException {
@@ -76,7 +80,7 @@ public class TestBlackBox {
         List<PermessoEntitaStoredProcedure> res = permissionManager.getSubjectsWithPermissionsOnObject(s, Arrays.asList(new String[]{predicato}), null, null, true);
         Assert.assertThat("getPermission", res, Matchers.anything());
     }
-    
+
     @Test
     @Transactional
     public void testInsertSimplePermission() throws BlackBoxPermissionException {
@@ -86,7 +90,7 @@ public class TestBlackBox {
         permissionManager.insertSimplePermission(u, null, predicato, originePermesso, false, false, "TEST", "TEST");
 //        Assert.assertThat("getPermission", res, Matchers.anything());
     }
-    
+
     @Test
     @Transactional
     public void testDeletePermission() throws BlackBoxPermissionException {
@@ -95,7 +99,7 @@ public class TestBlackBox {
         String originePermesso = "TEST";
         permissionManager.deletePermission(u, null, predicato, originePermesso, false, false, "TEST", "TEST");
     }
-    
+
     @Test
     @Transactional
     public void testManagePermissions() throws BlackBoxPermissionException {
@@ -111,7 +115,7 @@ public class TestBlackBox {
         lista.add(permessoEntita);
         permissionRepositoryAccess.managePermissions(lista);
     }
-    
+
     @Test
     @Transactional
     public void testGetPermissionsOfSubject() throws BlackBoxPermissionException {
@@ -120,10 +124,10 @@ public class TestBlackBox {
 //        EntitaStoredProcedure soggetto = new EntitaStoredProcedure(27294, "baborg", "strutture");
 //        EntitaStoredProcedure soggetto = new EntitaStoredProcedure(27286, "baborg", "strutture");
         String predicato = "SPEDISCE";
-        List<PermessoEntitaStoredProcedure> res = permissionRepositoryAccess.getPermissionsOfSubject(soggetto, Arrays.asList(new String[]{predicato}), null, null, true, null, null);
+        List<PermessoEntitaStoredProcedure> res = permissionRepositoryAccess.getPermissionsOfSubject(soggetto, null, Arrays.asList(new String[]{predicato}), null, null, true, null, null);
         Assert.assertThat("GetPermissionsOfSubject", res, Matchers.anything());
     }
-    
+
     @Test
     @Transactional
     public void testGetPermissionsOfSubjectConData() throws BlackBoxPermissionException {
@@ -135,7 +139,21 @@ public class TestBlackBox {
         LocalDate now = LocalDate.now();
 //        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 //        String dateString = now.format(formatter);
-        List<PermessoEntitaStoredProcedure> res = permissionRepositoryAccess.getPermissionsOfSubject(soggetto, Arrays.asList(new String[]{predicato}), null, null, true, now, null);
+        List<PermessoEntitaStoredProcedure> res = permissionRepositoryAccess.getPermissionsOfSubject(soggetto, null, Arrays.asList(new String[]{predicato}), null, null, true, now, null);
+        Assert.assertThat("GetPermissionsOfSubject", res, Matchers.anything());
+    }
+
+    @Test
+    @Transactional
+    public void testGetPermissionOfSubjectConOggetto() throws BlackBoxPermissionException, JsonProcessingException {
+        /*id utente: 294714
+        id struttura: 31276*/
+        EntitaStoredProcedure soggetto = new EntitaStoredProcedure(294714, "baborg", "utenti");
+        List<EntitaStoredProcedure> oggetti = new ArrayList<>();
+        oggetti.add(new EntitaStoredProcedure(31276, "baborg", "strutture"));
+        List<PermessoEntitaStoredProcedure> res = permissionRepositoryAccess.getPermissionsOfSubject(soggetto, oggetti,
+                null, null, null, true, null, false);
+        System.out.println("RES\n" + objectMapper.writeValueAsString(res));
         Assert.assertThat("GetPermissionsOfSubject", res, Matchers.anything());
     }
 }
