@@ -10,13 +10,13 @@ import it.bologna.ausl.blackbox.utils.UtilityFunctions;
 import java.time.LocalDate;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author gus
  */
-@Component
+@Service
 public class PermissionRepositoryAccess {
     
     @Autowired

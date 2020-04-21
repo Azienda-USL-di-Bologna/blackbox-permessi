@@ -50,20 +50,20 @@ public class TestBlackBox {
     @Autowired
     PermissionRepositoryAccess permissionRepositoryAccess;
 
-    @Test
-    @Transactional
-    public void testHasPermission() throws BlackBoxPermissionException {
-        Utente u = utenteRepository.getOne(333427);
-        String predicato = "FIRMA";
-        Boolean res = permissionManager.hasPermission(u, predicato);
-        Assert.assertThat("hasPermission", res, Matchers.isOneOf(true, false));
-    }
+//    @Test
+//    @Transactional
+//    public void testHasPermission() throws BlackBoxPermissionException {
+//        Utente u = utenteRepository.getOne(333427);
+//        String predicato = "FIRMA";
+//        Boolean res = permissionManager.hasPermission(u, predicato);
+//        Assert.assertThat("hasPermission", res, Matchers.isOneOf(true, false));
+//    }
     
     @Test
     @Transactional
     public void testGetPermission() throws BlackBoxPermissionException {
         Utente u = utenteRepository.getOne(333427);
-        String tipo = "FLUShSO";
+        String tipo = "FLUSSO";
         List<String> permission = permissionManager.getPermission(u, null, tipo);
         Assert.assertThat("getPermission", permission, Matchers.anything());
     }
