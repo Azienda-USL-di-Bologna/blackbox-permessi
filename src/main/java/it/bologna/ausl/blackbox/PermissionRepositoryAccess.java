@@ -5,6 +5,7 @@ import it.bologna.ausl.internauta.utils.bds.types.EntitaStoredProcedure;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.bologna.ausl.blackbox.exceptions.BlackBoxPermissionException;
 import it.bologna.ausl.blackbox.repositories.PermessoRepository;
+import it.bologna.ausl.blackbox.utils.BlackBoxConstants.Direzione;
 import it.bologna.ausl.internauta.utils.bds.types.PermessoEntitaStoredProcedure;
 import it.bologna.ausl.blackbox.utils.UtilityFunctions;
 import java.time.LocalDate;
@@ -211,7 +212,7 @@ public class PermissionRepositoryAccess {
         } catch (Exception ex) {
             throw new BlackBoxPermissionException("errore nella creazione dei parametri per la chiamata della stored procedure", ex);
         }
-        System.out.println(permessoEntitaStoredProcedureJsonString);
+//        System.out.println(permessoEntitaStoredProcedureJsonString);
         try {
             permessoRepository.managePermissions(permessoEntitaStoredProcedureJsonString);
         } catch (Exception ex) {
@@ -247,7 +248,7 @@ public class PermissionRepositoryAccess {
             soggettoString = objectMapper.writeValueAsString(soggetto);
             if (oggetti != null) {
                 oggettiString = objectMapper.writeValueAsString(oggetti);
-                System.out.println("*********OGGETTI STRING\n" + oggettiString);
+//                System.out.println("*********OGGETTI STRING\n" + oggettiString);
             }
 
             predicatiArrayString = UtilityFunctions.getArrayString(objectMapper, predicati);
@@ -271,5 +272,86 @@ public class PermissionRepositoryAccess {
         } catch (Exception ex) {
             throw new BlackBoxPermissionException("errore nella chiamata alla store procedure", ex);
         }
+    }
+
+    public List<PermessoEntitaStoredProcedure> getPermissionsOfSubjectAdvanced(
+            EntitaStoredProcedure soggetto,
+            List<EntitaStoredProcedure> oggetti,
+            List<String> predicati,
+            List<String> ambiti,
+            List<String> tipi,
+            Boolean dammiPermessiVirtuali,
+            LocalDate dataPermesso,
+            Direzione direzione) throws BlackBoxPermissionException {
+
+        String soggettoString;
+        String oggettiString = null;
+        String predicatiArrayString;
+        String ambitiArrayString;
+        String tipiArrayString;
+        String dataPermessoString = null;
+
+        try {
+            soggettoString = objectMapper.writeValueAsString(soggetto);
+            if (oggetti != null) {
+                oggettiString = objectMapper.writeValueAsString(oggetti);
+            }
+
+            predicatiArrayString = UtilityFunctions.getArrayString(objectMapper, predicati);
+            ambitiArrayString = UtilityFunctions.getArrayString(objectMapper, ambiti);
+            tipiArrayString = UtilityFunctions.getArrayString(objectMapper, tipi);
+            if (dataPermesso != null) {
+                dataPermessoString = UtilityFunctions.getLocalDateString(dataPermesso);
+            }
+        } catch (Exception ex) {
+            throw new BlackBoxPermissionException("errore nella creazione dei parametri per la chiamata della stored procedure", ex);
+        }
+
+        try {
+            String res = permessoRepository.getPermissionsOfSubjectAdvanced(soggettoString, oggettiString, predicatiArrayString, ambitiArrayString, tipiArrayString, dammiPermessiVirtuali, dataPermessoString, direzione.toString());
+            if (res != null) {
+                return objectMapper.readValue(res, new TypeReference<List<PermessoEntitaStoredProcedure>>() {
+                });
+            } else {
+                return null;
+            }
+        } catch (Exception ex) {
+            throw new BlackBoxPermissionException("errore nella chiamata alla store procedure", ex);
+        }
+    }
+
+    public List<PermessoEntitaStoredProcedure> getPermissionsOfSubjectPastFromDate(
+            EntitaStoredProcedure soggetto,
+            List<EntitaStoredProcedure> oggetti,
+            List<String> predicati,
+            List<String> ambiti,
+            List<String> tipi,
+            Boolean dammiPermessiVirtuali,
+            LocalDate dataPermesso
+    ) throws BlackBoxPermissionException {
+        return getPermissionsOfSubjectAdvanced(soggetto, oggetti, predicati, ambiti, tipi, dammiPermessiVirtuali, dataPermesso, Direzione.PASSATO);
+    }
+
+    public List<PermessoEntitaStoredProcedure> getPermissionsOfSubjectFutureFromDate(
+            EntitaStoredProcedure soggetto,
+            List<EntitaStoredProcedure> oggetti,
+            List<String> predicati,
+            List<String> ambiti,
+            List<String> tipi,
+            Boolean dammiPermessiVirtuali,
+            LocalDate dataPermesso
+    ) throws BlackBoxPermissionException {
+        return getPermissionsOfSubjectAdvanced(soggetto, oggetti, predicati, ambiti, tipi, dammiPermessiVirtuali, dataPermesso, Direzione.FUTURO);
+    }
+    public List<PermessoEntitaStoredProcedure> getPermissionsOfSubjectActualFromDate(
+            EntitaStoredProcedure soggetto,
+            List<EntitaStoredProcedure> oggetti,
+            List<String> predicati,
+            List<String> ambiti,
+            List<String> tipi,
+            Boolean dammiPermessiVirtuali,
+            LocalDate dataPermesso
+    ) throws BlackBoxPermissionException {
+        return getPermissionsOfSubjectAdvanced(soggetto, oggetti, predicati, ambiti, tipi, dammiPermessiVirtuali, dataPermesso, Direzione.PRESENTE);
     }
 }

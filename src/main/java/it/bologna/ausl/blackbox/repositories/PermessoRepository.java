@@ -84,6 +84,54 @@ public interface PermessoRepository extends JpaRepository<Permesso, Integer>, Qu
             @Param("p_data_permesso") String datePermesso,
             @Param("dammi_storico") Boolean dammiStorico
     );
+    
+    @Procedure("permessi.get_permissions_of_subject_actual_from_date")
+    public String getPermissionsOfSubjectActualFromDate(
+            @Param("soggetto") String soggetto,
+            @Param("oggetti") String oggetti,
+            @Param("predicati") String predicati,
+            @Param("ambiti") String ambiti,
+            @Param("tipi") String tipi,
+            @Param("dammi_permessi_virtuali") Boolean dammiPermessiVirtuali,
+            @Param("p_data_permesso") String datePermesso
+    );
+    
+    @Procedure("permessi.get_permissions_of_subject_past_from_date")
+    public String getPermissionsOfSubjectPastFromDate(
+            @Param("soggetto") String soggetto,
+            @Param("oggetti") String oggetti,
+            @Param("predicati") String predicati,
+            @Param("ambiti") String ambiti,
+            @Param("tipi") String tipi,
+            @Param("dammi_permessi_virtuali") Boolean dammiPermessiVirtuali,
+            @Param("p_data_permesso") String datePermesso
+    );
+    
+    @Procedure("permessi.get_permissions_of_subject_furure_from_date")
+    public String getPermissionsOfSubjectFuruteFromDate(
+            @Param("soggetto") String soggetto,
+            @Param("oggetti") String oggetti,
+            @Param("predicati") String predicati,
+            @Param("ambiti") String ambiti,
+            @Param("tipi") String tipi,
+            @Param("dammi_permessi_virtuali") Boolean dammiPermessiVirtuali,
+            @Param("p_data_permesso") String datePermesso
+    );
+    
+    @Procedure("permessi.get_permissions_of_subject_advanced")
+    public String getPermissionsOfSubjectAdvanced(
+            @Param("soggetto") String soggetto,
+            @Param("oggetti") String oggetti,
+            @Param("predicati") String predicati,
+            @Param("ambiti") String ambiti,
+            @Param("tipi") String tipi,
+            @Param("dammi_permessi_virtuali") Boolean dammiPermessiVirtuali,
+            @Param("p_data_permesso") String datePermesso,
+            @Param("direzione") String direzione
+    );
+    
+    
+    
 
 //    @Query(nativeQuery = true, 
 //            value = "select entity_has_permission from permessi.entity_has_permission("

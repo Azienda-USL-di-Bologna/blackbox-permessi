@@ -118,14 +118,18 @@ public class TestBlackBox {
 
     @Test
     @Transactional
-    public void testGetPermissionsOfSubject() throws BlackBoxPermissionException {
+    public void testGetPermissionsOfSubjectAllTime() throws BlackBoxPermissionException {
         //Struttura s = strutturaRepository.getOne(26901);
         EntitaStoredProcedure soggetto = new EntitaStoredProcedure(27296, "baborg", "strutture");
 //        EntitaStoredProcedure soggetto = new EntitaStoredProcedure(27294, "baborg", "strutture");
 //        EntitaStoredProcedure soggetto = new EntitaStoredProcedure(27286, "baborg", "strutture");
         String predicato = "SPEDISCE";
-        List<PermessoEntitaStoredProcedure> res = permissionRepositoryAccess.getPermissionsOfSubject(soggetto, null, Arrays.asList(new String[]{predicato}), null, null, true, null, null);
-        Assert.assertThat("GetPermissionsOfSubject", res, Matchers.anything());
+        List<PermessoEntitaStoredProcedure> res = permissionRepositoryAccess.getPermissionsOfSubjectPastFromDate(soggetto, null, Arrays.asList(new String[]{predicato}), null, null, true, null);
+        List<PermessoEntitaStoredProcedure> res2 = permissionRepositoryAccess.getPermissionsOfSubjectActualFromDate(soggetto, null, Arrays.asList(new String[]{predicato}), null, null, true, null);
+        List<PermessoEntitaStoredProcedure> res3 = permissionRepositoryAccess.getPermissionsOfSubjectFutureFromDate(soggetto, null, Arrays.asList(new String[]{predicato}), null, null, true, null);
+        Assert.assertThat("PermissionsOfSubjectPastFromDate", res, Matchers.anything());
+        Assert.assertThat("PermissionsOfSubjectActualFromDate", res2, Matchers.anything());
+        Assert.assertThat("PermissionsOfSubjectFutureFromDate", res3, Matchers.anything());
     }
 
     @Test
