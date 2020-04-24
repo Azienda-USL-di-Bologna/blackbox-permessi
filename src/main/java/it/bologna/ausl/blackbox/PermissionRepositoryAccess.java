@@ -320,7 +320,7 @@ public class PermissionRepositoryAccess {
         }
     }
 
-    public List<PermessoEntitaStoredProcedure> getPermissionsOfSubjectPastFromDate(
+    public List<PermessoEntitaStoredProcedure> getPermissionsOfSubjectPastTillDate(
             EntitaStoredProcedure soggetto,
             List<EntitaStoredProcedure> oggetti,
             List<String> predicati,

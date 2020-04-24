@@ -14,5 +14,4 @@ public class BlackBoxConstants {
     public static enum Direzione {
         PASSATO, PRESENTE, FUTURO
     }
-
 }

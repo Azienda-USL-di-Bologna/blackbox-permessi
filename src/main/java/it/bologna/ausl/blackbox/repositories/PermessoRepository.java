@@ -96,8 +96,8 @@ public interface PermessoRepository extends JpaRepository<Permesso, Integer>, Qu
             @Param("p_data_permesso") String datePermesso
     );
     
-    @Procedure("permessi.get_permissions_of_subject_past_from_date")
-    public String getPermissionsOfSubjectPastFromDate(
+    @Procedure("permessi.get_permissions_of_subject_past_till_date")
+    public String getPermissionsOfSubjectPastTillDate(
             @Param("soggetto") String soggetto,
             @Param("oggetti") String oggetti,
             @Param("predicati") String predicati,

@@ -124,7 +124,7 @@ public class TestBlackBox {
 //        EntitaStoredProcedure soggetto = new EntitaStoredProcedure(27294, "baborg", "strutture");
 //        EntitaStoredProcedure soggetto = new EntitaStoredProcedure(27286, "baborg", "strutture");
         String predicato = "SPEDISCE";
-        List<PermessoEntitaStoredProcedure> res = permissionRepositoryAccess.getPermissionsOfSubjectPastFromDate(soggetto, null, Arrays.asList(new String[]{predicato}), null, null, true, null);
+        List<PermessoEntitaStoredProcedure> res = permissionRepositoryAccess.getPermissionsOfSubjectPastTillDate(soggetto, null, Arrays.asList(new String[]{predicato}), null, null, true, null);
         List<PermessoEntitaStoredProcedure> res2 = permissionRepositoryAccess.getPermissionsOfSubjectActualFromDate(soggetto, null, Arrays.asList(new String[]{predicato}), null, null, true, null);
         List<PermessoEntitaStoredProcedure> res3 = permissionRepositoryAccess.getPermissionsOfSubjectFutureFromDate(soggetto, null, Arrays.asList(new String[]{predicato}), null, null, true, null);
         Assert.assertThat("PermissionsOfSubjectPastFromDate", res, Matchers.anything());
