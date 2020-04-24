@@ -93,7 +93,7 @@ public interface PermessoRepository extends JpaRepository<Permesso, Integer>, Qu
             @Param("ambiti") String ambiti,
             @Param("tipi") String tipi,
             @Param("dammi_permessi_virtuali") Boolean dammiPermessiVirtuali,
-            @Param("p_data_permesso") String datePermesso
+            @Param("p_data_permesso_inizio") String dataPermessoInizio
     );
     
     @Procedure("permessi.get_permissions_of_subject_past_till_date")
@@ -104,7 +104,8 @@ public interface PermessoRepository extends JpaRepository<Permesso, Integer>, Qu
             @Param("ambiti") String ambiti,
             @Param("tipi") String tipi,
             @Param("dammi_permessi_virtuali") Boolean dammiPermessiVirtuali,
-            @Param("p_data_permesso") String datePermesso
+            @Param("p_data_permesso_inizio") String dataPermessoInizio,
+            @Param("p_data_permesso_fine") String dataPermessoFine
     );
     
     @Procedure("permessi.get_permissions_of_subject_furure_from_date")
@@ -115,7 +116,8 @@ public interface PermessoRepository extends JpaRepository<Permesso, Integer>, Qu
             @Param("ambiti") String ambiti,
             @Param("tipi") String tipi,
             @Param("dammi_permessi_virtuali") Boolean dammiPermessiVirtuali,
-            @Param("p_data_permesso") String datePermesso
+            @Param("p_data_permesso_inizio") String dataPermessoInizio,
+            @Param("p_data_permesso_fine") String dataPermessoFine
     );
     
     @Procedure("permessi.get_permissions_of_subject_advanced")
@@ -126,7 +128,8 @@ public interface PermessoRepository extends JpaRepository<Permesso, Integer>, Qu
             @Param("ambiti") String ambiti,
             @Param("tipi") String tipi,
             @Param("dammi_permessi_virtuali") Boolean dammiPermessiVirtuali,
-            @Param("p_data_permesso") String datePermesso,
+            @Param("p_data_permesso_inizio") String dataPermessoInizio,
+            @Param("p_data_permesso_fine") String dataPermessoFine,
             @Param("direzione") String direzione
     );
     

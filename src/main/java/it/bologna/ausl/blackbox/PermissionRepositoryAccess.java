@@ -281,7 +281,8 @@ public class PermissionRepositoryAccess {
             List<String> ambiti,
             List<String> tipi,
             Boolean dammiPermessiVirtuali,
-            LocalDate dataPermesso,
+            LocalDate dataPermessoInizio,
+            LocalDate dataPermessoFine,
             Direzione direzione) throws BlackBoxPermissionException {
 
         String soggettoString;
@@ -289,7 +290,8 @@ public class PermissionRepositoryAccess {
         String predicatiArrayString;
         String ambitiArrayString;
         String tipiArrayString;
-        String dataPermessoString = null;
+        String dataPermessoInizioString = null;
+        String dataPermessoFineString = null;
 
         try {
             soggettoString = objectMapper.writeValueAsString(soggetto);
@@ -300,15 +302,18 @@ public class PermissionRepositoryAccess {
             predicatiArrayString = UtilityFunctions.getArrayString(objectMapper, predicati);
             ambitiArrayString = UtilityFunctions.getArrayString(objectMapper, ambiti);
             tipiArrayString = UtilityFunctions.getArrayString(objectMapper, tipi);
-            if (dataPermesso != null) {
-                dataPermessoString = UtilityFunctions.getLocalDateString(dataPermesso);
+            if (dataPermessoInizio != null) {
+                dataPermessoInizioString = UtilityFunctions.getLocalDateString(dataPermessoInizio);
+            }
+            if (dataPermessoFine != null) {
+                dataPermessoFineString = UtilityFunctions.getLocalDateString(dataPermessoFine);
             }
         } catch (Exception ex) {
             throw new BlackBoxPermissionException("errore nella creazione dei parametri per la chiamata della stored procedure", ex);
         }
 
         try {
-            String res = permessoRepository.getPermissionsOfSubjectAdvanced(soggettoString, oggettiString, predicatiArrayString, ambitiArrayString, tipiArrayString, dammiPermessiVirtuali, dataPermessoString, direzione.toString());
+            String res = permessoRepository.getPermissionsOfSubjectAdvanced(soggettoString, oggettiString, predicatiArrayString, ambitiArrayString, tipiArrayString, dammiPermessiVirtuali, dataPermessoInizioString, dataPermessoFineString, direzione.toString());
             if (res != null) {
                 return objectMapper.readValue(res, new TypeReference<List<PermessoEntitaStoredProcedure>>() {
                 });
@@ -327,9 +332,10 @@ public class PermissionRepositoryAccess {
             List<String> ambiti,
             List<String> tipi,
             Boolean dammiPermessiVirtuali,
-            LocalDate dataPermesso
+            LocalDate dataPermessoInizio,
+            LocalDate dataPermessoFine
     ) throws BlackBoxPermissionException {
-        return getPermissionsOfSubjectAdvanced(soggetto, oggetti, predicati, ambiti, tipi, dammiPermessiVirtuali, dataPermesso, Direzione.PASSATO);
+        return getPermissionsOfSubjectAdvanced(soggetto, oggetti, predicati, ambiti, tipi, dammiPermessiVirtuali, dataPermessoInizio, dataPermessoFine, Direzione.PASSATO);
     }
 
     public List<PermessoEntitaStoredProcedure> getPermissionsOfSubjectFutureFromDate(
@@ -339,9 +345,10 @@ public class PermissionRepositoryAccess {
             List<String> ambiti,
             List<String> tipi,
             Boolean dammiPermessiVirtuali,
-            LocalDate dataPermesso
+            LocalDate dataPermessoInizio,
+            LocalDate dataPermessoFine
     ) throws BlackBoxPermissionException {
-        return getPermissionsOfSubjectAdvanced(soggetto, oggetti, predicati, ambiti, tipi, dammiPermessiVirtuali, dataPermesso, Direzione.FUTURO);
+        return getPermissionsOfSubjectAdvanced(soggetto, oggetti, predicati, ambiti, tipi, dammiPermessiVirtuali, dataPermessoInizio, dataPermessoFine, Direzione.FUTURO);
     }
     public List<PermessoEntitaStoredProcedure> getPermissionsOfSubjectActualFromDate(
             EntitaStoredProcedure soggetto,
@@ -350,8 +357,8 @@ public class PermissionRepositoryAccess {
             List<String> ambiti,
             List<String> tipi,
             Boolean dammiPermessiVirtuali,
-            LocalDate dataPermesso
+            LocalDate dataPermessoInizio
     ) throws BlackBoxPermissionException {
-        return getPermissionsOfSubjectAdvanced(soggetto, oggetti, predicati, ambiti, tipi, dammiPermessiVirtuali, dataPermesso, Direzione.PRESENTE);
+        return getPermissionsOfSubjectAdvanced(soggetto, oggetti, predicati, ambiti, tipi, dammiPermessiVirtuali, dataPermessoInizio, null, Direzione.PRESENTE);
     }
 }

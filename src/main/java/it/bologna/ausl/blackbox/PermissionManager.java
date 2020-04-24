@@ -363,7 +363,8 @@ public class PermissionManager {
             List<String> ambiti, 
             List<String> tipi, 
             Boolean dammiSoggettiPropagati, 
-            LocalDate data, 
+            LocalDate dataInizio, 
+            LocalDate dataFine, 
             Direzione direzione) throws BlackBoxPermissionException {
         if (entitySoggetto == null) {
             throw new BlackBoxPermissionException("il soggetto è obbligatorio");
@@ -395,7 +396,7 @@ public class PermissionManager {
             }
         }
 
-        return permissionRepositoryAccess.getPermissionsOfSubjectAdvanced(soggetto, oggetti, predicati, ambiti, tipi, dammiSoggettiPropagati, data, direzione);
+        return permissionRepositoryAccess.getPermissionsOfSubjectAdvanced(soggetto, oggetti, predicati, ambiti, tipi, dammiSoggettiPropagati, dataInizio, dataFine, direzione);
     }
     public List<PermessoEntitaStoredProcedure> getPermissionsOfSubjectPastFromDate(
             Object entitySoggetto,
@@ -404,10 +405,11 @@ public class PermissionManager {
             List<String> ambiti, 
             List<String> tipi, 
             Boolean dammiSoggettiPropagati, 
-            LocalDate data) throws BlackBoxPermissionException {
+            LocalDate dataInizio,
+            LocalDate dataFine) throws BlackBoxPermissionException {
         
 
-        return this.getPermissionsOfSubjectAdvanced(entitySoggetto, entitiesOggetto, predicati, ambiti, tipi, dammiSoggettiPropagati, data, Direzione.PASSATO);
+        return this.getPermissionsOfSubjectAdvanced(entitySoggetto, entitiesOggetto, predicati, ambiti, tipi, dammiSoggettiPropagati, dataInizio, dataFine, Direzione.PASSATO);
     }
     
     public List<PermessoEntitaStoredProcedure> getPermissionsOfSubjectFutureFromDate(
@@ -417,10 +419,12 @@ public class PermissionManager {
             List<String> ambiti, 
             List<String> tipi, 
             Boolean dammiSoggettiPropagati, 
-            LocalDate data) throws BlackBoxPermissionException {
+            LocalDate dataInizio,
+            LocalDate dataFine
+    ) throws BlackBoxPermissionException {
         
 
-        return this.getPermissionsOfSubjectAdvanced(entitySoggetto, entitiesOggetto, predicati, ambiti, tipi, dammiSoggettiPropagati, data, Direzione.FUTURO);
+        return this.getPermissionsOfSubjectAdvanced(entitySoggetto, entitiesOggetto, predicati, ambiti, tipi, dammiSoggettiPropagati, dataInizio, dataFine, Direzione.FUTURO);
     }
     public List<PermessoEntitaStoredProcedure> getPermissionsOfSubjectActualFromDate(
             Object entitySoggetto,
@@ -429,9 +433,10 @@ public class PermissionManager {
             List<String> ambiti, 
             List<String> tipi, 
             Boolean dammiSoggettiPropagati, 
-            LocalDate data) throws BlackBoxPermissionException {
+            LocalDate dataInizio
+    ) throws BlackBoxPermissionException {
         
-        return this.getPermissionsOfSubjectAdvanced(entitySoggetto, entitiesOggetto, predicati, ambiti, tipi, dammiSoggettiPropagati, data, Direzione.PRESENTE);
+        return this.getPermissionsOfSubjectAdvanced(entitySoggetto, entitiesOggetto, predicati, ambiti, tipi, dammiSoggettiPropagati, dataInizio, null, Direzione.PRESENTE);
     }
 
     /**
