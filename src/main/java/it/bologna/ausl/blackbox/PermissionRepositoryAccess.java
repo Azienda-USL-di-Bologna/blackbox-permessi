@@ -203,18 +203,23 @@ public class PermissionRepositoryAccess {
     /**
      *
      * @param permessoEntitaStoredProcedure
+     * @param dataDiLavoro se si passa null, verrà usata la data odierna
      * @throws BlackBoxPermissionException
      */
-    public void managePermissions(List<PermessoEntitaStoredProcedure> permessoEntitaStoredProcedure) throws BlackBoxPermissionException {
+    public void managePermissions(List<PermessoEntitaStoredProcedure> permessoEntitaStoredProcedure, LocalDate dataDiLavoro) throws BlackBoxPermissionException {
         String permessoEntitaStoredProcedureJsonString = null;
+        String dataDiLavoroString = null;
         try {
             permessoEntitaStoredProcedureJsonString = objectMapper.writeValueAsString(permessoEntitaStoredProcedure);
+            if (dataDiLavoro != null) {
+                dataDiLavoroString = UtilityFunctions.getLocalDateString(dataDiLavoro);
+            }
         } catch (Exception ex) {
             throw new BlackBoxPermissionException("errore nella creazione dei parametri per la chiamata della stored procedure", ex);
         }
 //        System.out.println(permessoEntitaStoredProcedureJsonString);
         try {
-            permessoRepository.managePermissions(permessoEntitaStoredProcedureJsonString);
+            permessoRepository.managePermissions(permessoEntitaStoredProcedureJsonString, dataDiLavoroString);
         } catch (Exception ex) {
             throw new BlackBoxPermissionException("errore nella chiamata alla store procedure", ex);
         }

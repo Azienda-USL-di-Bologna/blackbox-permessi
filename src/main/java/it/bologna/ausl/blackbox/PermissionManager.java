@@ -447,9 +447,10 @@ public class PermissionManager {
      * @param ambito
      * @param tipo
      * @param permessi
+     * @param dataDiLavoro
      * @throws BlackBoxPermissionException
      */
-    public void managePermissions(Object entitySoggetto, Object entityOggetto, String ambito, String tipo, List<PermessoStoredProcedure> permessi) throws BlackBoxPermissionException {
+    public void managePermissions(Object entitySoggetto, Object entityOggetto, String ambito, String tipo, List<PermessoStoredProcedure> permessi, LocalDate dataDiLavoro) throws BlackBoxPermissionException {
         if (entitySoggetto == null) {
             throw new BlackBoxPermissionException("il soggetto è obbligatorio");
         }
@@ -489,6 +490,6 @@ public class PermissionManager {
             }
         }
 
-        permissionRepositoryAccess.managePermissions(Arrays.asList(new PermessoEntitaStoredProcedure[]{permessoEntitaStoredProcedure}));
+        permissionRepositoryAccess.managePermissions(Arrays.asList(new PermessoEntitaStoredProcedure[]{permessoEntitaStoredProcedure}), dataDiLavoro);
     }
 }

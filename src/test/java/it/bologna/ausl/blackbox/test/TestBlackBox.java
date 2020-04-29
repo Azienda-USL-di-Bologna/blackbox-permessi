@@ -112,7 +112,7 @@ public class TestBlackBox {
         PermessoEntitaStoredProcedure permessoEntita = new PermessoEntitaStoredProcedure(soggetto, soggetto, categorie);
         List<PermessoEntitaStoredProcedure> lista = new ArrayList();
         lista.add(permessoEntita);
-        permissionRepositoryAccess.managePermissions(lista);
+        permissionRepositoryAccess.managePermissions(lista, null);
     }
 
     @Test

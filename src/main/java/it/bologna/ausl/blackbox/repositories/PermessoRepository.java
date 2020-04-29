@@ -70,7 +70,8 @@ public interface PermessoRepository extends JpaRepository<Permesso, Integer>, Qu
 
     @Procedure("permessi.manage_permissions")
     public String managePermissions(
-            @Param("in_entities") String in_entities
+            @Param("in_entities") String in_entities,
+            @Param("p_data_di_lavoro") String dataDiLavoro
     );
 
     @Procedure("permessi.get_permissions_of_subject")
