@@ -49,9 +49,9 @@ public class AmbitoSemantico implements Serializable {
     private String[] ambiti;
 
     @Basic(optional = false)
-    @Column(name = "id_predicati", columnDefinition = "integer[]")
+    @Column(name = "id_predicati_ambiti", columnDefinition = "integer[]")
     @Type(type = "array", parameters = @Parameter(name = "elements-type", value = GenericArrayUserType.INTEGER_ELEMENT_TYPE))
-    private Integer[] idPredicati;
+    private Integer[] idPredicatiAmbiti;
 
     public Integer getId() {
         return id;
@@ -77,12 +77,12 @@ public class AmbitoSemantico implements Serializable {
         this.ambiti = ambiti;
     }
 
-    public Integer[] getIdPredicati() {
-        return idPredicati;
+    public Integer[] getIdPredicatiAmbiti() {
+        return idPredicatiAmbiti;
     }
 
-    public void setIdPredicati(Integer[] idPredicati) {
-        this.idPredicati = idPredicati;
+    public void setIdPredicatiAmbiti(Integer[] idPredicatiAmbiti) {
+        this.idPredicatiAmbiti = idPredicatiAmbiti;
     }
 
 }
