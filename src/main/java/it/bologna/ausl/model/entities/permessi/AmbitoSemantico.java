@@ -44,11 +44,6 @@ public class AmbitoSemantico implements Serializable {
     private String semantica;
 
     @Basic(optional = false)
-    @Column(name = "ambiti", columnDefinition = "text[]")
-    @Type(type = "array", parameters = @Parameter(name = "elements-type", value = GenericArrayUserType.TEXT_ELEMENT_TYPE))
-    private String[] ambiti;
-
-    @Basic(optional = false)
     @Column(name = "id_predicati_ambiti", columnDefinition = "integer[]")
     @Type(type = "array", parameters = @Parameter(name = "elements-type", value = GenericArrayUserType.INTEGER_ELEMENT_TYPE))
     private Integer[] idPredicatiAmbiti;
@@ -67,14 +62,6 @@ public class AmbitoSemantico implements Serializable {
 
     public void setSemantica(String semantica) {
         this.semantica = semantica;
-    }
-
-    public String[] getAmbiti() {
-        return ambiti;
-    }
-
-    public void setAmbiti(String[] ambiti) {
-        this.ambiti = ambiti;
     }
 
     public Integer[] getIdPredicatiAmbiti() {
