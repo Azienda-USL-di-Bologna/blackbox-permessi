@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
@@ -48,6 +49,11 @@ public class AmbitoSemantico implements Serializable {
     @Type(type = "array", parameters = @Parameter(name = "elements-type", value = GenericArrayUserType.INTEGER_ELEMENT_TYPE))
     private Integer[] idPredicatiAmbiti;
 
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "default_ambito")
+    private Boolean default_ambito;
+
     public Integer getId() {
         return id;
     }
@@ -70,6 +76,14 @@ public class AmbitoSemantico implements Serializable {
 
     public void setIdPredicatiAmbiti(Integer[] idPredicatiAmbiti) {
         this.idPredicatiAmbiti = idPredicatiAmbiti;
+    }
+
+    public Boolean getDefault_ambito() {
+        return default_ambito;
+    }
+
+    public void setDefault_ambito(Boolean default_ambito) {
+        this.default_ambito = default_ambito;
     }
 
 }
