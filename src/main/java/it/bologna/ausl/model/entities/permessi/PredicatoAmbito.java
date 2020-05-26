@@ -5,11 +5,15 @@ import it.bologna.ausl.internauta.utils.jpa.tools.GenericArrayUserType;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Cacheable;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import org.hibernate.annotations.Parameter;
@@ -27,10 +31,10 @@ import org.hibernate.annotations.TypeDefs;
         }
 )
 @Entity
-@Table(name = "ambiti_semantici", catalog = "internauta", schema = "permessi")
+@Table(name = "predicati_ambiti", catalog = "internauta", schema = "permessi")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Cacheable(false)
-public class AmbitoSemantico implements Serializable {
+public class PredicatoAmbito implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -39,14 +43,22 @@ public class AmbitoSemantico implements Serializable {
     @Column(name = "id")
     private Integer id;
 
+    @JoinColumn(name = "id_predicato", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST}, optional = false)
+    private Predicato idPredicato;
+
     @Size(max = 2147483647)
-    @Column(name = "semantica")
-    private String semantica;
+    @Column(name = "tipo")
+    private String tipo;
+    
+    @Size(max = 2147483647)
+    @Column(name = "ambito")
+    private String ambito;
 
     @Basic(optional = false)
-    @Column(name = "id_predicati_ambiti", columnDefinition = "integer[]")
+    @Column(name = "id_predicati_ambiti_impliciti", columnDefinition = "integer[]")
     @Type(type = "array", parameters = @Parameter(name = "elements-type", value = GenericArrayUserType.INTEGER_ELEMENT_TYPE))
-    private Integer[] idPredicatiAmbiti;
+    private Integer[] idPredicatiAmbitiImpliciti;
 
     public Integer getId() {
         return id;
@@ -56,20 +68,38 @@ public class AmbitoSemantico implements Serializable {
         this.id = id;
     }
 
-    public String getSemantica() {
-        return semantica;
+    public Predicato getIdPredicato() {
+        return idPredicato;
     }
 
-    public void setSemantica(String semantica) {
-        this.semantica = semantica;
+    public void setIdPredicato(Predicato idPredicato) {
+        this.idPredicato = idPredicato;
     }
 
-    public Integer[] getIdPredicatiAmbiti() {
-        return idPredicatiAmbiti;
+    public String getTipo() {
+        return tipo;
     }
 
-    public void setIdPredicatiAmbiti(Integer[] idPredicatiAmbiti) {
-        this.idPredicatiAmbiti = idPredicatiAmbiti;
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
+
+    public String getAmbito() {
+        return ambito;
+    }
+
+    public void setAmbito(String ambito) {
+        this.ambito = ambito;
+    }
+
+    public Integer[] getIdPredicatiAmbitiImpliciti() {
+        return idPredicatiAmbitiImpliciti;
+    }
+
+    public void setIdPredicatiAmbitiImpliciti(Integer[] idPredicatiAmbitiImpliciti) {
+        this.idPredicatiAmbitiImpliciti = idPredicatiAmbitiImpliciti;
+    }
+
+    
 
 }
