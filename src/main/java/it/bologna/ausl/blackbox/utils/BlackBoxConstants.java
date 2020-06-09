@@ -12,6 +12,6 @@ package it.bologna.ausl.blackbox.utils;
 public class BlackBoxConstants {
 
     public static enum Direzione {
-        PASSATO, PRESENTE, FUTURO
+        PASSATO, PRESENTE, FUTURO, NON_SCADUTI
     }
 }
