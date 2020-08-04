@@ -53,6 +53,11 @@ public class AmbitoSemantico implements Serializable {
     @NotNull
     @Column(name = "default_ambito")
     private Boolean default_ambito;
+    
+    @Basic(optional = true)
+    @Column(name = "id_aziende", columnDefinition = "integer[]")
+    @Type(type = "array", parameters = @Parameter(name = "elements-type", value = GenericArrayUserType.INTEGER_ELEMENT_TYPE))
+    private Integer[] idAziende;
 
     public Integer getId() {
         return id;
@@ -86,4 +91,11 @@ public class AmbitoSemantico implements Serializable {
         this.default_ambito = default_ambito;
     }
 
+    public Integer[] getIdAziende() {
+        return idAziende;
+    }
+
+    public void setIdAziende(Integer[] idAziende) {
+        this.idAziende = idAziende;
+    }
 }

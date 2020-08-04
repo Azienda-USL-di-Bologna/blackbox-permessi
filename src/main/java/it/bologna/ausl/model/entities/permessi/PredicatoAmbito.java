@@ -59,6 +59,15 @@ public class PredicatoAmbito implements Serializable {
     @Column(name = "id_predicati_ambiti_impliciti", columnDefinition = "integer[]")
     @Type(type = "array", parameters = @Parameter(name = "elements-type", value = GenericArrayUserType.INTEGER_ELEMENT_TYPE))
     private Integer[] idPredicatiAmbitiImpliciti;
+    
+    @Column(name = "ruoli_gestori", columnDefinition = "text[]")
+    @Type(type = "array", parameters = @Parameter(name = "elements-type", value = GenericArrayUserType.TEXT_ELEMENT_TYPE))
+    private String[] ruoliGestori;
+    
+    @Basic(optional = true)
+    @Column(name = "id_aziende", columnDefinition = "integer[]")
+    @Type(type = "array", parameters = @Parameter(name = "elements-type", value = GenericArrayUserType.INTEGER_ELEMENT_TYPE))
+    private Integer[] idAziende;
 
     public Integer getId() {
         return id;
@@ -100,6 +109,20 @@ public class PredicatoAmbito implements Serializable {
         this.idPredicatiAmbitiImpliciti = idPredicatiAmbitiImpliciti;
     }
 
-    
+    public String[] getRuoliGestori() {
+        return ruoliGestori;
+    }
+
+    public void setRuoliGestori(String[] ruoliGestori) {
+        this.ruoliGestori = ruoliGestori;
+    }
+
+    public Integer[] getIdAziende() {
+        return idAziende;
+    }
+
+    public void setIdAziende(Integer[] idAziende) {
+        this.idAziende = idAziende;
+    }
 
 }
