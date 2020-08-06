@@ -2,6 +2,7 @@ package it.bologna.ausl.model.entities.permessi;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import it.bologna.ausl.internauta.utils.jpa.tools.GenericArrayUserType;
+import it.bologna.ausl.jenesisprojections.annotations.GenerateProjections;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Cacheable;
@@ -31,6 +32,7 @@ import org.hibernate.annotations.TypeDefs;
 @Table(name = "ambiti_semantici", catalog = "internauta", schema = "permessi")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Cacheable(false)
+@GenerateProjections({})
 public class AmbitoSemantico implements Serializable {
 
     private static final long serialVersionUID = 1L;
