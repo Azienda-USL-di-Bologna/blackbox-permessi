@@ -29,7 +29,7 @@ import javax.validation.constraints.Size;
 @Table(name = "entita", catalog = "internauta", schema = "permessi")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Cacheable(false)
-@GenerateProjections({"idTipoEntita", "gruppoRiferimentoList", "idTipoEntita, gruppoRiferimentoList"})
+@GenerateProjections({})
 public class Entita implements Serializable {
 
     private static final long serialVersionUID = 1L;
