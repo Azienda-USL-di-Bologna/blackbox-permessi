@@ -1,6 +1,7 @@
 package it.bologna.ausl.model.entities.permessi;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import it.bologna.ausl.jenesisprojections.annotations.GenerateProjections;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -28,6 +29,7 @@ import javax.validation.constraints.Size;
 @Table(name = "entita", catalog = "internauta", schema = "permessi")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Cacheable(false)
+@GenerateProjections({})
 public class Entita implements Serializable {
 
     private static final long serialVersionUID = 1L;
