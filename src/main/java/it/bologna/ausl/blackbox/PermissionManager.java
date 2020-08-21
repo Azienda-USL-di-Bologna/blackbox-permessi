@@ -31,9 +31,6 @@ public class PermissionManager {
     @Autowired
     ObjectMapper objectMapper;
 
-    @Autowired(required = false)
-    PermessoRepository permessoRepository;
-
     @Autowired
     PermissionRepositoryAccess permissionRepositoryAccess;
 

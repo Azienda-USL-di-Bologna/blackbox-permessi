@@ -2,6 +2,7 @@ package it.bologna.ausl.model.entities.permessi;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import it.bologna.ausl.internauta.utils.jpa.tools.GenericArrayUserType;
+import it.bologna.ausl.jenesisprojections.annotations.GenerateProjections;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Cacheable;
@@ -31,6 +32,7 @@ import org.hibernate.annotations.TypeDefs;
 @Table(name = "ambiti_semantici", catalog = "internauta", schema = "permessi")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Cacheable(false)
+@GenerateProjections({})
 public class AmbitoSemantico implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -53,6 +55,11 @@ public class AmbitoSemantico implements Serializable {
     @NotNull
     @Column(name = "default_ambito")
     private Boolean default_ambito;
+    
+    @Basic(optional = true)
+    @Column(name = "id_aziende", columnDefinition = "integer[]")
+    @Type(type = "array", parameters = @Parameter(name = "elements-type", value = GenericArrayUserType.INTEGER_ELEMENT_TYPE))
+    private Integer[] idAziende;
 
     public Integer getId() {
         return id;
@@ -86,4 +93,11 @@ public class AmbitoSemantico implements Serializable {
         this.default_ambito = default_ambito;
     }
 
+    public Integer[] getIdAziende() {
+        return idAziende;
+    }
+
+    public void setIdAziende(Integer[] idAziende) {
+        this.idAziende = idAziende;
+    }
 }

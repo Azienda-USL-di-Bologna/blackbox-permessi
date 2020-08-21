@@ -3,6 +3,7 @@ package it.bologna.ausl.model.entities.permessi;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import it.bologna.ausl.jenesisprojections.annotations.GenerateProjections;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -31,6 +32,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Table(name = "permessi", catalog = "internauta", schema = "permessi")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Cacheable(false)
+@GenerateProjections({})
 //@NamedStoredProcedureQuery(name = "permessi.entity_has_permission", procedureName = "permessi.entity_has_permission",
 //        parameters = {
 //            @StoredProcedureParameter(mode = ParameterMode.IN, name = "soggetti", type = String.class),

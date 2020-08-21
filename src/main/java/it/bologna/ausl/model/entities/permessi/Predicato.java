@@ -3,6 +3,7 @@ package it.bologna.ausl.model.entities.permessi;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import it.bologna.ausl.internauta.utils.jpa.tools.GenericArrayUserType;
+import it.bologna.ausl.jenesisprojections.annotations.GenerateProjections;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -36,6 +37,7 @@ import org.hibernate.annotations.TypeDefs;
 @Table(name = "predicati", catalog = "internauta", schema = "permessi")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Cacheable(false)
+@GenerateProjections({"permessoList"})
 public class Predicato implements Serializable {
 
     private static final long serialVersionUID = 1L;
