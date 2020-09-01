@@ -1,5 +1,6 @@
 package it.bologna.ausl.model.entities.permessi;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import it.bologna.ausl.jenesisprojections.annotations.GenerateProjections;
 import java.io.Serializable;
@@ -43,18 +44,25 @@ public class Entita implements Serializable {
     @Size(min = 1, max = 2147483647)
     @Column(name = "id_provenienza")
     private Integer idProvenienza;
+    @JsonBackReference(value = "permessiSoggettoList")
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "idSoggetto")
     private List<Permesso> permessiSoggettoList;
+    @JsonBackReference(value = "permessiOggettoList")
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "idOggetto")
     private List<Permesso> permessiOggettoList;
     @JoinColumn(name = "id_tipo_entita", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private TipoEntita idTipoEntita;
+    @JsonBackReference(value = "gruppoRiferimentoList")
     @OneToMany(mappedBy = "idEntitaRiferimento", fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private List<Gruppo> gruppoRiferimentoList;
-
+    @JsonBackReference(value = "gruppiList")
     @ManyToMany(mappedBy = "entitaList", fetch = FetchType.LAZY)
     private List<Gruppo> gruppiList;
+
+    public static enum TabelleTipiEntita {
+        pec, persone, strutture, utenti
+    }
 
     public Entita() {
     }
@@ -148,5 +156,5 @@ public class Entita implements Serializable {
     public String toString() {
         return "it.bologna.ausl.model.entities.permessi.Entita[ id=" + id + " ]";
     }
-    
+
 }
