@@ -11,5 +11,5 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
  * @author gdm
  */
 @RepositoryRestResource(collectionResourceRel = "tipoentita", path = "tipoentita", exported = false)
-public interface TipoEntitaRepository extends JpaRepository<TipoEntita, Integer>, QuerydslPredicateExecutor<QTipoEntita> {
+public interface TipoEntitaRepository extends JpaRepository<TipoEntita, Integer>, QuerydslPredicateExecutor<TipoEntita> {
 }
