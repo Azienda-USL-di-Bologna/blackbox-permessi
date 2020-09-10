@@ -5,21 +5,35 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import it.bologna.ausl.blackbox.PermissionManager;
 import it.bologna.ausl.blackbox.PermissionRepositoryAccess;
 import it.bologna.ausl.blackbox.exceptions.BlackBoxPermissionException;
+import it.bologna.ausl.blackbox.test.repositories.ContattoRepository;
 import it.bologna.ausl.blackbox.test.repositories.PecRepository;
+import it.bologna.ausl.blackbox.test.repositories.PersonaRepository;
 import it.bologna.ausl.blackbox.test.repositories.StrutturaRepository;
 import it.bologna.ausl.blackbox.test.repositories.UtenteRepository;
+import it.bologna.ausl.blackbox.utils.BlackBoxConstants;
 import it.bologna.ausl.internauta.utils.bds.types.CategoriaPermessiStoredProcedure;
 import it.bologna.ausl.internauta.utils.bds.types.EntitaStoredProcedure;
 import it.bologna.ausl.internauta.utils.bds.types.PermessoEntitaStoredProcedure;
 import it.bologna.ausl.internauta.utils.bds.types.PermessoStoredProcedure;
+import it.bologna.ausl.model.entities.baborg.Persona;
 import it.bologna.ausl.model.entities.baborg.Struttura;
 import it.bologna.ausl.model.entities.baborg.Utente;
+import it.bologna.ausl.model.entities.rubrica.Contatto;
+import it.bologna.ausl.model.entities.rubrica.QContatto;
+import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 import javax.persistence.EntityManager;
+import jdk.nashorn.internal.AssertsEnabled;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Test;
@@ -53,6 +67,12 @@ public class TestBlackBox {
 
     @Autowired
     ObjectMapper objectMapper;
+
+    @Autowired
+    PersonaRepository personaRepository;
+
+    @Autowired
+    ContattoRepository contattoRepository;
 
 //    @Test
 //    @Transactional
@@ -126,7 +146,7 @@ public class TestBlackBox {
         List<PermessoEntitaStoredProcedure> res = permissionRepositoryAccess.getPermissionsOfSubjectPastTillDate(soggetto, null, Arrays.asList(new String[]{predicato}), null, null, true, null, null);
         List<PermessoEntitaStoredProcedure> res2;
         res2 = permissionRepositoryAccess.getPermissionsOfSubjectActualFromDate(soggetto, null, Arrays.asList(new String[]{predicato}), null, null, true, null);
-        List<PermessoEntitaStoredProcedure> res3 = permissionRepositoryAccess.getPermissionsOfSubjectFutureFromDate(soggetto, null, Arrays.asList(new String[]{predicato}), null, null, true, null,null);
+        List<PermessoEntitaStoredProcedure> res3 = permissionRepositoryAccess.getPermissionsOfSubjectFutureFromDate(soggetto, null, Arrays.asList(new String[]{predicato}), null, null, true, null, null);
         Assert.assertThat("PermissionsOfSubjectPastFromDate", res, Matchers.anything());
         Assert.assertThat("PermissionsOfSubjectActualFromDate", res2, Matchers.anything());
         Assert.assertThat("PermissionsOfSubjectFutureFromDate", res3, Matchers.anything());
@@ -146,7 +166,6 @@ public class TestBlackBox {
 //        List<PermessoEntitaStoredProcedure> res = permissionRepositoryAccess.getPermissionsOfSubject(soggetto, null, Arrays.asList(new String[]{predicato}), null, null, true, now, null);
 //        Assert.assertThat("GetPermissionsOfSubject", res, Matchers.anything());
 //    }
-
 //    @Test
 //    @Transactional
 //    public void testGetPermissionOfSubjectConOggetto() throws BlackBoxPermissionException, JsonProcessingException {
@@ -160,4 +179,25 @@ public class TestBlackBox {
 //        System.out.println("RES\n" + objectMapper.writeValueAsString(res));
 //        Assert.assertThat("GetPermissionsOfSubject", res, Matchers.anything());
 //    }
+    //@Test
+    @Transactional
+    public void testGetSubjectPermissionsOnObjectsMap() throws Exception {
+        Persona persona = personaRepository.findById(245578).get();
+
+        Iterable<Contatto> findAll = contattoRepository.findAll(QContatto.contatto.id.in(Arrays.asList(7624879, 8270072)));
+        List<Object> contatti = StreamSupport
+                .stream(findAll.spliterator(), false)
+                .collect(Collectors.toList());
+        try {
+            Map<String, Map<Integer, PermessoStoredProcedure>> mapOfPermissionsOfSubjectAdvanced = permissionManager.getMapOfPermissionsOfSubjectAdvanced(persona, contatti, Arrays.asList("ACCESSO", "DELEGA"), "RUBRICA", "CONTATTO", Boolean.FALSE, LocalDate.now(), null, BlackBoxConstants.Direzione.PRESENTE);
+            Assert.assertNotNull("Risposta nulla", mapOfPermissionsOfSubjectAdvanced);
+            //Assert.assertNotEquals("Risposta vuota", mapOfPermissionsOfSubjectAdvanced.size(), 0);
+            String risultatoString = objectMapper.writeValueAsString(mapOfPermissionsOfSubjectAdvanced);
+            System.out.println("*****\n" + risultatoString + "\n*****");
+        } catch (Exception ex) {
+            //ssert.assertEquals(true, true);
+            Logger.getLogger(TestBlackBox.class.getName()).log(Level.SEVERE, null, ex);
+            throw ex;
+        }
+    }
 }
