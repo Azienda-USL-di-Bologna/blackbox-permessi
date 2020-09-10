@@ -11,5 +11,5 @@ import org.springframework.data.querydsl.QuerydslPredicateExecutor;
  * nome tutto in minuscolo
  */
 @RepositoryRestResource(collectionResourceRel = "pec", path = "pec", exported = false)
-public interface PecRepository extends JpaRepository<Pec, Integer>, QuerydslPredicateExecutor<QPec> {
+public interface PecRepository extends JpaRepository<Pec, Integer>, QuerydslPredicateExecutor<Pec> {
 }

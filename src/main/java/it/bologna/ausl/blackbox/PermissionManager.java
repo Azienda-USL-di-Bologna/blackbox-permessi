@@ -13,9 +13,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.persistence.Table;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -352,16 +355,15 @@ public class PermissionManager {
 //
 //        return permissionRepositoryAccess.getPermissionsOfSubject(soggetto, oggetti, predicati, ambiti, tipi, dammiSoggettiPropagati, data, estraiStorico);
 //    }
-
     public List<PermessoEntitaStoredProcedure> getPermissionsOfSubjectAdvanced(
             Object entitySoggetto,
             List<Object> entitiesOggetto,
-            List<String> predicati, 
-            List<String> ambiti, 
-            List<String> tipi, 
-            Boolean dammiSoggettiPropagati, 
-            LocalDate dataInizio, 
-            LocalDate dataFine, 
+            List<String> predicati,
+            List<String> ambiti,
+            List<String> tipi,
+            Boolean dammiSoggettiPropagati,
+            LocalDate dataInizio,
+            LocalDate dataFine,
             Direzione direzione) throws BlackBoxPermissionException {
         if (entitySoggetto == null) {
             throw new BlackBoxPermissionException("il soggetto è obbligatorio");
@@ -395,44 +397,86 @@ public class PermissionManager {
 
         return permissionRepositoryAccess.getPermissionsOfSubjectAdvanced(soggetto, oggetti, predicati, ambiti, tipi, dammiSoggettiPropagati, dataInizio, dataFine, direzione);
     }
+
+    public Map<String, Map<Integer, PermessoStoredProcedure>> getSubjectPermissionsOnObjectsMap(Integer idProvenienzaSoggetto, List<PermessoEntitaStoredProcedure> permessoEntitaStoredProcedure, String ambito, String tipo) {
+        Map<String, Map<Integer, PermessoStoredProcedure>> res = new HashMap();
+        for (PermessoEntitaStoredProcedure pesp : permessoEntitaStoredProcedure) {
+            if (pesp.getSoggetto().getIdProvenienza().equals(idProvenienzaSoggetto)) {
+                List<CategoriaPermessiStoredProcedure> categorie = pesp.getCategorie().stream()
+                        .filter(categoria -> categoria.getAmbito().equals(ambito)
+                        && categoria.getTipo().equals(tipo)).collect(Collectors.toList());
+                if (categorie != null && !categorie.isEmpty()) {
+                    CategoriaPermessiStoredProcedure cat = categorie.get(0);
+                    for (PermessoStoredProcedure permessoStoredProcedure : cat.getPermessi()) {
+                        Map<Integer, PermessoStoredProcedure> oggettoMap = res.get(permessoStoredProcedure.getPredicato());
+                        if (oggettoMap == null) {
+                            oggettoMap = new HashMap();
+                        }
+                        oggettoMap.put(pesp.getOggetto().getIdProvenienza(), permessoStoredProcedure);
+                        res.put(permessoStoredProcedure.getPredicato(), oggettoMap);
+                    }
+                }
+
+            }
+        }
+        return res;
+    }
+
+    public Map<String, Map<Integer, PermessoStoredProcedure>> getMapOfPermissionsOfSubjectAdvanced(
+            Object entitySoggetto,
+            List<Object> entitiesOggetto,
+            List<String> predicati,
+            String ambito,
+            String tipo,
+            Boolean dammiSoggettiPropagati,
+            LocalDate dataInizio,
+            LocalDate dataFine,
+            Direzione direzione) throws BlackBoxPermissionException, ClassNotFoundException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+
+        List<PermessoEntitaStoredProcedure> permissionsOfSubjectAdvanced = this.getPermissionsOfSubjectAdvanced(entitySoggetto, entitiesOggetto, predicati, Arrays.asList(new String[]{ambito}), Arrays.asList(new String[]{tipo}), dammiSoggettiPropagati, dataInizio, dataFine, direzione);
+        Table soggettoTableAnnotation = UtilityFunctions.getFirstAnnotationOverEntity(entitySoggetto.getClass(), Table.class);
+        EntitaStoredProcedure soggetto = new EntitaStoredProcedure((Integer) UtilityFunctions.getPkValue(entitySoggetto), soggettoTableAnnotation.schema(), soggettoTableAnnotation.name());
+        Integer idProvenienzaSoggetto = soggetto.getIdProvenienza();
+        return getSubjectPermissionsOnObjectsMap(idProvenienzaSoggetto, permissionsOfSubjectAdvanced, ambito, tipo);
+    }
+
     public List<PermessoEntitaStoredProcedure> getPermissionsOfSubjectPastFromDate(
             Object entitySoggetto,
             List<Object> entitiesOggetto,
-            List<String> predicati, 
-            List<String> ambiti, 
-            List<String> tipi, 
-            Boolean dammiSoggettiPropagati, 
+            List<String> predicati,
+            List<String> ambiti,
+            List<String> tipi,
+            Boolean dammiSoggettiPropagati,
             LocalDate dataInizio,
             LocalDate dataFine) throws BlackBoxPermissionException {
-        
 
         return this.getPermissionsOfSubjectAdvanced(entitySoggetto, entitiesOggetto, predicati, ambiti, tipi, dammiSoggettiPropagati, dataInizio, dataFine, Direzione.PASSATO);
     }
-    
+
     public List<PermessoEntitaStoredProcedure> getPermissionsOfSubjectFutureFromDate(
             Object entitySoggetto,
             List<Object> entitiesOggetto,
-            List<String> predicati, 
-            List<String> ambiti, 
-            List<String> tipi, 
-            Boolean dammiSoggettiPropagati, 
+            List<String> predicati,
+            List<String> ambiti,
+            List<String> tipi,
+            Boolean dammiSoggettiPropagati,
             LocalDate dataInizio,
             LocalDate dataFine
     ) throws BlackBoxPermissionException {
-        
 
         return this.getPermissionsOfSubjectAdvanced(entitySoggetto, entitiesOggetto, predicati, ambiti, tipi, dammiSoggettiPropagati, dataInizio, dataFine, Direzione.FUTURO);
     }
+
     public List<PermessoEntitaStoredProcedure> getPermissionsOfSubjectActualFromDate(
             Object entitySoggetto,
             List<Object> entitiesOggetto,
-            List<String> predicati, 
-            List<String> ambiti, 
-            List<String> tipi, 
-            Boolean dammiSoggettiPropagati, 
+            List<String> predicati,
+            List<String> ambiti,
+            List<String> tipi,
+            Boolean dammiSoggettiPropagati,
             LocalDate dataInizio
     ) throws BlackBoxPermissionException {
-        
+
         return this.getPermissionsOfSubjectAdvanced(entitySoggetto, entitiesOggetto, predicati, ambiti, tipi, dammiSoggettiPropagati, dataInizio, null, Direzione.PRESENTE);
     }
 
