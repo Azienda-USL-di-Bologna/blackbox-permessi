@@ -120,7 +120,7 @@ public interface PermessoRepository extends JpaRepository<Permesso, Integer>, Qu
             @Param("p_data_permesso_fine") String dataPermessoFine
     );
 
-    @Procedure("permessi.get_permissions_of_subject_advanced")
+@Procedure("permessi.get_permissions_of_subject_advanced")
     public String getPermissionsOfSubjectAdvanced(
             @Param("soggetto") String soggetto,
             @Param("oggetti") String oggetti,
@@ -130,7 +130,8 @@ public interface PermessoRepository extends JpaRepository<Permesso, Integer>, Qu
             @Param("dammi_permessi_virtuali") Boolean dammiPermessiVirtuali,
             @Param("p_data_permesso_inizio") String dataPermessoInizio,
             @Param("p_data_permesso_fine") String dataPermessoFine,
-            @Param("direzione") String direzione
+            @Param("direzione") String direzione,
+            @Param("soggetti_virtuali") String soggettiVirtuali
     );
 
 //    @Query(nativeQuery = true, 
