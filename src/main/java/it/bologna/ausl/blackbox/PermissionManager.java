@@ -321,40 +321,7 @@ public class PermissionManager {
         }
         permissionRepositoryAccess.deletePermission(soggetto, oggetto, predicato, originePermesso, null, propagaSoggetto, propagaOggetto, ambito, tipo, null);
     }
-
-//    public List<PermessoEntitaStoredProcedure> getPermissionsOfSubject(Object entitySoggetto, List<Object> entitiesOggetto, List<String> predicati, List<String> ambiti, List<String> tipi, Boolean dammiSoggettiPropagati, LocalDate data, Boolean estraiStorico) throws BlackBoxPermissionException {
-//        if (entitySoggetto == null) {
-//            throw new BlackBoxPermissionException("il soggetto è obbligatorio");
-//        }
-//
-//        EntitaStoredProcedure soggetto = null;
-//        List<EntitaStoredProcedure> oggetti = null;
-//        Table soggettoTableAnnotation;
-//        try {
-//            soggettoTableAnnotation = UtilityFunctions.getFirstAnnotationOverEntity(entitySoggetto.getClass(), Table.class);
-//            soggetto = new EntitaStoredProcedure((Integer) UtilityFunctions.getPkValue(entitySoggetto), soggettoTableAnnotation.schema(), soggettoTableAnnotation.name());
-//        } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-//            // Logger.getLogger(PermissionManager.class.getName()).log(Level.SEVERE, null, ex);
-//            throw new BlackBoxPermissionException("errore nella creazione del soggetto", ex);
-//        }
-//
-//        if (entitiesOggetto != null) {
-//            oggetti = new ArrayList<>();
-//            for (Object object : entitiesOggetto) {
-//                try {
-//                    Table oggettoTableAnnotation = UtilityFunctions.getFirstAnnotationOverEntity(object.getClass(),
-//                            Table.class);
-//                    oggetti.add(new EntitaStoredProcedure((Integer) UtilityFunctions.getPkValue(object),
-//                            oggettoTableAnnotation.schema(), oggettoTableAnnotation.name()));
-//                } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException
-//                        | IllegalArgumentException | InvocationTargetException ex) {
-//                    throw new BlackBoxPermissionException("errore nella creazione dell'oggetto", ex);
-//                }
-//            }
-//        }
-//
-//        return permissionRepositoryAccess.getPermissionsOfSubject(soggetto, oggetti, predicati, ambiti, tipi, dammiSoggettiPropagati, data, estraiStorico);
-//    }
+    
     public List<PermessoEntitaStoredProcedure> getPermissionsOfSubjectAdvanced(
             Object entitySoggetto,
             List<Object> entitiesOggetto,
@@ -365,12 +332,27 @@ public class PermissionManager {
             LocalDate dataInizio,
             LocalDate dataFine,
             Direzione direzione) throws BlackBoxPermissionException {
+        return getPermissionsOfSubjectAdvanced(entitySoggetto, entitiesOggetto, predicati, ambiti, tipi, dammiSoggettiPropagati, dataInizio, dataFine, null, direzione);
+    }
+
+    public List<PermessoEntitaStoredProcedure> getPermissionsOfSubjectAdvanced(
+            Object entitySoggetto,
+            List<Object> entitiesOggetto,
+            List<String> predicati,
+            List<String> ambiti,
+            List<String> tipi,
+            Boolean dammiSoggettiPropagati,
+            LocalDate dataInizio,
+            LocalDate dataFine,
+            List<Object> permessiVirtualiOggetto,
+            Direzione direzione) throws BlackBoxPermissionException {
         if (entitySoggetto == null) {
             throw new BlackBoxPermissionException("il soggetto è obbligatorio");
         }
 
         EntitaStoredProcedure soggetto = null;
         List<EntitaStoredProcedure> oggetti = null;
+        List<EntitaStoredProcedure> permessiVirtuali = null;
         Table soggettoTableAnnotation;
         try {
             soggettoTableAnnotation = UtilityFunctions.getFirstAnnotationOverEntity(entitySoggetto.getClass(), Table.class);
@@ -394,8 +376,23 @@ public class PermissionManager {
                 }
             }
         }
+        
+        if (permessiVirtualiOggetto != null) {
+            permessiVirtuali = new ArrayList<>();
+            for (Object object : permessiVirtualiOggetto) {
+                try {
+                    Table permessoVirtualeTableAnnotation = UtilityFunctions.getFirstAnnotationOverEntity(object.getClass(),
+                            Table.class);
+                    permessiVirtuali.add(new EntitaStoredProcedure((Integer) UtilityFunctions.getPkValue(object),
+                            permessoVirtualeTableAnnotation.schema(), permessoVirtualeTableAnnotation.name()));
+                } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException
+                        | IllegalArgumentException | InvocationTargetException ex) {
+                    throw new BlackBoxPermissionException("errore nella creazione dell'oggetto", ex);
+                }
+            }
+        }
 
-        return permissionRepositoryAccess.getPermissionsOfSubjectAdvanced(soggetto, oggetti, predicati, ambiti, tipi, dammiSoggettiPropagati, dataInizio, dataFine, direzione);
+        return permissionRepositoryAccess.getPermissionsOfSubjectAdvanced(soggetto, oggetti, predicati, ambiti, tipi, dammiSoggettiPropagati, dataInizio, dataFine, permessiVirtuali, direzione);
     }
 
     public Map<String, Map<Integer, PermessoStoredProcedure>> getSubjectPermissionsOnObjectsMap(Integer idProvenienzaSoggetto, List<PermessoEntitaStoredProcedure> permessoEntitaStoredProcedure, String ambito, String tipo) {
