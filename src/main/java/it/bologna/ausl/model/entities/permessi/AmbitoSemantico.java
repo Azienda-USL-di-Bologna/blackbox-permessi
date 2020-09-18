@@ -2,7 +2,8 @@ package it.bologna.ausl.model.entities.permessi;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import it.bologna.ausl.internauta.utils.jpa.tools.GenericArrayUserType;
-import it.bologna.ausl.jenesisprojections.annotations.GenerateProjections;
+import it.nextsw.common.annotations.GenerateProjections;
+
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Cacheable;
@@ -51,15 +52,28 @@ public class AmbitoSemantico implements Serializable {
     @Type(type = "array", parameters = @Parameter(name = "elements-type", value = GenericArrayUserType.INTEGER_ELEMENT_TYPE))
     private Integer[] idPredicatiAmbiti;
 
+    @Basic(optional = true)
+    @Column(name = "ruoli_gestori", columnDefinition = "text[]")
+    @Type(type = "array", parameters = @Parameter(name = "elements-type", value = GenericArrayUserType.TEXT_ELEMENT_TYPE))
+    private String[] ruoliGestori;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "default_ambito")
     private Boolean default_ambito;
-    
+
     @Basic(optional = true)
     @Column(name = "id_aziende", columnDefinition = "integer[]")
     @Type(type = "array", parameters = @Parameter(name = "elements-type", value = GenericArrayUserType.INTEGER_ELEMENT_TYPE))
     private Integer[] idAziende;
+
+    public String[] getRuoliGestori() {
+        return ruoliGestori;
+    }
+
+    public void setRuoliGestori(String[] ruoliGestori) {
+        this.ruoliGestori = ruoliGestori;
+    }
 
     public Integer getId() {
         return id;

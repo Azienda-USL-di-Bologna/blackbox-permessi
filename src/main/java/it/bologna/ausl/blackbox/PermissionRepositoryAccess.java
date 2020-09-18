@@ -265,6 +265,18 @@ public class PermissionRepositoryAccess {
 //            throw new BlackBoxPermissionException("errore nella chiamata alla store procedure", ex);
 //        }
 //    }
+public List<PermessoEntitaStoredProcedure> getPermissionsOfSubjectAdvanced(
+            EntitaStoredProcedure soggetto,
+            List<EntitaStoredProcedure> oggetti,
+            List<String> predicati,
+            List<String> ambiti,
+            List<String> tipi,
+            Boolean dammiPermessiVirtuali,
+            LocalDate dataPermessoInizio,
+            LocalDate dataPermessoFine,
+            Direzione direzione) throws BlackBoxPermissionException {
+         return getPermissionsOfSubjectAdvanced(soggetto, oggetti, predicati, ambiti, tipi, dammiPermessiVirtuali, dataPermessoInizio, dataPermessoFine, null, direzione);
+    }
 
     public List<PermessoEntitaStoredProcedure> getPermissionsOfSubjectAdvanced(
             EntitaStoredProcedure soggetto,
@@ -275,10 +287,12 @@ public class PermissionRepositoryAccess {
             Boolean dammiPermessiVirtuali,
             LocalDate dataPermessoInizio,
             LocalDate dataPermessoFine,
+            List<EntitaStoredProcedure> soggettiVirtuali,
             Direzione direzione) throws BlackBoxPermissionException {
 
         String soggettoString;
         String oggettiString = null;
+        String soggettiVirtualiString = null;
         String predicatiArrayString;
         String ambitiArrayString;
         String tipiArrayString;
@@ -289,6 +303,10 @@ public class PermissionRepositoryAccess {
             soggettoString = objectMapper.writeValueAsString(soggetto);
             if (oggetti != null) {
                 oggettiString = objectMapper.writeValueAsString(oggetti);
+            }
+            
+            if (soggettiVirtuali != null) {
+                soggettiVirtualiString = objectMapper.writeValueAsString(soggettiVirtuali);
             }
 
             predicatiArrayString = UtilityFunctions.getArrayString(objectMapper, predicati);
@@ -305,7 +323,7 @@ public class PermissionRepositoryAccess {
         }
 
         try {
-            String res = permessoRepository.getPermissionsOfSubjectAdvanced(soggettoString, oggettiString, predicatiArrayString, ambitiArrayString, tipiArrayString, dammiPermessiVirtuali, dataPermessoInizioString, dataPermessoFineString, direzione.toString());
+            String res = permessoRepository.getPermissionsOfSubjectAdvanced(soggettoString, oggettiString, predicatiArrayString, ambitiArrayString, tipiArrayString, dammiPermessiVirtuali, dataPermessoInizioString, dataPermessoFineString, direzione.toString(), soggettiVirtualiString);
             if (res != null) {
                 return objectMapper.readValue(res, new TypeReference<List<PermessoEntitaStoredProcedure>>() {
                 });
