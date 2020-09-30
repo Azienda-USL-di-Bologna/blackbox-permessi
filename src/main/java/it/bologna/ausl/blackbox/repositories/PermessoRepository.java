@@ -134,6 +134,17 @@ public interface PermessoRepository extends JpaRepository<Permesso, Integer>, Qu
             @Param("soggetti_virtuali") String soggettiVirtuali
     );
 
+@Procedure("permessi.get_permissions_advanced")
+    public String getPermissionsAdvanced(
+            @Param("predicati") String predicati,
+            @Param("ambiti") String ambiti,
+            @Param("tipi") String tipi,
+            @Param("aziende") String aziende,
+            @Param("p_data_permesso_inizio") String dataPermessoInizio,
+            @Param("p_data_permesso_fine") String dataPermessoFine,
+            @Param("direzione") String direzione
+    );
+
 //    @Query(nativeQuery = true, 
 //            value = "select entity_has_permission from permessi.entity_has_permission("
 //                    + ":soggetti\\:\\:text\\:\\:json, "
