@@ -394,6 +394,17 @@ public class PermissionManager {
 
         return permissionRepositoryAccess.getPermissionsOfSubjectAdvanced(soggetto, oggetti, predicati, ambiti, tipi, dammiSoggettiPropagati, dataInizio, dataFine, permessiVirtuali, direzione);
     }
+    public List<PermessoEntitaStoredProcedure> getPermissionsAdvanced(
+            List<String> predicati,
+            List<String> ambiti,
+            List<String> tipi,
+            List<String> aziende,
+            LocalDate dataInizio,
+            LocalDate dataFine,
+            Direzione direzione) throws BlackBoxPermissionException {
+
+        return permissionRepositoryAccess.getPermissionsAdvanced(predicati, ambiti, tipi, aziende,dataInizio, dataFine, direzione);
+    }
 
     public Map<String, Map<Integer, PermessoStoredProcedure>> getSubjectPermissionsOnObjectsMap(Integer idProvenienzaSoggetto, List<PermessoEntitaStoredProcedure> permessoEntitaStoredProcedure, String ambito, String tipo) {
         Map<String, Map<Integer, PermessoStoredProcedure>> res = new HashMap();
