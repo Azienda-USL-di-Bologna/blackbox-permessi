@@ -2,6 +2,8 @@ package it.bologna.ausl.model.entities.permessi;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import it.nextsw.common.annotations.GenerateProjections;
+
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -29,6 +31,7 @@ import javax.validation.constraints.Size;
 @Table(name = "gruppi", catalog = "internauta", schema = "permessi")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Cacheable(false)
+@GenerateProjections({})
 public class Gruppo implements Serializable {
 
     private static final long serialVersionUID = 1L;

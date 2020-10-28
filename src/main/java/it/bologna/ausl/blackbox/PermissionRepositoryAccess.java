@@ -224,7 +224,7 @@ public class PermissionRepositoryAccess {
             throw new BlackBoxPermissionException("errore nella chiamata alla store procedure", ex);
         }
     }
-    
+
 //    public List<PermessoEntitaStoredProcedure> getPermissionsOfSubject(EntitaStoredProcedure soggetto,
 //            List<EntitaStoredProcedure> oggetti, List<String> predicati,
 //            List<String> ambiti, List<String> tipi, Boolean dammiPermessiVirtuali,
@@ -265,7 +265,6 @@ public class PermissionRepositoryAccess {
 //            throw new BlackBoxPermissionException("errore nella chiamata alla store procedure", ex);
 //        }
 //    }
-
     public List<PermessoEntitaStoredProcedure> getPermissionsOfSubjectAdvanced(
             EntitaStoredProcedure soggetto,
             List<EntitaStoredProcedure> oggetti,
@@ -276,9 +275,24 @@ public class PermissionRepositoryAccess {
             LocalDate dataPermessoInizio,
             LocalDate dataPermessoFine,
             Direzione direzione) throws BlackBoxPermissionException {
+        return getPermissionsOfSubjectAdvanced(soggetto, oggetti, predicati, ambiti, tipi, dammiPermessiVirtuali, dataPermessoInizio, dataPermessoFine, null, direzione);
+    }
+
+    public List<PermessoEntitaStoredProcedure> getPermissionsOfSubjectAdvanced(
+            EntitaStoredProcedure soggetto,
+            List<EntitaStoredProcedure> oggetti,
+            List<String> predicati,
+            List<String> ambiti,
+            List<String> tipi,
+            Boolean dammiPermessiVirtuali,
+            LocalDate dataPermessoInizio,
+            LocalDate dataPermessoFine,
+            List<EntitaStoredProcedure> soggettiVirtuali,
+            Direzione direzione) throws BlackBoxPermissionException {
 
         String soggettoString;
         String oggettiString = null;
+        String soggettiVirtualiString = null;
         String predicatiArrayString;
         String ambitiArrayString;
         String tipiArrayString;
@@ -289,6 +303,10 @@ public class PermissionRepositoryAccess {
             soggettoString = objectMapper.writeValueAsString(soggetto);
             if (oggetti != null) {
                 oggettiString = objectMapper.writeValueAsString(oggetti);
+            }
+
+            if (soggettiVirtuali != null) {
+                soggettiVirtualiString = objectMapper.writeValueAsString(soggettiVirtuali);
             }
 
             predicatiArrayString = UtilityFunctions.getArrayString(objectMapper, predicati);
@@ -305,7 +323,54 @@ public class PermissionRepositoryAccess {
         }
 
         try {
-            String res = permessoRepository.getPermissionsOfSubjectAdvanced(soggettoString, oggettiString, predicatiArrayString, ambitiArrayString, tipiArrayString, dammiPermessiVirtuali, dataPermessoInizioString, dataPermessoFineString, direzione.toString());
+            String res = permessoRepository.getPermissionsOfSubjectAdvanced(soggettoString, oggettiString, predicatiArrayString, ambitiArrayString, tipiArrayString, dammiPermessiVirtuali, dataPermessoInizioString, dataPermessoFineString, direzione.toString(), soggettiVirtualiString);
+            if (res != null) {
+                return objectMapper.readValue(res, new TypeReference<List<PermessoEntitaStoredProcedure>>() {
+                });
+            } else {
+                return null;
+            }
+        } catch (Exception ex) {
+            throw new BlackBoxPermissionException("errore nella chiamata alla store procedure", ex);
+        }
+    }
+
+    public List<PermessoEntitaStoredProcedure> getPermissionsAdvanced(
+            List<String> predicati,
+            List<String> ambiti,
+            List<String> tipi,
+            List<String> aziende,
+            LocalDate dataPermessoInizio,
+            LocalDate dataPermessoFine,
+            Direzione direzione) throws BlackBoxPermissionException {
+
+        String predicatiArrayString;
+        String aziendeArrayString;
+        String ambitiArrayString;
+        String tipiArrayString;
+        String dataPermessoInizioString = null;
+        String dataPermessoFineString = null;
+
+        try {
+
+            predicatiArrayString = UtilityFunctions.getArrayString(objectMapper, predicati);
+            aziendeArrayString = UtilityFunctions.getArrayString(objectMapper, aziende);
+            ambitiArrayString = UtilityFunctions.getArrayString(objectMapper, ambiti);
+            tipiArrayString = UtilityFunctions.getArrayString(objectMapper, tipi);
+            if (dataPermessoInizio != null) {
+                dataPermessoInizioString = UtilityFunctions.getLocalDateString(dataPermessoInizio);
+            }
+            if (dataPermessoFine != null) {
+                dataPermessoFineString = UtilityFunctions.getLocalDateString(dataPermessoFine);
+            }
+        } catch (Exception ex) {
+            throw new BlackBoxPermissionException("errore nella creazione dei parametri per la chiamata della stored procedure", ex);
+        }
+
+        try {
+            String direzioneString = (direzione != null) ? direzione.toString() : null;
+            String res = permessoRepository.getPermissionsAdvanced(predicatiArrayString, ambitiArrayString, tipiArrayString, aziendeArrayString, dataPermessoInizioString, dataPermessoFineString, direzioneString);
+
             if (res != null) {
                 return objectMapper.readValue(res, new TypeReference<List<PermessoEntitaStoredProcedure>>() {
                 });
@@ -342,6 +407,7 @@ public class PermissionRepositoryAccess {
     ) throws BlackBoxPermissionException {
         return getPermissionsOfSubjectAdvanced(soggetto, oggetti, predicati, ambiti, tipi, dammiPermessiVirtuali, dataPermessoInizio, dataPermessoFine, Direzione.FUTURO);
     }
+
     public List<PermessoEntitaStoredProcedure> getPermissionsOfSubjectActualFromDate(
             EntitaStoredProcedure soggetto,
             List<EntitaStoredProcedure> oggetti,

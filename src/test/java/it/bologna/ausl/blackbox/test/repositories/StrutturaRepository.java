@@ -11,5 +11,5 @@ import org.springframework.data.querydsl.QuerydslPredicateExecutor;
  * nome tutto in minuscolo
  */
 @RepositoryRestResource(collectionResourceRel = "struttura", path = "struttura", exported = false)
-public interface StrutturaRepository extends JpaRepository<Struttura, Integer>, QuerydslPredicateExecutor<QStruttura> {
+public interface StrutturaRepository extends JpaRepository<Struttura, Integer>, QuerydslPredicateExecutor<Struttura> {
 }
