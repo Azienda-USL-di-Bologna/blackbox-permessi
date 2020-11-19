@@ -391,6 +391,33 @@ public class PermissionManager {
 
         return permissionRepositoryAccess.getPermissionsOfSubjectAdvanced(soggetto, oggetti, predicati, ambiti, tipi, dammiSoggettiPropagati, dataInizio, dataFine, permessiVirtuali, direzione);
     }
+    
+    public List<PermessoEntitaStoredProcedure> getPermissionsByPredicate(
+            String predicato,
+            String ambito,
+            String tipo,
+            Object entitaGruppoSoggetto,
+            Object entitaGruppoOggetto) throws BlackBoxPermissionException {
+        
+        List<String> predicati = new ArrayList<>();
+        predicati.add(predicato);
+        List<String> ambiti = new ArrayList<>();
+        ambiti.add(ambito);
+        List<String> tipi = new ArrayList<>();
+        tipi.add(tipo);
+        List<Object> entitiesGruppiSoggetto = new ArrayList<>();
+        entitiesGruppiSoggetto.add(entitaGruppoSoggetto);
+        List<Object> entitiesGruppiOggetto = new ArrayList<>();
+        entitiesGruppiOggetto.add(entitaGruppoOggetto);
+        
+        return getPermissionsByPredicate(
+            predicati,
+            ambiti,
+            tipi,
+            entitiesGruppiSoggetto,
+            entitiesGruppiOggetto);
+    }
+    
     public List<PermessoEntitaStoredProcedure> getPermissionsByPredicate(
             List<String> predicati,
             List<String> ambiti,
