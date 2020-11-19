@@ -3,7 +3,6 @@ package it.bologna.ausl.blackbox;
 import it.bologna.ausl.internauta.utils.bds.types.EntitaStoredProcedure;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.bologna.ausl.blackbox.exceptions.BlackBoxPermissionException;
-import it.bologna.ausl.blackbox.repositories.PermessoRepository;
 import it.bologna.ausl.blackbox.utils.BlackBoxConstants.Direzione;
 import it.bologna.ausl.internauta.utils.bds.types.CategoriaPermessiStoredProcedure;
 import it.bologna.ausl.internauta.utils.bds.types.PermessoEntitaStoredProcedure;
@@ -16,8 +15,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.persistence.Table;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -394,16 +391,47 @@ public class PermissionManager {
 
         return permissionRepositoryAccess.getPermissionsOfSubjectAdvanced(soggetto, oggetti, predicati, ambiti, tipi, dammiSoggettiPropagati, dataInizio, dataFine, permessiVirtuali, direzione);
     }
-    public List<PermessoEntitaStoredProcedure> getPermissionsAdvanced(
+    public List<PermessoEntitaStoredProcedure> getPermissionsByPredicate(
             List<String> predicati,
             List<String> ambiti,
             List<String> tipi,
-            List<String> aziende,
-            LocalDate dataInizio,
-            LocalDate dataFine,
-            Direzione direzione) throws BlackBoxPermissionException {
-
-        return permissionRepositoryAccess.getPermissionsAdvanced(predicati, ambiti, tipi, aziende,dataInizio, dataFine, direzione);
+            List<Object> entitiesGruppiSoggetto,
+            List<Object> entitiesGruppiOggetto) throws BlackBoxPermissionException {
+        
+        List<EntitaStoredProcedure> gruppiSoggetto = null;
+        List<EntitaStoredProcedure> gruppiOggetto = null;
+        
+        if (entitiesGruppiSoggetto != null) {
+            gruppiSoggetto = new ArrayList<>();
+            for (Object object : entitiesGruppiSoggetto) {
+                try {
+                    Table oggettoTableAnnotation = UtilityFunctions.getFirstAnnotationOverEntity(object.getClass(),
+                            Table.class);
+                    gruppiSoggetto.add(new EntitaStoredProcedure((Integer) UtilityFunctions.getPkValue(object),
+                            oggettoTableAnnotation.schema(), oggettoTableAnnotation.name()));
+                } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException
+                        | IllegalArgumentException | InvocationTargetException ex) {
+                    throw new BlackBoxPermissionException("errore nella creazione dell'oggetto", ex);
+                }
+            }
+        }
+        
+        if (entitiesGruppiOggetto != null) {
+            gruppiOggetto = new ArrayList<>();
+            for (Object object : entitiesGruppiOggetto) {
+                try {
+                    Table oggettoTableAnnotation = UtilityFunctions.getFirstAnnotationOverEntity(object.getClass(),
+                            Table.class);
+                    gruppiOggetto.add(new EntitaStoredProcedure((Integer) UtilityFunctions.getPkValue(object),
+                            oggettoTableAnnotation.schema(), oggettoTableAnnotation.name()));
+                } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException
+                        | IllegalArgumentException | InvocationTargetException ex) {
+                    throw new BlackBoxPermissionException("errore nella creazione dell'oggetto", ex);
+                }
+            }
+        }
+        
+        return permissionRepositoryAccess.getPermissionsByPredicate(predicati, ambiti, tipi, gruppiSoggetto, gruppiOggetto);
     }
 
     public Map<String, Map<Integer, PermessoStoredProcedure>> getSubjectPermissionsOnObjectsMap(Integer idProvenienzaSoggetto, List<PermessoEntitaStoredProcedure> permessoEntitaStoredProcedure, String ambito, String tipo) {
