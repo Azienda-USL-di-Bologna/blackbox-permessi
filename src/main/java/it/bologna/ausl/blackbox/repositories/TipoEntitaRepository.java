@@ -12,4 +12,6 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
  */
 @RepositoryRestResource(collectionResourceRel = "tipoentita", path = "tipoentita", exported = false)
 public interface TipoEntitaRepository extends JpaRepository<TipoEntita, Integer>, QuerydslPredicateExecutor<TipoEntita> {
+
+    public TipoEntita findBytargetSchemaAndTargetTable(String targetSchema, String targetTable);
 }
