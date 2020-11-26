@@ -120,7 +120,7 @@ public interface PermessoRepository extends JpaRepository<Permesso, Integer>, Qu
             @Param("p_data_permesso_fine") String dataPermessoFine
     );
 
-@Procedure("permessi.get_permissions_of_subject_advanced")
+    @Procedure("permessi.get_permissions_of_subject_advanced")
     public String getPermissionsOfSubjectAdvanced(
             @Param("soggetto") String soggetto,
             @Param("oggetti") String oggetti,
@@ -134,15 +134,24 @@ public interface PermessoRepository extends JpaRepository<Permesso, Integer>, Qu
             @Param("soggetti_virtuali") String soggettiVirtuali
     );
 
-@Procedure("permessi.get_permissions_advanced")
-    public String getPermissionsAdvanced(
+//    @Procedure("permessi.get_permissions_advanced")
+//    public String getPermissionsAdvanced(
+//            @Param("predicati") String predicati,
+//            @Param("ambiti") String ambiti,
+//            @Param("tipi") String tipi,
+//            @Param("aziende") String aziende,
+//            @Param("p_data_permesso_inizio") String dataPermessoInizio,
+//            @Param("p_data_permesso_fine") String dataPermessoFine,
+//            @Param("direzione") String direzione
+//    );
+    
+    @Procedure("permessi.get_permissions_by_predicate")
+    public String getPermissionsByPredicate(
             @Param("predicati") String predicati,
             @Param("ambiti") String ambiti,
             @Param("tipi") String tipi,
-            @Param("aziende") String aziende,
-            @Param("p_data_permesso_inizio") String dataPermessoInizio,
-            @Param("p_data_permesso_fine") String dataPermessoFine,
-            @Param("direzione") String direzione
+            @Param("gruppi_soggetto") String gruppiSoggetto,
+            @Param("gruppi_oggetto") String gruppiOggetto
     );
 
 //    @Query(nativeQuery = true, 
