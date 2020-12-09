@@ -335,41 +335,42 @@ public class PermissionRepositoryAccess {
         }
     }
 
-    public List<PermessoEntitaStoredProcedure> getPermissionsAdvanced(
+    public List<PermessoEntitaStoredProcedure> getPermissionsByPredicate(
             List<String> predicati,
             List<String> ambiti,
             List<String> tipi,
-            List<String> aziende,
-            LocalDate dataPermessoInizio,
-            LocalDate dataPermessoFine,
-            Direzione direzione) throws BlackBoxPermissionException {
+            List<EntitaStoredProcedure> gruppiSoggetto,
+            List<EntitaStoredProcedure> gruppiOggetto) throws BlackBoxPermissionException {
 
         String predicatiArrayString;
-        String aziendeArrayString;
         String ambitiArrayString;
         String tipiArrayString;
-        String dataPermessoInizioString = null;
-        String dataPermessoFineString = null;
+        String gruppiSoggettoString = null;
+        String gruppiOggettoString = null;
 
         try {
 
             predicatiArrayString = UtilityFunctions.getArrayString(objectMapper, predicati);
-            aziendeArrayString = UtilityFunctions.getArrayString(objectMapper, aziende);
             ambitiArrayString = UtilityFunctions.getArrayString(objectMapper, ambiti);
             tipiArrayString = UtilityFunctions.getArrayString(objectMapper, tipi);
-            if (dataPermessoInizio != null) {
-                dataPermessoInizioString = UtilityFunctions.getLocalDateString(dataPermessoInizio);
+            if (gruppiSoggetto != null) {
+                gruppiSoggettoString = objectMapper.writeValueAsString(gruppiSoggetto);
             }
-            if (dataPermessoFine != null) {
-                dataPermessoFineString = UtilityFunctions.getLocalDateString(dataPermessoFine);
+            if (gruppiOggetto != null) {
+                gruppiOggettoString = objectMapper.writeValueAsString(gruppiOggetto);
             }
+            
         } catch (Exception ex) {
             throw new BlackBoxPermissionException("errore nella creazione dei parametri per la chiamata della stored procedure", ex);
         }
 
         try {
-            String direzioneString = (direzione != null) ? direzione.toString() : null;
-            String res = permessoRepository.getPermissionsAdvanced(predicatiArrayString, ambitiArrayString, tipiArrayString, aziendeArrayString, dataPermessoInizioString, dataPermessoFineString, direzioneString);
+            String res = permessoRepository.getPermissionsByPredicate(
+                    predicatiArrayString, 
+                    ambitiArrayString, 
+                    tipiArrayString, 
+                    gruppiSoggettoString,
+                    gruppiOggettoString);
 
             if (res != null) {
                 return objectMapper.readValue(res, new TypeReference<List<PermessoEntitaStoredProcedure>>() {
