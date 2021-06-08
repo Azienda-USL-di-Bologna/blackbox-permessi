@@ -10,6 +10,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -57,6 +58,15 @@ public class UtilityFunctions {
     
     public static String getLocalDateTimeString(LocalDateTime date) {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss");
+        return date.format(dateTimeFormatter);
+    }
+    
+    public static String getZonedDateTimeString(ZonedDateTime date){
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss ZZZZ");
+        return date.format(dateTimeFormatter);
+    }
+    public static String getZonedDateString(ZonedDateTime date){
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         return date.format(dateTimeFormatter);
     }
     
