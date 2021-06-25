@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
@@ -34,6 +35,7 @@ import org.hibernate.annotations.TypeDefs;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Cacheable(false)
 @GenerateProjections({})
+@DynamicUpdate
 public class AmbitoSemantico implements Serializable {
 
     private static final long serialVersionUID = 1L;
