@@ -23,6 +23,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
@@ -34,6 +35,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Cacheable(false)
 @GenerateProjections({})
+@DynamicUpdate
 //@NamedStoredProcedureQuery(name = "permessi.entity_has_permission", procedureName = "permessi.entity_has_permission",
 //        parameters = {
 //            @StoredProcedureParameter(mode = ParameterMode.IN, name = "soggetti", type = String.class),

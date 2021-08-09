@@ -18,6 +18,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
+import org.hibernate.annotations.DynamicUpdate;
 
 /**
  *
@@ -28,6 +29,7 @@ import javax.validation.constraints.Size;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Cacheable(false)
 @GenerateProjections({})
+@DynamicUpdate
 public class TipoEntita implements Serializable {
 
     private static final long serialVersionUID = 1L;
