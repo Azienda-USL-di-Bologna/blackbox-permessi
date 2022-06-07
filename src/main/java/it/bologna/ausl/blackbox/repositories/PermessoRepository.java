@@ -37,7 +37,8 @@ public interface PermessoRepository extends JpaRepository<Permesso, Integer>, Qu
             @Param("predicati") String predicati,
             @Param("ambiti") String ambiti,
             @Param("tipi") String tipi,
-            @Param("dammi_soggetti_propagati") Boolean dammiSoggettiPropagati
+            @Param("dammi_soggetti_propagati") Boolean dammiSoggettiPropagati,
+            @Param("dammi_oggetti_propagati") Boolean dammiOggettiPropagati
     );
 
     @Procedure("permessi.insert_simple_permission")
