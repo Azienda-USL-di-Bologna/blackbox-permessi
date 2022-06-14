@@ -214,11 +214,18 @@ public class PermissionManager {
         if (entityOggetto == null) {
             throw new BlackBoxPermissionException("entità oggetto non passata");
         } else {
-            return getSubjectsWithPermissionsOnObject(Arrays.asList(new Object[]{entityOggetto}), predicati, ambiti, tipi, dammiSoggettiPropagati);
+            return getSubjectsWithPermissionsOnObject(Arrays.asList(new Object[]{entityOggetto}), predicati, ambiti, tipi, dammiSoggettiPropagati,dammiSoggettiPropagati);
+        }
+    }
+     public List<PermessoEntitaStoredProcedure> getSubjectsWithPermissionsOnObject(Object entityOggetto, List<String> predicati, List<String> ambiti, List<String> tipi, Boolean dammiSoggettiPropagati,Boolean dammiOggettiPropagati) throws BlackBoxPermissionException {
+        if (entityOggetto == null) {
+            throw new BlackBoxPermissionException("entità oggetto non passata");
+        } else {
+            return getSubjectsWithPermissionsOnObject(Arrays.asList(new Object[]{entityOggetto}), predicati, ambiti, tipi, dammiSoggettiPropagati,dammiOggettiPropagati);
         }
     }
     
-    public List<PermessoEntitaStoredProcedure> getSubjectsWithPermissionsOnObject(List<Object> entitiesOggetto, List<String> predicati, List<String> ambiti, List<String> tipi, Boolean dammiSoggettiPropagati) throws BlackBoxPermissionException {
+    public List<PermessoEntitaStoredProcedure> getSubjectsWithPermissionsOnObject(List<Object> entitiesOggetto, List<String> predicati, List<String> ambiti, List<String> tipi, Boolean dammiSoggettiPropagati,Boolean dammiOggettiPropagati) throws BlackBoxPermissionException {
         if (entitiesOggetto == null || entitiesOggetto.isEmpty()) {
             throw new BlackBoxPermissionException("deve essere pasasta almeno un'entità oggetto");
         }
@@ -234,7 +241,7 @@ public class PermissionManager {
                 throw new BlackBoxPermissionException("errore nella creazione dell'oggetto", ex);
             }
         }
-        return permissionRepositoryAccess.getSubjectsWithPermissionsOnObjects(oggetti, predicati, ambiti, tipi, dammiSoggettiPropagati);
+        return permissionRepositoryAccess.getSubjectsWithPermissionsOnObjects(oggetti, predicati, ambiti, tipi, dammiSoggettiPropagati,dammiOggettiPropagati);
     }
 
     /**
