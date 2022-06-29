@@ -105,7 +105,7 @@ public class PermissionRepositoryAccess {
      * @return
      * @throws BlackBoxPermissionException
      */
-    public List<PermessoEntitaStoredProcedure> getSubjectsWithPermissionsOnObjects(List<EntitaStoredProcedure> oggetti, List<String> predicati, List<String> ambiti, List<String> tipi, Boolean dammiSoggettiPropagati,Boolean dammiOggettiPropagati) throws BlackBoxPermissionException {
+    public List<PermessoEntitaStoredProcedure> getSubjectsWithPermissionsOnObjects(List<EntitaStoredProcedure> oggetti, List<String> predicati, List<String> ambiti, List<String> tipi, Boolean dammiSoggettiPropagati, Boolean dammiOggettiPropagati) throws BlackBoxPermissionException {
 
         String oggettiJsonString = null;
         String predicatiArrayString;
@@ -122,7 +122,7 @@ public class PermissionRepositoryAccess {
         }
 
         try {
-            String res = permessoRepository.getSubjectsWithPermissionsOnObjects(oggettiJsonString, predicatiArrayString, ambitiArrayString, tipiArrayString, dammiSoggettiPropagati,dammiOggettiPropagati);
+            String res = permessoRepository.getSubjectsWithPermissionsOnObjects(oggettiJsonString, predicatiArrayString, ambitiArrayString, tipiArrayString, dammiSoggettiPropagati, dammiOggettiPropagati);
             if (res != null) {
                 return objectMapper.readValue(res, new TypeReference<List<PermessoEntitaStoredProcedure>>() {
                 });
