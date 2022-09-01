@@ -1,0 +1,6 @@
+syntax: glob
+nb-configuration.xml
+target
+blackbox-permessi.iml
+.project
+.classpath
