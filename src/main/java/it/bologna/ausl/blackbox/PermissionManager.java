@@ -1,13 +1,13 @@
 package it.bologna.ausl.blackbox;
 
-import it.bologna.ausl.internauta.utils.bds.types.EntitaStoredProcedure;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.bologna.ausl.blackbox.exceptions.BlackBoxPermissionException;
 import it.bologna.ausl.blackbox.utils.BlackBoxConstants.Direzione;
-import it.bologna.ausl.internauta.utils.bds.types.CategoriaPermessiStoredProcedure;
-import it.bologna.ausl.internauta.utils.bds.types.PermessoEntitaStoredProcedure;
-import it.bologna.ausl.internauta.utils.bds.types.PermessoStoredProcedure;
 import it.bologna.ausl.blackbox.utils.UtilityFunctions;
+import it.bologna.ausl.internauta.model.bds.types.CategoriaPermessiStoredProcedure;
+import it.bologna.ausl.internauta.model.bds.types.EntitaStoredProcedure;
+import it.bologna.ausl.internauta.model.bds.types.PermessoEntitaStoredProcedure;
+import it.bologna.ausl.internauta.model.bds.types.PermessoStoredProcedure;
 import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
 import java.util.ArrayList;
