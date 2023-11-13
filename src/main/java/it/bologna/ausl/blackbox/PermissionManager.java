@@ -328,7 +328,7 @@ public class PermissionManager {
     
     public List<PermessoEntitaStoredProcedure> getPermissionsOfSubjectAdvanced(
             Object entitySoggetto,
-            List<Object> entitiesOggetto,
+            List<? extends Object> entitiesOggetto,
             List<String> predicati,
             List<String> ambiti,
             List<String> tipi,
@@ -341,7 +341,7 @@ public class PermissionManager {
     
     public List<PermessoEntitaStoredProcedure> getPermissionsOfSubjectAdvanced(
             Object entitySoggetto,
-            List<Object> entitiesOggetto,
+            List<? extends Object> entitiesOggetto,
             List<String> predicati,
             List<String> ambiti,
             List<String> tipi,
@@ -539,7 +539,7 @@ public class PermissionManager {
     
     public List<PermessoEntitaStoredProcedure> getPermissionsOfSubjectActualFromDate(
             Object entitySoggetto,
-            List<Object> entitiesOggetto,
+            List<? extends Object> entitiesOggetto,
             List<String> predicati,
             List<String> ambiti,
             List<String> tipi,
