@@ -56,11 +56,18 @@
             <version>1.0-SNAPSHOT</version>
             <type>jar</type>
         </dependency>
-        <dependency>
+<!--        <dependency>
             <groupId>it.bologna.ausl.internauta.utils</groupId>
             <artifactId>jpa-tools</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
+        </dependency>-->
+        <dependency>
+            <groupId>it.bologna.ausl.internauta.utils</groupId>
+            <artifactId>masterjobs</artifactId>
+            <version>1.1</version>
+            <type>jar</type>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

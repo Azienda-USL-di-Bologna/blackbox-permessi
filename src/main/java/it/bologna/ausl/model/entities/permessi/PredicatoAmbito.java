@@ -1,7 +1,8 @@
 package it.bologna.ausl.model.entities.permessi;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import it.bologna.ausl.internauta.utils.jpa.tools.GenericArrayUserType;
+import com.vladmihalcea.hibernate.type.array.IntArrayType;
+import com.vladmihalcea.hibernate.type.array.StringArrayType;
 import it.nextsw.common.data.annotations.GenerateProjections;
 
 import java.io.Serializable;
@@ -19,7 +20,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
@@ -30,7 +30,8 @@ import org.hibernate.annotations.TypeDefs;
  */
 @TypeDefs(
         {
-            @TypeDef(name = "array", typeClass = GenericArrayUserType.class)
+            @TypeDef(name = "int-array", typeClass = IntArrayType.class),
+            @TypeDef(name = "string-array", typeClass = StringArrayType.class),
         }
 )
 @Entity
@@ -62,16 +63,16 @@ public class PredicatoAmbito implements Serializable {
 
     @Basic(optional = false)
     @Column(name = "id_predicati_ambiti_impliciti", columnDefinition = "integer[]")
-    @Type(type = "array", parameters = @Parameter(name = "elements-type", value = GenericArrayUserType.INTEGER_ELEMENT_TYPE))
+   @Type(type = "string-array")
     private Integer[] idPredicatiAmbitiImpliciti;
     
     @Column(name = "ruoli_gestori", columnDefinition = "text[]")
-    @Type(type = "array", parameters = @Parameter(name = "elements-type", value = GenericArrayUserType.TEXT_ELEMENT_TYPE))
+   @Type(type = "string-array")
     private String[] ruoliGestori;
     
     @Basic(optional = true)
     @Column(name = "id_aziende", columnDefinition = "integer[]")
-    @Type(type = "array", parameters = @Parameter(name = "elements-type", value = GenericArrayUserType.INTEGER_ELEMENT_TYPE))
+    @Type(type = "string-array")
     private Integer[] idAziende;
 
     public Integer getId() {
