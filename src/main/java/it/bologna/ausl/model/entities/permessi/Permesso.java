@@ -7,6 +7,7 @@ import it.nextsw.common.data.annotations.GenerateProjections;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Cacheable;
@@ -54,37 +55,72 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class Permesso implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    
     @Size(max = 2147483647)
     @Column(name = "origine_permesso")
     private String originePermesso;
+    
+    @Size(max = 2147483647)
+    @Column(name = "spento_da")
+    private String spentoDa;
+    
     @Basic(optional = false)
     @NotNull
     @Column(name = "propaga_soggetto")
     private Boolean propagaSoggetto;
+    
     @Basic(optional = false)
     @NotNull
     @Column(name = "propaga_oggetto")
     private Boolean propagaOggetto;
+    
     @Size(max = 2147483647)
     @Column(name = "ambito")
     private String ambito;
+    
+    @Size(max = 2147483647)
+    @Column(name = "tipo")
+    private String tipo;
+        
     @Basic(optional = false)
     @NotNull
     @Column(name = "data_permesso")
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    private LocalDateTime dataPermesso;
+    private ZonedDateTime dataPermesso;
+    
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "attivo_dal")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private ZonedDateTime attivoDal;
+    
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "attivo_al")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private ZonedDateTime attivoAl;
+    
     @JoinColumn(name = "id_soggetto", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private Entita idSoggetto;
+    
     @JoinColumn(name = "id_oggetto", referencedColumnName = "id")
     @ManyToOne(optional = true, fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private Entita idOggetto;
+    
+    @JoinColumn(name = "id_entita_veicolante", referencedColumnName = "id")
+    @ManyToOne(optional = true, fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    private Entita idEntitaVeicolante;
+    
     @JoinColumn(name = "id_predicato", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST}, optional = false)
     private Predicato idPredicato;
@@ -104,7 +140,7 @@ public class Permesso implements Serializable {
         this.id = id;
     }
 
-    public Permesso(Integer id, boolean propagaSoggetto, boolean propagaOggetto, LocalDateTime dataPermesso) {
+    public Permesso(Integer id, boolean propagaSoggetto, boolean propagaOggetto, ZonedDateTime dataPermesso) {
         this.id = id;
         this.propagaSoggetto = propagaSoggetto;
         this.propagaOggetto = propagaOggetto;
@@ -127,19 +163,27 @@ public class Permesso implements Serializable {
         this.originePermesso = originePermesso;
     }
 
-    public boolean getPropagaSoggetto() {
+    public String getSpentoDa() {
+        return spentoDa;
+    }
+
+    public void setSpentoDa(String spentoDa) {
+        this.spentoDa = spentoDa;
+    }
+
+    public Boolean getPropagaSoggetto() {
         return propagaSoggetto;
     }
 
-    public void setPropagaSoggetto(boolean propagaSoggetto) {
+    public void setPropagaSoggetto(Boolean propagaSoggetto) {
         this.propagaSoggetto = propagaSoggetto;
     }
 
-    public boolean getPropagaOggetto() {
+    public Boolean getPropagaOggetto() {
         return propagaOggetto;
     }
 
-    public void setPropagaOggetto(boolean propagaOggetto) {
+    public void setPropagaOggetto(Boolean propagaOggetto) {
         this.propagaOggetto = propagaOggetto;
     }
 
@@ -151,12 +195,36 @@ public class Permesso implements Serializable {
         this.ambito = ambito;
     }
 
-    public LocalDateTime getDataPermesso() {
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public ZonedDateTime getDataPermesso() {
         return dataPermesso;
     }
 
-    public void setDataPermesso(LocalDateTime dataPermesso) {
+    public void setDataPermesso(ZonedDateTime dataPermesso) {
         this.dataPermesso = dataPermesso;
+    }
+
+    public ZonedDateTime getAttivoDal() {
+        return attivoDal;
+    }
+
+    public void setAttivoDal(ZonedDateTime attivoDal) {
+        this.attivoDal = attivoDal;
+    }
+
+    public ZonedDateTime getAttivoAl() {
+        return attivoAl;
+    }
+
+    public void setAttivoAl(ZonedDateTime attivoAl) {
+        this.attivoAl = attivoAl;
     }
 
     public Entita getIdSoggetto() {
@@ -173,6 +241,14 @@ public class Permesso implements Serializable {
 
     public void setIdOggetto(Entita idOggetto) {
         this.idOggetto = idOggetto;
+    }
+
+    public Entita getIdEntitaVeicolante() {
+        return idEntitaVeicolante;
+    }
+
+    public void setIdEntitaVeicolante(Entita idEntitaVeicolante) {
+        this.idEntitaVeicolante = idEntitaVeicolante;
     }
 
     public Predicato getIdPredicato() {
