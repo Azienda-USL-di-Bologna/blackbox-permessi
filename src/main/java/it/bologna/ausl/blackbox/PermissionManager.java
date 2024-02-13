@@ -10,6 +10,7 @@ import it.bologna.ausl.internauta.model.bds.types.PermessoEntitaStoredProcedure;
 import it.bologna.ausl.internauta.model.bds.types.PermessoStoredProcedure;
 import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -333,8 +334,8 @@ public class PermissionManager {
             List<String> ambiti,
             List<String> tipi,
             Boolean dammiSoggettiPropagati,
-            LocalDate dataInizio,
-            LocalDate dataFine,
+            ZonedDateTime dataInizio,
+            ZonedDateTime dataFine,
             Direzione direzione) throws BlackBoxPermissionException {
         return getPermissionsOfSubjectAdvanced(entitySoggetto, entitiesOggetto, predicati, ambiti, tipi, dammiSoggettiPropagati, dataInizio, dataFine, null, direzione);
     }
@@ -346,8 +347,8 @@ public class PermissionManager {
             List<String> ambiti,
             List<String> tipi,
             Boolean dammiSoggettiPropagati,
-            LocalDate dataInizio,
-            LocalDate dataFine,
+            ZonedDateTime dataInizio,
+            ZonedDateTime dataFine,
             List<Object> permessiVirtualiOggetto,
             Direzione direzione) throws BlackBoxPermissionException {
         if (entitySoggetto == null) {
@@ -499,8 +500,8 @@ public class PermissionManager {
             String ambito,
             String tipo,
             Boolean dammiSoggettiPropagati,
-            LocalDate dataInizio,
-            LocalDate dataFine,
+            ZonedDateTime dataInizio,
+            ZonedDateTime dataFine,
             Direzione direzione) throws BlackBoxPermissionException, ClassNotFoundException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         
         List<PermessoEntitaStoredProcedure> permissionsOfSubjectAdvanced = this.getPermissionsOfSubjectAdvanced(entitySoggetto, entitiesOggetto, predicati, Arrays.asList(new String[]{ambito}), Arrays.asList(new String[]{tipo}), dammiSoggettiPropagati, dataInizio, dataFine, direzione);
@@ -517,8 +518,8 @@ public class PermissionManager {
             List<String> ambiti,
             List<String> tipi,
             Boolean dammiSoggettiPropagati,
-            LocalDate dataInizio,
-            LocalDate dataFine) throws BlackBoxPermissionException {
+            ZonedDateTime dataInizio,
+            ZonedDateTime dataFine) throws BlackBoxPermissionException {
         
         return this.getPermissionsOfSubjectAdvanced(entitySoggetto, entitiesOggetto, predicati, ambiti, tipi, dammiSoggettiPropagati, dataInizio, dataFine, Direzione.PASSATO);
     }
@@ -530,8 +531,8 @@ public class PermissionManager {
             List<String> ambiti,
             List<String> tipi,
             Boolean dammiSoggettiPropagati,
-            LocalDate dataInizio,
-            LocalDate dataFine
+            ZonedDateTime dataInizio,
+            ZonedDateTime dataFine
     ) throws BlackBoxPermissionException {
         
         return this.getPermissionsOfSubjectAdvanced(entitySoggetto, entitiesOggetto, predicati, ambiti, tipi, dammiSoggettiPropagati, dataInizio, dataFine, Direzione.FUTURO);
@@ -544,7 +545,7 @@ public class PermissionManager {
             List<String> ambiti,
             List<String> tipi,
             Boolean dammiSoggettiPropagati,
-            LocalDate dataInizio
+            ZonedDateTime dataInizio
     ) throws BlackBoxPermissionException {
         
         return this.getPermissionsOfSubjectAdvanced(entitySoggetto, entitiesOggetto, predicati, ambiti, tipi, dammiSoggettiPropagati, dataInizio, null, Direzione.PRESENTE);
