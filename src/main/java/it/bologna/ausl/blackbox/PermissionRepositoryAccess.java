@@ -9,7 +9,6 @@ import it.bologna.ausl.blackbox.utils.UtilityFunctions;
 import it.bologna.ausl.internauta.model.bds.types.EntitaStoredProcedure;
 import it.bologna.ausl.internauta.model.bds.types.PermessoEntitaStoredProcedure;
 import java.time.LocalDate;
-import java.time.ZonedDateTime;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -273,8 +272,8 @@ public class PermissionRepositoryAccess {
             List<String> ambiti,
             List<String> tipi,
             Boolean dammiPermessiVirtuali,
-            ZonedDateTime dataPermessoInizio,
-            ZonedDateTime dataPermessoFine,
+            LocalDate dataPermessoInizio,
+            LocalDate dataPermessoFine,
             Direzione direzione) throws BlackBoxPermissionException {
         return getPermissionsOfSubjectAdvanced(soggetto, oggetti, predicati, ambiti, tipi, dammiPermessiVirtuali, dataPermessoInizio, dataPermessoFine, null, direzione);
     }
@@ -286,8 +285,8 @@ public class PermissionRepositoryAccess {
             List<String> ambiti,
             List<String> tipi,
             Boolean dammiPermessiVirtuali,
-            ZonedDateTime dataPermessoInizio,
-            ZonedDateTime dataPermessoFine,
+            LocalDate dataPermessoInizio,
+            LocalDate dataPermessoFine,
             List<EntitaStoredProcedure> soggettiVirtuali,
             Direzione direzione) throws BlackBoxPermissionException {
 
@@ -314,10 +313,10 @@ public class PermissionRepositoryAccess {
             ambitiArrayString = UtilityFunctions.getArrayString(objectMapper, ambiti);
             tipiArrayString = UtilityFunctions.getArrayString(objectMapper, tipi);
             if (dataPermessoInizio != null) {
-                dataPermessoInizioString = UtilityFunctions.getZonedDateTimeString(dataPermessoInizio);
+                dataPermessoInizioString = UtilityFunctions.getLocalDateString(dataPermessoInizio);
             }
             if (dataPermessoFine != null) {
-                dataPermessoFineString = UtilityFunctions.getZonedDateTimeString(dataPermessoFine);
+                dataPermessoFineString = UtilityFunctions.getLocalDateString(dataPermessoFine);
             }
         } catch (Exception ex) {
             throw new BlackBoxPermissionException("errore nella creazione dei parametri per la chiamata della stored procedure", ex);
@@ -391,8 +390,8 @@ public class PermissionRepositoryAccess {
             List<String> ambiti,
             List<String> tipi,
             Boolean dammiPermessiVirtuali,
-            ZonedDateTime dataPermessoInizio,
-            ZonedDateTime dataPermessoFine
+            LocalDate dataPermessoInizio,
+            LocalDate dataPermessoFine
     ) throws BlackBoxPermissionException {
         return getPermissionsOfSubjectAdvanced(soggetto, oggetti, predicati, ambiti, tipi, dammiPermessiVirtuali, dataPermessoInizio, dataPermessoFine, Direzione.PASSATO);
     }
@@ -404,8 +403,8 @@ public class PermissionRepositoryAccess {
             List<String> ambiti,
             List<String> tipi,
             Boolean dammiPermessiVirtuali,
-            ZonedDateTime dataPermessoInizio,
-            ZonedDateTime dataPermessoFine
+            LocalDate dataPermessoInizio,
+            LocalDate dataPermessoFine
     ) throws BlackBoxPermissionException {
         return getPermissionsOfSubjectAdvanced(soggetto, oggetti, predicati, ambiti, tipi, dammiPermessiVirtuali, dataPermessoInizio, dataPermessoFine, Direzione.FUTURO);
     }
@@ -417,7 +416,7 @@ public class PermissionRepositoryAccess {
             List<String> ambiti,
             List<String> tipi,
             Boolean dammiPermessiVirtuali,
-            ZonedDateTime dataPermessoInizio
+            LocalDate dataPermessoInizio
     ) throws BlackBoxPermissionException {
         return getPermissionsOfSubjectAdvanced(soggetto, oggetti, predicati, ambiti, tipi, dammiPermessiVirtuali, dataPermessoInizio, null, Direzione.PRESENTE);
     }

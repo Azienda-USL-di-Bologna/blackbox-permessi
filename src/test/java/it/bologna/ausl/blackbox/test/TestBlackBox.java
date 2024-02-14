@@ -1,5 +1,6 @@
 package it.bologna.ausl.blackbox.test;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.bologna.ausl.blackbox.PermissionManager;
 import it.bologna.ausl.blackbox.PermissionRepositoryAccess;
@@ -19,18 +20,20 @@ import it.bologna.ausl.model.entities.baborg.Struttura;
 import it.bologna.ausl.model.entities.baborg.Utente;
 import it.bologna.ausl.model.entities.rubrica.Contatto;
 import it.bologna.ausl.model.entities.rubrica.QContatto;
+import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 import javax.persistence.EntityManager;
+import jdk.nashorn.internal.AssertsEnabled;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Test;
@@ -186,7 +189,7 @@ public class TestBlackBox {
                 .stream(findAll.spliterator(), false)
                 .collect(Collectors.toList());
         try {
-            Map<String, Map<Integer, PermessoStoredProcedure>> mapOfPermissionsOfSubjectAdvanced = permissionManager.getMapOfPermissionsOfSubjectAdvanced(persona, contatti, Arrays.asList("ACCESSO", "DELEGA"), "RUBRICA", "CONTATTO", Boolean.FALSE, ZonedDateTime.now(), null, BlackBoxConstants.Direzione.PRESENTE);
+            Map<String, Map<Integer, PermessoStoredProcedure>> mapOfPermissionsOfSubjectAdvanced = permissionManager.getMapOfPermissionsOfSubjectAdvanced(persona, contatti, Arrays.asList("ACCESSO", "DELEGA"), "RUBRICA", "CONTATTO", Boolean.FALSE, LocalDate.now(), null, BlackBoxConstants.Direzione.PRESENTE);
             Assert.assertNotNull("Risposta nulla", mapOfPermissionsOfSubjectAdvanced);
             //Assert.assertNotEquals("Risposta vuota", mapOfPermissionsOfSubjectAdvanced.size(), 0);
             String risultatoString = objectMapper.writeValueAsString(mapOfPermissionsOfSubjectAdvanced);
