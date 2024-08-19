@@ -14,7 +14,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import javax.persistence.Id;
+import jakarta.persistence.Id;
 import org.springframework.util.ReflectionUtils;
 
 /**
