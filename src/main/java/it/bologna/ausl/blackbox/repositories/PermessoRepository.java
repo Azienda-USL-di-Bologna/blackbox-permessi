@@ -1,7 +1,6 @@
 package it.bologna.ausl.blackbox.repositories;
 
 import it.bologna.ausl.model.entities.permessi.Permesso;
-import it.bologna.ausl.model.entities.permessi.QPermesso;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
@@ -37,7 +36,8 @@ public interface PermessoRepository extends JpaRepository<Permesso, Integer>, Qu
             @Param("predicati") String predicati,
             @Param("ambiti") String ambiti,
             @Param("tipi") String tipi,
-            @Param("dammi_soggetti_propagati") Boolean dammiSoggettiPropagati
+            @Param("dammi_soggetti_propagati") Boolean dammiSoggettiPropagati,
+            @Param("dammi_oggetti_propagati") Boolean dammiOggettiPropagati
     );
 
     @Procedure("permessi.insert_simple_permission")
@@ -74,17 +74,6 @@ public interface PermessoRepository extends JpaRepository<Permesso, Integer>, Qu
             @Param("p_data_di_lavoro") String dataDiLavoro
     );
 
-//    @Procedure("permessi.get_permissions_of_subject")
-//    public String getPermissionsOfSubject(
-//            @Param("soggetto") String soggetto,
-//            @Param("oggetti") String oggetti,
-//            @Param("predicati") String predicati,
-//            @Param("ambiti") String ambiti,
-//            @Param("tipi") String tipi,
-//            @Param("dammi_permessi_virtuali") Boolean dammiPermessiVirtuali,
-//            @Param("p_data_permesso") String datePermesso,
-//            @Param("dammi_storico") Boolean dammiStorico
-//    );
     @Procedure("permessi.get_permissions_of_subject_actual_from_date")
     public String getPermissionsOfSubjectActualFromDate(
             @Param("soggetto") String soggetto,
@@ -134,17 +123,6 @@ public interface PermessoRepository extends JpaRepository<Permesso, Integer>, Qu
             @Param("soggetti_virtuali") String soggettiVirtuali
     );
 
-//    @Procedure("permessi.get_permissions_advanced")
-//    public String getPermissionsAdvanced(
-//            @Param("predicati") String predicati,
-//            @Param("ambiti") String ambiti,
-//            @Param("tipi") String tipi,
-//            @Param("aziende") String aziende,
-//            @Param("p_data_permesso_inizio") String dataPermessoInizio,
-//            @Param("p_data_permesso_fine") String dataPermessoFine,
-//            @Param("direzione") String direzione
-//    );
-    
     @Procedure("permessi.get_permissions_by_predicate")
     public String getPermissionsByPredicate(
             @Param("predicati") String predicati,
@@ -154,17 +132,6 @@ public interface PermessoRepository extends JpaRepository<Permesso, Integer>, Qu
             @Param("gruppi_oggetto") String gruppiOggetto
     );
 
-//    @Query(nativeQuery = true, 
-//            value = "select entity_has_permission from permessi.entity_has_permission("
-//                    + ":soggetti\\:\\:text\\:\\:json, "
-//                    + ":#{@permissionManager.getArrayString(#predicati)}\\:\\:text\\:\\:text[], "
-//                    + ":oggetti\\:\\:text\\:\\:json, "
-////                    + "null ,"
-//                    + ":ambito\\:\\:text"
-//                    + ")")
-//    public Boolean entityHasPermission(
-//            @Param("soggetti") String soggetti, 
-//            @Param("predicati") String[] predicati, 
-//            @Param("oggetti") String oggetti,
-//            @Param("ambito") String ambito);
+    @Procedure("permessi.spegni_permessi_veicolati_invalidi")
+    public void spegniPermessiVeicolatiInvalidi();
 }
