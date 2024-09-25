@@ -1,8 +1,8 @@
 package it.bologna.ausl.model.entities.permessi;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.vladmihalcea.hibernate.type.array.IntArrayType;
-import com.vladmihalcea.hibernate.type.array.StringArrayType;
+import io.hypersistence.utils.hibernate.type.array.IntArrayType;
+import io.hypersistence.utils.hibernate.type.array.StringArrayType;
 import it.nextsw.common.data.annotations.GenerateProjections;
 import java.io.Serializable;
 import jakarta.persistence.Basic;

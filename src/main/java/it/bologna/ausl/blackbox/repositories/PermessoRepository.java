@@ -2,6 +2,7 @@ package it.bologna.ausl.blackbox.repositories;
 
 import it.bologna.ausl.model.entities.permessi.Permesso;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.repository.query.Param;
@@ -109,7 +110,8 @@ public interface PermessoRepository extends JpaRepository<Permesso, Integer>, Qu
             @Param("p_data_permesso_fine") String dataPermessoFine
     );
 
-    @Procedure("permessi.get_permissions_of_subject_advanced")
+//    @Procedure("permessi.get_permissions_of_subject_advanced")
+    @Query(value= "select permessi.get_permissions_of_subject_advanced(?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10)", nativeQuery = true)
     public String getPermissionsOfSubjectAdvanced(
             @Param("soggetto") String soggetto,
             @Param("oggetti") String oggetti,
