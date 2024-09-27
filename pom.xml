@@ -9,12 +9,13 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.3</version>
+        <version>3.3.4</version>
     </parent>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
+        <doclint>none</doclint>
     </properties>
 
     <dependencies>
@@ -68,19 +69,13 @@
         <dependency>
             <groupId>it.bologna.ausl.internauta.model</groupId>
             <artifactId>internauta-model</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>2.0</version>
             <type>jar</type>
         </dependency>
-<!--        <dependency>
-            <groupId>it.bologna.ausl.internauta.utils</groupId>
-            <artifactId>jpa-tools</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>-->
         <dependency>
             <groupId>it.bologna.ausl.internauta.utils</groupId>
             <artifactId>masterjobs</artifactId>
-            <version>1.1</version>
+            <version>2.0</version>
             <type>jar</type>
             <scope>provided</scope>
         </dependency>
@@ -92,22 +87,21 @@
         <dependency>
             <groupId>it.nextsw.common</groupId>
             <artifactId>next-spring-data-rest-framework-core</artifactId>
-            <version>2.0.0</version>
+            <version>3.0.0</version>
         </dependency>
         <dependency>
             <groupId>it.nextsw.common</groupId>
             <artifactId>next-spring-data-rest-framework-data</artifactId>
-            <version>2.0.0</version>
+            <version>3.0.0</version>
         </dependency>
         <dependency>
             <groupId>jenesisprojections.generator</groupId>
             <artifactId>jenesis-projections-generator</artifactId>
-            <version>1.2-SNAPSHOT</version>
+            <version>2.0</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.13.2</version>
             <scope>test</scope>
             <type>jar</type>
         </dependency>
@@ -118,13 +112,11 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <compilerArguments>
-                        <proc:none/>
-                    </compilerArguments>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.target}</target>
+                    <parameters>true</parameters>
+                    <proc>none</proc>
                 </configuration>
             </plugin>
+            
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
@@ -150,16 +142,17 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <configuration>
-                    <source>21</source>
-                    <additionalparam>${javadoc.opts}</additionalparam>
-                </configuration>
+                
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>
                         <goals>
                             <goal>jar</goal>
                         </goals>
+                        <configuration>
+                            <source>21</source>
+                            <!--<additionalparam>${javadoc.opts}</additionalparam>-->
+                        </configuration>
                     </execution>
 
                 </executions>
@@ -207,7 +200,7 @@
             <plugin>
                 <groupId>jenesisprojections.generator</groupId>
                 <artifactId>jenesis-projections-generator</artifactId>
-                <version>1.2-SNAPSHOT</version>
+                <version>2.0</version>
                 <executions>
                     <execution>
                         <phase>generate-sources</phase>
@@ -219,7 +212,6 @@
                             <relativeTargetPackage>projections.generated</relativeTargetPackage>
                             <outputJavaDirectory>target/generated-sources/java</outputJavaDirectory>
                             <entitiesPackageStartNode>it.bologna.ausl.model.entities</entitiesPackageStartNode>
-
                         </configuration>
                     </execution>
                 </executions>
