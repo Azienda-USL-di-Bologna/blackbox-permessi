@@ -16,7 +16,9 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.Type;
+import org.hibernate.type.SqlTypes;
 
 /**
  *
@@ -54,7 +56,7 @@ public class AmbitoSemantico implements Serializable {
 
     @Basic(optional = true)
     @Column(name = "ruoli_gestori", columnDefinition = "text[]")
-    @Type(StringArrayType.class)
+    @JdbcTypeCode(SqlTypes.ARRAY)
     private String[] ruoliGestori;
 
     @Basic(optional = false)

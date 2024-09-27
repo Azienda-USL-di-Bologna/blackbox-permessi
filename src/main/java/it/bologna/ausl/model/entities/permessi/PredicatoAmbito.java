@@ -20,7 +20,9 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.Type;
+import org.hibernate.type.SqlTypes;
 
 /**
  *
@@ -65,7 +67,7 @@ public class PredicatoAmbito implements Serializable {
     private Integer[] idPredicatiAmbitiImpliciti;
     
     @Column(name = "ruoli_gestori", columnDefinition = "text[]")
-   @Type(StringArrayType.class)
+   @JdbcTypeCode(SqlTypes.ARRAY)
     private String[] ruoliGestori;
     
     @Basic(optional = true)
