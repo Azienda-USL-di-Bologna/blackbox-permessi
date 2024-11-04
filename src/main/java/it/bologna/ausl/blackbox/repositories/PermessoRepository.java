@@ -2,6 +2,7 @@ package it.bologna.ausl.blackbox.repositories;
 
 import it.bologna.ausl.model.entities.permessi.Permesso;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.repository.query.Param;
@@ -14,7 +15,8 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 @RepositoryRestResource(collectionResourceRel = "permesso", path = "permesso", exported = false)
 public interface PermessoRepository extends JpaRepository<Permesso, Integer>, QuerydslPredicateExecutor<Permesso> {
 
-    @Procedure("permessi.entity_has_permission")
+    @Query(value = "select permessi.entity_has_permission(?1, ?2, ?3, ?4)", nativeQuery = true)
+//    @Procedure("permessi.entity_has_permission")
     public Boolean entityHasPermission(
             @Param("soggetti") String soggetti,
             @Param("predicati") String predicati,
@@ -22,7 +24,8 @@ public interface PermessoRepository extends JpaRepository<Permesso, Integer>, Qu
             @Param("ambito") String ambito
     );
 
-    @Procedure("permessi.get_predicati_entita")
+    @Query(value = "select permessi.get_predicati_entita(?1, ?2, ?3, ?4)", nativeQuery = true)
+//    @Procedure("permessi.get_predicati_entita")
     public String getPredicatiEntita(
             @Param("soggetto") String soggetto,
             @Param("oggetti") String oggetti,
@@ -30,7 +33,8 @@ public interface PermessoRepository extends JpaRepository<Permesso, Integer>, Qu
             @Param("tipi") String tipi
     );
 
-    @Procedure("permessi.get_subjects_with_permissions_on_objects")
+    @Query(value = "select permessi.get_subjects_with_permissions_on_objects(?1, ?2, ?3, ?4, ?5, ?6)", nativeQuery = true)
+//    @Procedure("permessi.get_subjects_with_permissions_on_objects")
     public String getSubjectsWithPermissionsOnObjects(
             @Param("oggetti") String oggetti,
             @Param("predicati") String predicati,
@@ -40,7 +44,8 @@ public interface PermessoRepository extends JpaRepository<Permesso, Integer>, Qu
             @Param("dammi_oggetti_propagati") Boolean dammiOggettiPropagati
     );
 
-    @Procedure("permessi.insert_simple_permission")
+    @Query(value = "select permessi.insert_simple_permission(?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10)", nativeQuery = true)
+//    @Procedure("permessi.insert_simple_permission")
     public Boolean insertSimplePermission(
             @Param("soggetto") String soggetto,
             @Param("oggetto") String oggetto,
@@ -54,7 +59,8 @@ public interface PermessoRepository extends JpaRepository<Permesso, Integer>, Qu
             @Param("id_permesso_bloccato") Integer idPermessoBloccato
     );
 
-    @Procedure("permessi.delete_permission")
+    @Query(value = "select permessi.delete_permission(?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10)", nativeQuery = true)
+//    @Procedure("permessi.delete_permission")
     public Boolean deletePermission(
             @Param("soggetto") String soggetto,
             @Param("oggetto") String oggetto,
@@ -68,13 +74,15 @@ public interface PermessoRepository extends JpaRepository<Permesso, Integer>, Qu
             @Param("id_permesso_bloccato") Integer idPermessoBloccato
     );
 
-    @Procedure("permessi.manage_permissions")
+    @Query(value = "select permessi.manage_permissions(?1, ?2)", nativeQuery = true)
+//    @Procedure("permessi.manage_permissions")
     public String managePermissions(
             @Param("in_entities") String in_entities,
             @Param("p_data_di_lavoro") String dataDiLavoro
     );
 
-    @Procedure("permessi.get_permissions_of_subject_actual_from_date")
+    @Query(value = "select permessi.get_permissions_of_subject_actual_from_date(?1, ?2, ?3, ?4, ?5, ?6, ?7)", nativeQuery = true)
+//    @Procedure("permessi.get_permissions_of_subject_actual_from_date")
     public String getPermissionsOfSubjectActualFromDate(
             @Param("soggetto") String soggetto,
             @Param("oggetti") String oggetti,
@@ -85,7 +93,8 @@ public interface PermessoRepository extends JpaRepository<Permesso, Integer>, Qu
             @Param("p_data_permesso_inizio") String dataPermessoInizio
     );
 
-    @Procedure("permessi.get_permissions_of_subject_past_till_date")
+    @Query(value = "select permessi.get_predicati_entita(?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)", nativeQuery = true)
+//    @Procedure("permessi.get_predicati_entita")
     public String getPermissionsOfSubjectPastTillDate(
             @Param("soggetto") String soggetto,
             @Param("oggetti") String oggetti,
@@ -97,7 +106,8 @@ public interface PermessoRepository extends JpaRepository<Permesso, Integer>, Qu
             @Param("p_data_permesso_fine") String dataPermessoFine
     );
 
-    @Procedure("permessi.get_permissions_of_subject_furure_from_date")
+    @Query(value = "select permessi.get_permissions_of_subject_furure_from_date(?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)", nativeQuery = true)
+//    @Procedure("permessi.get_permissions_of_subject_furure_from_date")
     public String getPermissionsOfSubjectFuruteFromDate(
             @Param("soggetto") String soggetto,
             @Param("oggetti") String oggetti,
@@ -109,7 +119,8 @@ public interface PermessoRepository extends JpaRepository<Permesso, Integer>, Qu
             @Param("p_data_permesso_fine") String dataPermessoFine
     );
 
-    @Procedure("permessi.get_permissions_of_subject_advanced")
+    @Query(value= "select permessi.get_permissions_of_subject_advanced(?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10)", nativeQuery = true)
+//    @Procedure("permessi.get_permissions_of_subject_advanced")
     public String getPermissionsOfSubjectAdvanced(
             @Param("soggetto") String soggetto,
             @Param("oggetti") String oggetti,
@@ -123,7 +134,8 @@ public interface PermessoRepository extends JpaRepository<Permesso, Integer>, Qu
             @Param("soggetti_virtuali") String soggettiVirtuali
     );
 
-    @Procedure("permessi.get_permissions_by_predicate")
+    @Query(value = "select permessi.get_permissions_by_predicate(?1, ?2, ?3, ?4, ?5)", nativeQuery = true)
+//    @Procedure("permessi.get_permissions_by_predicate")
     public String getPermissionsByPredicate(
             @Param("predicati") String predicati,
             @Param("ambiti") String ambiti,
@@ -132,6 +144,7 @@ public interface PermessoRepository extends JpaRepository<Permesso, Integer>, Qu
             @Param("gruppi_oggetto") String gruppiOggetto
     );
 
-    @Procedure("permessi.spegni_permessi_veicolati_invalidi")
+//    @Procedure("permessi.spegni_permessi_veicolati_invalidi")
+    @Query(value= "select permessi.spegni_permessi_veicolati_invalidi()", nativeQuery = true)
     public void spegniPermessiVeicolatiInvalidi();
 }
