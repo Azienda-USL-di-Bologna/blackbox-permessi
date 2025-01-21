@@ -33,6 +33,17 @@ public interface PermessoRepository extends JpaRepository<Permesso, Integer>, Qu
             @Param("tipi") String tipi
     );
 
+    @Query(value = "select permessi.get_subjects_with_permissions_on_objects_past(?1, ?2, ?3, ?4, ?5, ?6)", nativeQuery = true)
+//    @Procedure("permessi.get_subjects_with_permissions_on_objects_past")
+    public String getSubjectsWithPermissionsOnObjectsPast(
+            @Param("oggetti") String oggetti,
+            @Param("predicati") String predicati,
+            @Param("ambiti") String ambiti,
+            @Param("tipi") String tipi,
+            @Param("dammi_soggetti_propagati") Boolean dammiSoggettiPropagati,
+            @Param("dammi_oggetti_propagati") Boolean dammiOggettiPropagati
+    );
+
     @Query(value = "select permessi.get_subjects_with_permissions_on_objects(?1, ?2, ?3, ?4, ?5, ?6)", nativeQuery = true)
 //    @Procedure("permessi.get_subjects_with_permissions_on_objects")
     public String getSubjectsWithPermissionsOnObjects(
@@ -119,7 +130,7 @@ public interface PermessoRepository extends JpaRepository<Permesso, Integer>, Qu
             @Param("p_data_permesso_fine") String dataPermessoFine
     );
 
-    @Query(value= "select permessi.get_permissions_of_subject_advanced(?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10)", nativeQuery = true)
+    @Query(value = "select permessi.get_permissions_of_subject_advanced(?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10)", nativeQuery = true)
 //    @Procedure("permessi.get_permissions_of_subject_advanced")
     public String getPermissionsOfSubjectAdvanced(
             @Param("soggetto") String soggetto,
@@ -145,6 +156,6 @@ public interface PermessoRepository extends JpaRepository<Permesso, Integer>, Qu
     );
 
 //    @Procedure("permessi.spegni_permessi_veicolati_invalidi")
-    @Query(value= "select permessi.spegni_permessi_veicolati_invalidi()", nativeQuery = true)
+    @Query(value = "select permessi.spegni_permessi_veicolati_invalidi()", nativeQuery = true)
     public void spegniPermessiVeicolatiInvalidi();
 }
