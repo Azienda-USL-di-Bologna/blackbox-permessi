@@ -238,6 +238,62 @@ public class PermissionRepositoryAccess {
             throw new BlackBoxPermissionException("errore nella chiamata alla store procedure", ex);
         }
     }
+    
+    /**
+     * 
+     * @param soggetto
+     * @param oggetto
+     * @param predicato
+     * @param originePermesso
+     * @param idPermessoPadre
+     * @param propagaSoggetto
+     * @param propagaOggetto
+     * @param ambito
+     * @param tipo
+     * @param idPermessoBloccato
+     * @param spentoDa
+     * @throws BlackBoxPermissionException 
+     */
+    public void deletePermission(EntitaStoredProcedure soggetto, EntitaStoredProcedure oggetto, String predicato, String originePermesso, Integer idPermessoPadre, Boolean propagaSoggetto, Boolean propagaOggetto, String ambito, String tipo, Integer idPermessoBloccato, String spentoDa) throws BlackBoxPermissionException {
+        String soggettoJsonString = null;
+        String oggettoJsonString = null;
+        try {
+            soggettoJsonString = objectMapper.writeValueAsString(soggetto);
+            if (oggetto != null) {
+                oggettoJsonString = objectMapper.writeValueAsString(oggetto);
+            }
+        } catch (Exception ex) {
+            throw new BlackBoxPermissionException("errore nella creazione dei parametri per la chiamata della stored procedure", ex);
+        }
+
+        try {
+            permessoRepository.deletePermission(soggettoJsonString, oggettoJsonString, predicato, originePermesso, idPermessoPadre, propagaSoggetto, propagaOggetto, ambito, tipo, idPermessoBloccato, spentoDa);
+        } catch (Exception ex) {
+            throw new BlackBoxPermissionException("errore nella chiamata alla store procedure", ex);
+        }
+    }
+    public void deletePermission(EntitaStoredProcedure soggetto, EntitaStoredProcedure oggetto, String predicato, String originePermesso, Integer idPermessoPadre, Boolean propagaSoggetto, Boolean propagaOggetto, String ambito, String tipo, Integer idPermessoBloccato, String spentoDa, EntitaStoredProcedure entitaVeicolante) throws BlackBoxPermissionException {
+        String soggettoJsonString = null;
+        String oggettoJsonString = null;
+        String entitaVeicolanteJsonString = null;
+        try {
+            soggettoJsonString = objectMapper.writeValueAsString(soggetto);
+            if (oggetto != null) {
+                oggettoJsonString = objectMapper.writeValueAsString(oggetto);
+            }
+            if (entitaVeicolante != null) {
+                entitaVeicolanteJsonString = objectMapper.writeValueAsString(entitaVeicolante);
+            }
+        } catch (Exception ex) {
+            throw new BlackBoxPermissionException("errore nella creazione dei parametri per la chiamata della stored procedure", ex);
+        }
+
+        try {
+            permessoRepository.deletePermission(soggettoJsonString, oggettoJsonString, predicato, originePermesso, idPermessoPadre, propagaSoggetto, propagaOggetto, ambito, tipo, idPermessoBloccato, spentoDa, entitaVeicolanteJsonString);
+        } catch (Exception ex) {
+            throw new BlackBoxPermissionException("errore nella chiamata alla store procedure", ex);
+        }
+    }
 
     /**
      *
@@ -459,4 +515,6 @@ public class PermissionRepositoryAccess {
     ) throws BlackBoxPermissionException {
         return getPermissionsOfSubjectAdvanced(soggetto, oggetti, predicati, ambiti, tipi, dammiPermessiVirtuali, dataPermessoInizio, null, Direzione.PRESENTE);
     }
+
+    
 }
