@@ -84,6 +84,36 @@ public interface PermessoRepository extends JpaRepository<Permesso, Integer>, Qu
             @Param("tipo") String tipo,
             @Param("id_permesso_bloccato") Integer idPermessoBloccato
     );
+    
+    @Query(value = "select permessi.delete_permission(?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11)", nativeQuery = true)
+    public Boolean deletePermission(
+            @Param("soggetto") String soggetto,
+            @Param("oggetto") String oggetto,
+            @Param("predicato") String predicato,
+            @Param("origine_permesso") String originePermesso,
+            @Param("id_permesso_padre") Integer idPermessoPadre,
+            @Param("propaga_soggetto") Boolean propagaSoggetto,
+            @Param("propaga_oggetto") Boolean propagaOggetto,
+            @Param("ambito") String ambito,
+            @Param("tipo") String tipo,
+            @Param("id_permesso_bloccato") Integer idPermessoBloccato,
+            @Param("spento_da") String spentoDa
+    );
+    @Query(value = "select permessi.delete_permission(?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12)", nativeQuery = true)
+    public Boolean deletePermission(
+            @Param("soggetto") String soggetto,
+            @Param("oggetto") String oggetto,
+            @Param("predicato") String predicato,
+            @Param("origine_permesso") String originePermesso,
+            @Param("id_permesso_padre") Integer idPermessoPadre,
+            @Param("propaga_soggetto") Boolean propagaSoggetto,
+            @Param("propaga_oggetto") Boolean propagaOggetto,
+            @Param("ambito") String ambito,
+            @Param("tipo") String tipo,
+            @Param("id_permesso_bloccato") Integer idPermessoBloccato,
+            @Param("spento_da") String spentoDa,
+            @Param("entita_veicolante") String entitaVeicolante
+    );
 
     @Query(value = "select permessi.manage_permissions(?1, ?2)", nativeQuery = true)
 //    @Procedure("permessi.manage_permissions")
