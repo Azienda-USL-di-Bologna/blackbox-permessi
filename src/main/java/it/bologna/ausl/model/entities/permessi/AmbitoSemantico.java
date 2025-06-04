@@ -58,6 +58,11 @@ public class AmbitoSemantico implements Serializable {
     @Column(name = "ruoli_gestori", columnDefinition = "text[]")
     @JdbcTypeCode(SqlTypes.ARRAY)
     private String[] ruoliGestori;
+    
+    @Basic(optional = true)
+    @Column(name = "abilitazioni_gestori", columnDefinition = "text[]")
+    @JdbcTypeCode(SqlTypes.ARRAY)
+    private String[] abilitazioniGestori;
 
     @Basic(optional = false)
     @NotNull
@@ -75,6 +80,14 @@ public class AmbitoSemantico implements Serializable {
 
     public void setRuoliGestori(String[] ruoliGestori) {
         this.ruoliGestori = ruoliGestori;
+    }
+
+    public String[] getAbilitazioniGestori() {
+        return abilitazioniGestori;
+    }
+
+    public void setAbilitazioniGestori(String[] abilitazioniGestori) {
+        this.abilitazioniGestori = abilitazioniGestori;
     }
 
     public Integer getId() {
