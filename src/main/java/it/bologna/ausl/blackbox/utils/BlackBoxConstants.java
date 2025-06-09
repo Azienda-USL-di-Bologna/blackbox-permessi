@@ -27,7 +27,7 @@ public class BlackBoxConstants {
 
     public static enum Predicato {
         REDIGE,
-        SEGR,
+        //SEGR,
         CREA,
         RISPONDE,
         LEGGE,
