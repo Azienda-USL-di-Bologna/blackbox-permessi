@@ -74,6 +74,19 @@ public class PredicatoAmbito implements Serializable {
     @Column(name = "id_aziende", columnDefinition = "integer[]")
     @Type(IntArrayType.class)
     private Integer[] idAziende;
+    
+    @Basic(optional = true)
+    @Column(name = "abilitazioni_gestori", columnDefinition = "text[]")
+    @JdbcTypeCode(SqlTypes.ARRAY)
+    private String[] abilitazioniGestori;
+    
+    public String[] getAbilitazioniGestori() {
+        return abilitazioniGestori;
+    }
+
+    public void setAbilitazioniGestori(String[] abilitazioniGestori) {
+        this.abilitazioniGestori = abilitazioniGestori;
+    }
 
     public Integer getId() {
         return id;
