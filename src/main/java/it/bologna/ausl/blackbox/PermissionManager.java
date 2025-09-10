@@ -2,6 +2,7 @@ package it.bologna.ausl.blackbox;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.bologna.ausl.blackbox.exceptions.BlackBoxPermissionException;
+import it.bologna.ausl.blackbox.factory.EntitaService;
 import it.bologna.ausl.blackbox.utils.BlackBoxConstants.Direzione;
 import it.bologna.ausl.blackbox.utils.UtilityFunctions;
 import it.bologna.ausl.internauta.model.bds.types.CategoriaPermessiStoredProcedure;
@@ -29,10 +30,13 @@ import org.springframework.util.StringUtils;
 public class PermissionManager {
 
     @Autowired
-    ObjectMapper objectMapper;
+    private ObjectMapper objectMapper;
 
     @Autowired
-    PermissionRepositoryAccess permissionRepositoryAccess;
+    private PermissionRepositoryAccess permissionRepositoryAccess;
+
+    @Autowired
+    private EntitaService entitaService;
 
     /**
      * Torna true se l'entità passata ha il permesso sul predicato passato.
@@ -717,7 +721,7 @@ public class PermissionManager {
      * Metodo semplificato per chiamare la managePermissions.
      *
      * @param entitySoggetto
-     * @param entityOggetto può essere null
+     * @param entityOggetto  può essere null
      * @param ambito
      * @param tipo
      * @param permessi
@@ -770,7 +774,7 @@ public class PermissionManager {
     /**
      *
      * @param permessoEntitaStoredProcedure
-     * @param dataDiLavoro se si passa null, verrà usata la data odierna
+     * @param dataDiLavoro                  se si passa null, verrà usata la data odierna
      * @throws BlackBoxPermissionException
      */
     public void managePermissions(List<PermessoEntitaStoredProcedure> permessoEntitaStoredProcedure, LocalDate dataDiLavoro) throws BlackBoxPermissionException {
