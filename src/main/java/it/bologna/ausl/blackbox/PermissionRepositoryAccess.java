@@ -1,7 +1,6 @@
 package it.bologna.ausl.blackbox;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import it.bologna.ausl.blackbox.exceptions.BlackBoxPermissionException;
 import it.bologna.ausl.blackbox.repositories.PermessoRepository;
 import it.bologna.ausl.blackbox.utils.BlackBoxConstants.Direzione;
@@ -12,6 +11,7 @@ import java.time.LocalDate;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tools.jackson.core.type.TypeReference;
 
 /**
  *

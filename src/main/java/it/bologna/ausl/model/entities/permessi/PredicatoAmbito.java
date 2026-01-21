@@ -63,7 +63,7 @@ public class PredicatoAmbito implements Serializable {
 
     @Basic(optional = false)
     @Column(name = "id_predicati_ambiti_impliciti", columnDefinition = "integer[]")
-   @Type(IntArrayType.class)
+    // commentato springboot 4 @Type(IntArrayType.class)
     private Integer[] idPredicatiAmbitiImpliciti;
     
     @Column(name = "ruoli_gestori", columnDefinition = "text[]")
@@ -72,7 +72,7 @@ public class PredicatoAmbito implements Serializable {
     
     @Basic(optional = true)
     @Column(name = "id_aziende", columnDefinition = "integer[]")
-    @Type(IntArrayType.class)
+    // commentato springboot 4 @Type(IntArrayType.class)
     private Integer[] idAziende;
     
     @Basic(optional = true)

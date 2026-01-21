@@ -51,7 +51,7 @@ public class AmbitoSemantico implements Serializable {
 
     @Basic(optional = false)
     @Column(name = "id_predicati_ambiti", columnDefinition = "integer[]")
-    @Type(IntArrayType.class)
+    // commentato springboot 4 @Type(IntArrayType.class)
     private Integer[] idPredicatiAmbiti;
 
     @Basic(optional = true)
@@ -71,7 +71,7 @@ public class AmbitoSemantico implements Serializable {
 
     @Basic(optional = true)
     @Column(name = "id_aziende", columnDefinition = "integer[]")
-    @Type(IntArrayType.class)
+    // commentato springboot 4 @Type(IntArrayType.class)
     private Integer[] idAziende;
 
     public String[] getRuoliGestori() {
