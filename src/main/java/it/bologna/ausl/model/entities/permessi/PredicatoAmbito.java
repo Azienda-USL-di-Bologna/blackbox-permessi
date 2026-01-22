@@ -2,7 +2,6 @@ package it.bologna.ausl.model.entities.permessi;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.hypersistence.utils.hibernate.type.array.IntArrayType;
-import io.hypersistence.utils.hibernate.type.array.StringArrayType;
 import it.nextsw.common.data.annotations.GenerateProjections;
 
 import java.io.Serializable;
@@ -63,7 +62,7 @@ public class PredicatoAmbito implements Serializable {
 
     @Basic(optional = false)
     @Column(name = "id_predicati_ambiti_impliciti", columnDefinition = "integer[]")
-   @Type(IntArrayType.class)
+    @Type(IntArrayType.class)
     private Integer[] idPredicatiAmbitiImpliciti;
     
     @Column(name = "ruoli_gestori", columnDefinition = "text[]")
@@ -74,6 +73,19 @@ public class PredicatoAmbito implements Serializable {
     @Column(name = "id_aziende", columnDefinition = "integer[]")
     @Type(IntArrayType.class)
     private Integer[] idAziende;
+    
+    @Basic(optional = true)
+    @Column(name = "abilitazioni_gestori", columnDefinition = "text[]")
+    @JdbcTypeCode(SqlTypes.ARRAY)
+    private String[] abilitazioniGestori;
+    
+    public String[] getAbilitazioniGestori() {
+        return abilitazioniGestori;
+    }
+
+    public void setAbilitazioniGestori(String[] abilitazioniGestori) {
+        this.abilitazioniGestori = abilitazioniGestori;
+    }
 
     public Integer getId() {
         return id;
