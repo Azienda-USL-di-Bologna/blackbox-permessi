@@ -901,4 +901,8 @@ public class PermissionManager {
         permissionRepositoryAccess.copyActiveFlowPermissionsFromSubjectObjectToSubjectObject(soggettoFrom, oggettoFrom, soggettoTo, oggettoTo);
     }
 
+    public void spegniPermessiVeicolatiInvalidi() {
+        permissionRepositoryAccess.spegniPermessiVeicolatiInvalidi();
+    }
+
 }
