@@ -4,17 +4,17 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>it.bologna.ausl.blackbox</groupId>
     <artifactId>blackbox-permessi</artifactId>
-    <version>2.0</version>
+    <version>2.5</version>
     <packaging>jar</packaging>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.5.3</version>
+        <version>4.0.2</version>
     </parent>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
+        <maven.compiler.source>25</maven.compiler.source>
+        <maven.compiler.target>25</maven.compiler.target>
         <doclint>none</doclint>
     </properties>
 
@@ -51,8 +51,8 @@
         </dependency>-->
         <dependency>
             <groupId>io.hypersistence</groupId>
-            <artifactId>hypersistence-utils-hibernate-63</artifactId>
-            <version>3.10.3</version>
+            <artifactId>hypersistence-utils-hibernate-71</artifactId>
+            <version>3.14.1</version>
         </dependency>
         
         <!-- dipendenze dei test -->
@@ -69,13 +69,13 @@
         <dependency>
             <groupId>it.bologna.ausl.internauta.model</groupId>
             <artifactId>internauta-model</artifactId>
-            <version>2.0</version>
+            <version>2.5</version>
             <type>jar</type>
         </dependency>
         <dependency>
             <groupId>it.bologna.ausl.internauta.utils</groupId>
             <artifactId>masterjobs</artifactId>
-            <version>2.0</version>
+            <version>2.5</version>
             <type>jar</type>
             <scope>provided</scope>
         </dependency>
@@ -87,17 +87,17 @@
         <dependency>
             <groupId>it.nextsw.common</groupId>
             <artifactId>next-spring-data-rest-framework-core</artifactId>
-            <version>3.0.0</version>
+            <version>3.0.5</version>
         </dependency>
         <dependency>
             <groupId>it.nextsw.common</groupId>
             <artifactId>next-spring-data-rest-framework-data</artifactId>
-            <version>3.0.0</version>
+            <version>3.0.5</version>
         </dependency>
         <dependency>
             <groupId>jenesisprojections.generator</groupId>
             <artifactId>jenesis-projections-generator</artifactId>
-            <version>2.0</version>
+            <version>2.5</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -150,7 +150,7 @@
                             <goal>jar</goal>
                         </goals>
                         <configuration>
-                            <source>21</source>
+                            <source>${maven.compiler.source}</source>
                             <!--<additionalparam>${javadoc.opts}</additionalparam>-->
                         </configuration>
                     </execution>
@@ -200,7 +200,7 @@
             <plugin>
                 <groupId>jenesisprojections.generator</groupId>
                 <artifactId>jenesis-projections-generator</artifactId>
-                <version>2.0</version>
+                <version>2.5</version>
                 <executions>
                     <execution>
                         <phase>generate-sources</phase>
