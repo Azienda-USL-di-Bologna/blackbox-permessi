@@ -1,7 +1,6 @@
 package it.bologna.ausl.blackbox.utils;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import com.google.common.base.CaseFormat;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -43,7 +42,7 @@ public class UtilityFunctions {
         return null;
     }
     
-    public static String getArrayString(ObjectMapper objectMapper, List list) throws JsonProcessingException {
+    public static String getArrayString(ObjectMapper objectMapper, List list) {
         if (list == null)
             return null;
 //        return String.format("string_to_array('%s', ',')", String.join(",", list));

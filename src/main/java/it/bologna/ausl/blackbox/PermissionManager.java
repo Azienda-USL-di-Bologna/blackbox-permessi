@@ -1,6 +1,6 @@
 package it.bologna.ausl.blackbox;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import it.bologna.ausl.blackbox.exceptions.BlackBoxPermissionException;
 import it.bologna.ausl.blackbox.factory.EntitaService;
 import it.bologna.ausl.blackbox.utils.BlackBoxConstants.Direzione;
@@ -899,6 +899,10 @@ public class PermissionManager {
             throw new BlackBoxPermissionException("errore nella creazione del oggetto to", ex);
         }
         permissionRepositoryAccess.copyActiveFlowPermissionsFromSubjectObjectToSubjectObject(soggettoFrom, oggettoFrom, soggettoTo, oggettoTo);
+    }
+
+    public void spegniPermessiVeicolatiInvalidi() {
+        permissionRepositoryAccess.spegniPermessiVeicolatiInvalidi();
     }
 
 }
