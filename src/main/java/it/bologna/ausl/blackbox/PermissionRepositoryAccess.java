@@ -1,8 +1,6 @@
 package it.bologna.ausl.blackbox;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import it.bologna.ausl.blackbox.exceptions.BlackBoxPermissionException;
 import it.bologna.ausl.blackbox.repositories.PermessoRepository;
 import it.bologna.ausl.blackbox.utils.BlackBoxConstants.Direzione;
@@ -13,6 +11,8 @@ import java.time.LocalDate;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tools.jackson.core.JacksonException;
+import tools.jackson.core.type.TypeReference;
 
 /**
  *
@@ -555,7 +555,7 @@ public class PermissionRepositoryAccess {
             soggettoToString = objectMapper.writeValueAsString(soggettoTo);
             oggettoToString = objectMapper.writeValueAsString(oggettoTo);
 
-        } catch (JsonProcessingException ex) {
+        } catch (JacksonException ex) {
             throw new BlackBoxPermissionException("errore nella creazione dei parametri per la chiamata della stored procedure", ex);
         }
         permessoRepository.copyActiveFlowPermissionsFromSubjectObjectToSubjectObject(soggettoFromString, oggettoFromString, soggettoToString, oggettoToString);
@@ -566,7 +566,7 @@ public class PermissionRepositoryAccess {
         try {
             veicoloString = objectMapper.writeValueAsString(veicolo);
             permessoRepository.deleteVeicoledPermission(veicoloString, spentoDa);
-        } catch (JsonProcessingException ex) {
+        } catch (JacksonException ex) {
             throw new BlackBoxPermissionException("errore nella creazione dei parametri per la chiamata della stored procedure", ex);
         }
     }

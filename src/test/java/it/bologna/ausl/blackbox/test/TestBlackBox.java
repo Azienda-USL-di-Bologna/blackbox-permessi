@@ -1,7 +1,7 @@
 package it.bologna.ausl.blackbox.test;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import it.bologna.ausl.blackbox.PermissionManager;
+import tools.jackson.databind.ObjectMapper;
 import it.bologna.ausl.blackbox.PermissionRepositoryAccess;
 import it.bologna.ausl.blackbox.exceptions.BlackBoxPermissionException;
 import it.bologna.ausl.blackbox.test.repositories.ContattoRepository;
