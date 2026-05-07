@@ -1,6 +1,6 @@
 package it.bologna.ausl.blackbox.factory;
 
-import it.bologna.ausl.internauta.model.bds.types.EntitaStoredProcedure;
+import it.bologna.ausl.internauta.model.blackbox.data.EntitaStoredProcedure;
 import it.bologna.ausl.model.entities.permessi.Entita;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
