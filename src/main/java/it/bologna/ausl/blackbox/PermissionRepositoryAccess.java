@@ -62,6 +62,10 @@ public class PermissionRepositoryAccess {
         permessoRepository.spegniPermessiVeicolatiInvalidi();
     }
 
+    public void riattivaPermessiResponsabiliArchivi() {
+        permessoRepository.riattivaPermessiResponsabiliArchivi();
+    }
+
     /**
      *
      * @param soggetto
@@ -321,7 +325,7 @@ public class PermissionRepositoryAccess {
     /**
      *
      * @param permessoEntitaStoredProcedure
-     * @param dataDiLavoro                  se si passa null, verrà usata la data odierna
+     * @param dataDiLavoro se si passa null, verrà usata la data odierna
      * @throws BlackBoxPermissionException
      */
     public void managePermissions(List<PermessoEntitaStoredProcedure> permessoEntitaStoredProcedure, LocalDate dataDiLavoro) throws BlackBoxPermissionException {
@@ -384,29 +388,29 @@ public class PermissionRepositoryAccess {
 //        }
 //    }
     public List<PermessoEntitaStoredProcedure> getPermissionsOfSubjectAdvanced(
-        EntitaStoredProcedure soggetto,
-        List<EntitaStoredProcedure> oggetti,
-        List<String> predicati,
-        List<String> ambiti,
-        List<String> tipi,
-        Boolean dammiPermessiVirtuali,
-        LocalDate dataPermessoInizio,
-        LocalDate dataPermessoFine,
-        Direzione direzione) throws BlackBoxPermissionException {
+            EntitaStoredProcedure soggetto,
+            List<EntitaStoredProcedure> oggetti,
+            List<String> predicati,
+            List<String> ambiti,
+            List<String> tipi,
+            Boolean dammiPermessiVirtuali,
+            LocalDate dataPermessoInizio,
+            LocalDate dataPermessoFine,
+            Direzione direzione) throws BlackBoxPermissionException {
         return getPermissionsOfSubjectAdvanced(soggetto, oggetti, predicati, ambiti, tipi, dammiPermessiVirtuali, dataPermessoInizio, dataPermessoFine, null, direzione);
     }
 
     public List<PermessoEntitaStoredProcedure> getPermissionsOfSubjectAdvanced(
-        EntitaStoredProcedure soggetto,
-        List<EntitaStoredProcedure> oggetti,
-        List<String> predicati,
-        List<String> ambiti,
-        List<String> tipi,
-        Boolean dammiPermessiVirtuali,
-        LocalDate dataPermessoInizio,
-        LocalDate dataPermessoFine,
-        List<EntitaStoredProcedure> soggettiVirtuali,
-        Direzione direzione) throws BlackBoxPermissionException {
+            EntitaStoredProcedure soggetto,
+            List<EntitaStoredProcedure> oggetti,
+            List<String> predicati,
+            List<String> ambiti,
+            List<String> tipi,
+            Boolean dammiPermessiVirtuali,
+            LocalDate dataPermessoInizio,
+            LocalDate dataPermessoFine,
+            List<EntitaStoredProcedure> soggettiVirtuali,
+            Direzione direzione) throws BlackBoxPermissionException {
 
         String soggettoString;
         String oggettiString = null;
@@ -454,11 +458,11 @@ public class PermissionRepositoryAccess {
     }
 
     public List<PermessoEntitaStoredProcedure> getPermissionsByPredicate(
-        List<String> predicati,
-        List<String> ambiti,
-        List<String> tipi,
-        List<EntitaStoredProcedure> gruppiSoggetto,
-        List<EntitaStoredProcedure> gruppiOggetto) throws BlackBoxPermissionException {
+            List<String> predicati,
+            List<String> ambiti,
+            List<String> tipi,
+            List<EntitaStoredProcedure> gruppiSoggetto,
+            List<EntitaStoredProcedure> gruppiOggetto) throws BlackBoxPermissionException {
 
         String predicatiArrayString;
         String ambitiArrayString;
@@ -484,11 +488,11 @@ public class PermissionRepositoryAccess {
 
         try {
             String res = permessoRepository.getPermissionsByPredicate(
-                predicatiArrayString,
-                ambitiArrayString,
-                tipiArrayString,
-                gruppiSoggettoString,
-                gruppiOggettoString);
+                    predicatiArrayString,
+                    ambitiArrayString,
+                    tipiArrayString,
+                    gruppiSoggettoString,
+                    gruppiOggettoString);
 
             if (res != null) {
                 return objectMapper.readValue(res, new TypeReference<List<PermessoEntitaStoredProcedure>>() {
@@ -502,48 +506,48 @@ public class PermissionRepositoryAccess {
     }
 
     public List<PermessoEntitaStoredProcedure> getPermissionsOfSubjectPastTillDate(
-        EntitaStoredProcedure soggetto,
-        List<EntitaStoredProcedure> oggetti,
-        List<String> predicati,
-        List<String> ambiti,
-        List<String> tipi,
-        Boolean dammiPermessiVirtuali,
-        LocalDate dataPermessoInizio,
-        LocalDate dataPermessoFine
+            EntitaStoredProcedure soggetto,
+            List<EntitaStoredProcedure> oggetti,
+            List<String> predicati,
+            List<String> ambiti,
+            List<String> tipi,
+            Boolean dammiPermessiVirtuali,
+            LocalDate dataPermessoInizio,
+            LocalDate dataPermessoFine
     ) throws BlackBoxPermissionException {
         return getPermissionsOfSubjectAdvanced(soggetto, oggetti, predicati, ambiti, tipi, dammiPermessiVirtuali, dataPermessoInizio, dataPermessoFine, Direzione.PASSATO);
     }
 
     public List<PermessoEntitaStoredProcedure> getPermissionsOfSubjectFutureFromDate(
-        EntitaStoredProcedure soggetto,
-        List<EntitaStoredProcedure> oggetti,
-        List<String> predicati,
-        List<String> ambiti,
-        List<String> tipi,
-        Boolean dammiPermessiVirtuali,
-        LocalDate dataPermessoInizio,
-        LocalDate dataPermessoFine
+            EntitaStoredProcedure soggetto,
+            List<EntitaStoredProcedure> oggetti,
+            List<String> predicati,
+            List<String> ambiti,
+            List<String> tipi,
+            Boolean dammiPermessiVirtuali,
+            LocalDate dataPermessoInizio,
+            LocalDate dataPermessoFine
     ) throws BlackBoxPermissionException {
         return getPermissionsOfSubjectAdvanced(soggetto, oggetti, predicati, ambiti, tipi, dammiPermessiVirtuali, dataPermessoInizio, dataPermessoFine, Direzione.FUTURO);
     }
 
     public List<PermessoEntitaStoredProcedure> getPermissionsOfSubjectActualFromDate(
-        EntitaStoredProcedure soggetto,
-        List<EntitaStoredProcedure> oggetti,
-        List<String> predicati,
-        List<String> ambiti,
-        List<String> tipi,
-        Boolean dammiPermessiVirtuali,
-        LocalDate dataPermessoInizio
+            EntitaStoredProcedure soggetto,
+            List<EntitaStoredProcedure> oggetti,
+            List<String> predicati,
+            List<String> ambiti,
+            List<String> tipi,
+            Boolean dammiPermessiVirtuali,
+            LocalDate dataPermessoInizio
     ) throws BlackBoxPermissionException {
         return getPermissionsOfSubjectAdvanced(soggetto, oggetti, predicati, ambiti, tipi, dammiPermessiVirtuali, dataPermessoInizio, null, Direzione.PRESENTE);
     }
 
     void copyActiveFlowPermissionsFromSubjectObjectToSubjectObject(
-        EntitaStoredProcedure soggettoFrom,
-        EntitaStoredProcedure oggettoFrom,
-        EntitaStoredProcedure soggettoTo,
-        EntitaStoredProcedure oggettoTo
+            EntitaStoredProcedure soggettoFrom,
+            EntitaStoredProcedure oggettoFrom,
+            EntitaStoredProcedure soggettoTo,
+            EntitaStoredProcedure oggettoTo
     ) throws BlackBoxPermissionException {
         String soggettoFromString;
         String oggettoFromString;
